@@ -2,7 +2,16 @@ package br.com.comunicadornico.entity;
 //imports
 
 import java.util.List; //import para usar a lista
-import jakarta.persistence.*; // jakarta é o que faz a conexão com o banco de dados
+
+import jakarta.persistence.Entity; // jakarta é o que faz a conexão com o banco de dados
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 
 @Entity  //informa o SpringBot que essa classe deve virar uma tabela real
 @Table(name = "tb_botao") // Etiqueta de identificação
@@ -24,6 +33,7 @@ public class entityBotao {
     private int posicaoBotao;
     private boolean oculto;
 
+
     // criando a relação da tabela botão com a categoria (Muitos para Muitos, pois uma categoria contém 1 ou muitos botões,
     // e um botão pode estar em um 1 ou muitas categorias)
     @ManyToMany // indica a relação da tabela, muito para muito
@@ -36,5 +46,5 @@ public class entityBotao {
     //criando a relação da tabela botão com a tabela RegistroDeAtividade (Um para Muitos, pois um botão tem muitos registros)
     @OneToMany // indica a relação da tabela, como não é uma relação de *..* não precisa criar tabela, da pra armazenar direto
     @JoinColumn(name = "idBotao")
-    private List<entityRegistroDeAtivade> registroDeAtivade; // aqui ta vermelho porque eu não criei a tabela RegistroDeAtividade
+    private List<entityRegistroDeAtividade> registroDeAtivade; // aqui ta vermelho porque eu não criei a tabela RegistroDeAtividade
 }
