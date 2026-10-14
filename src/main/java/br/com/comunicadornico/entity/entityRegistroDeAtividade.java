@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "tb_registrodeatividade")
 public class entityRegistroDeAtividade {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRegistro;
@@ -26,7 +27,6 @@ public class entityRegistroDeAtividade {
     // registros de atividade)
     @ManyToOne
     @JoinColumn(name = "idUsuario") // cria a chave estrangeira apontando para o usuario que gerou a atividade
-    private List <entityUsuario> usuario;
-    
+    private List<entityUsuario> usuario;
 
 }

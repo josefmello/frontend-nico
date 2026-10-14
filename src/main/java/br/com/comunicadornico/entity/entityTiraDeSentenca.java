@@ -1,20 +1,24 @@
 package br.com.comunicadornico.entity;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Entity; //import para usar a lista
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+//criando tabela
 
-
-@Entity 
+@Entity
 @Table(name = "tb_tiradesentenca")
 public class entityTiraDeSentenca {
-    @Id 
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+
+    // criar chave primaria
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTiraDeSentenca;
 
-    private List SequenciaDeBotoes;
+    // variaveis
+    private List<Integer> sequenciaBotoes = new ArrayList<>();
 }

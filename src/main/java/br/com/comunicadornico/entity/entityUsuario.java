@@ -3,7 +3,7 @@ package br.com.comunicadornico.entity;
 
 import java.time.LocalDate;
 
-import jakarta.persistence.Entity; //import da variavel data
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;

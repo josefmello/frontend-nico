@@ -3,7 +3,7 @@ package br.com.comunicadornico.entity;
 
 import java.util.List; //import para usar a lista
 
-import jakarta.persistence.Entity; // jakarta é o que faz a conexão com o banco de dados
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,7 +32,6 @@ public class entityBotao {
     private int tamanhoBotao;
     private int posicaoBotao;
     private boolean oculto;
-
 
     // criando a relação da tabela botão com a categoria (Muitos para Muitos, pois uma categoria contém 1 ou muitos botões,
     // e um botão pode estar em um 1 ou muitas categorias)
