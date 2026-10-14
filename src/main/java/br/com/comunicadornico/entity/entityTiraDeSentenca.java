@@ -21,4 +21,7 @@ public class entityTiraDeSentenca {
 
     // variaveis
     private List<Integer> sequenciaBotoes = new ArrayList<>();
+    private String textoFormatado;
+    private List<Integer> sugestao = new ArrayList<>();
+
 }
