@@ -10,9 +10,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tb_registrodeatividade")
+@Getter 
+@Setter 
+@NoArgsConstructor 
+@AllArgsConstructor 
+
 public class entityRegistroDeAtividade {
 
     @Id
@@ -27,49 +36,6 @@ public class entityRegistroDeAtividade {
     // registros de atividade)
     @ManyToOne
     @JoinColumn(name = "idUsuario") // cria a chave estrangeira apontando para o usuario que gerou a atividade
-    private List<entityUsuario> usuario;
+    private entityUsuario usuario;
 
- // construtor padrao (exigido pelo JPA)
-    public entityRegistroDeAtividade() {
-    }
- 
-    // construtor com todos os atributos (exceto o id, gerado pelo banco)
-    public entityRegistroDeAtividade(LocalDate dataHora, int quantidadeCliques, List<entityUsuario> usuario) {
-        this.dataHora = dataHora;
-        this.quantidadeCliques = quantidadeCliques;
-        this.usuario = usuario;
-    }
- 
-    public Long getIdRegistro() {
-        return idRegistro;
-    }
- 
-    public void setIdRegistro(Long idRegistro) {
-        this.idRegistro = idRegistro;
-    }
- 
-    public LocalDate getDataHora() {
-        return dataHora;
-    }
- 
-    public void setDataHora(LocalDate dataHora) {
-        this.dataHora = dataHora;
-    }
- 
-    public int getQuantidadeCliques() {
-        return quantidadeCliques;
-    }
- 
-    public void setQuantidadeCliques(int quantidadeCliques) {
-        this.quantidadeCliques = quantidadeCliques;
-    }
- 
-    public List<entityUsuario> getUsuario() {
-        return usuario;
-    }
- 
-    public void setUsuario(List<entityUsuario> usuario) {
-        this.usuario = usuario;
-    }
 }
- 

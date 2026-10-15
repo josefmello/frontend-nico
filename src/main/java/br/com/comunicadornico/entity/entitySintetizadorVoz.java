@@ -6,24 +6,22 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tb_sintetizadorvoz")
+@Getter 
+@Setter 
+@NoArgsConstructor 
+@AllArgsConstructor 
+
 public class entitySintetizadorVoz {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idSintetizador;
 
-     // construtor padrao (exigido pelo JPA)
-    public entitySintetizadorVoz() {
-    }
- 
-    public Long getIdSintetizador() {
-        return idSintetizador;
-    }
- 
-    public void setIdSintetizador(Long idSintetizador) {
-        this.idSintetizador = idSintetizador;
-    }
 }
