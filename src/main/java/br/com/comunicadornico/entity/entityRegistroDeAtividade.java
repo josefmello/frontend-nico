@@ -29,4 +29,47 @@ public class entityRegistroDeAtividade {
     @JoinColumn(name = "idUsuario") // cria a chave estrangeira apontando para o usuario que gerou a atividade
     private List<entityUsuario> usuario;
 
+ // construtor padrao (exigido pelo JPA)
+    public entityRegistroDeAtividade() {
+    }
+ 
+    // construtor com todos os atributos (exceto o id, gerado pelo banco)
+    public entityRegistroDeAtividade(LocalDate dataHora, int quantidadeCliques, List<entityUsuario> usuario) {
+        this.dataHora = dataHora;
+        this.quantidadeCliques = quantidadeCliques;
+        this.usuario = usuario;
+    }
+ 
+    public Long getIdRegistro() {
+        return idRegistro;
+    }
+ 
+    public void setIdRegistro(Long idRegistro) {
+        this.idRegistro = idRegistro;
+    }
+ 
+    public LocalDate getDataHora() {
+        return dataHora;
+    }
+ 
+    public void setDataHora(LocalDate dataHora) {
+        this.dataHora = dataHora;
+    }
+ 
+    public int getQuantidadeCliques() {
+        return quantidadeCliques;
+    }
+ 
+    public void setQuantidadeCliques(int quantidadeCliques) {
+        this.quantidadeCliques = quantidadeCliques;
+    }
+ 
+    public List<entityUsuario> getUsuario() {
+        return usuario;
+    }
+ 
+    public void setUsuario(List<entityUsuario> usuario) {
+        this.usuario = usuario;
+    }
 }
+ 
