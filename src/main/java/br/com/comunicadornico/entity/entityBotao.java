@@ -6,6 +6,7 @@ import java.util.List; //import para usar a lista
 
 import org.hibernate.internal.build.AllowNonPortable;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,15 +27,32 @@ public class entityBotao {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // ativa o autoincremento 
     private Long idBotao;
 
-    //    variaveis:  
+    // Colunas
+    @Column(name= "Legenda")
     private String legenda;
+
+    @Column(name= "corFundo")
     private String corFundo;
+
+    @Column(name= "Foto")
     private String foto;
+
+    @Column(name= "audioPersonalizado")
     private String audioPersonalizado;
+
+    @Column(name= "audioFem")
     private String audioFem;
+
+    @Column(name= "audioMas")
     private String audioMas;
+
+    @Column(name= "tamanhoBotao")
     private int tamanhoBotao;
+
+    @Column(name= "posicaoBotao")
     private int posicaoBotao;
+
+    @Column(name= "oculto")
     private boolean oculto;
 
     // criando a relação da tabela botão com a categoria (Muitos para Muitos, pois uma categoria contém 1 ou muitos botões,

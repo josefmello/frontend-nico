@@ -3,6 +3,7 @@ package br.com.comunicadornico.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,8 +22,11 @@ public class entityRegistroDeAtividade {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idRegistro;
 
-    // variaveis
+     // variaveis
+    @Column(name= "dataHora")
     private LocalDate dataHora;
+
+    @Column(name= "quantidadeCliques")
     private int quantidadeCliques;
 
     //criando as relações das tabelas:

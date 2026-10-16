@@ -3,6 +3,7 @@ package br.com.comunicadornico.entity;
 
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,8 +23,11 @@ public class entityBackUpManager {
 
     private Long idBackUp;
 
-    //variaveis
+    // Variaveis(colunas da tabela)
+    @Column(name= "caminhoBackup")
     private String caminhoBackUp;
+
+    @Column(name= "dataUltimoBackup")
     private LocalDate dataUltimoBackUp;
 
     // criando os relacionamentos da tabela

@@ -26,11 +26,17 @@ public class entityCategoria {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategoria;
 
-    //criando as variaveis
-    @Column(nullable = false) //avisa o banco de dados que essa coluna não pode ficar vazia
+   //criando as variaveis
+    @Column(name= "nome", nullable = false) //avisa o banco de dados que essa coluna não pode ficar vazia
     private String nome;
+
+    @Column(name= "ordemBotao")
     private List<String> ordemBotao = new ArrayList<>();
+
+    @Column(name= "fotoCat")
     private String fotoCat;
+
+    @Column(name= "posicaoCat")
     private int posicaoCat;
 
     // criando as relaçoes

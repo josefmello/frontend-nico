@@ -3,6 +3,7 @@ package br.com.comunicadornico.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,9 +28,15 @@ public class entityTiraDeSentenca {
     private Long idTiraDeSentenca;
 
     // variaveis
+    @Column(name= "sequenciaBotoes")
     private List<Integer> sequenciaBotoes = new ArrayList<>();
+
+    @Column(name= "textoFormatado")
     private String textoFormatado;
+
+    @Column(name= "sugestao")
     private List<Integer> sugestao = new ArrayList<>();
+
 
     //criando relacionamento das tabelas
     //relação tira x usuario (1..1)

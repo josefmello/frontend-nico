@@ -4,6 +4,7 @@ package br.com.comunicadornico.entity;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -25,13 +26,22 @@ public class entityUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
-    //variaveis
+    // colunas
+    @Column(name= "nome", nullable = false)
     private String nome;
-    private String sexo;
-    private String nivelAutismo;
-    private LocalDate dataNascAut;
-    private boolean voz;
 
+    @Column(name= "sexo")
+    private String sexo;
+
+    @Column(name= "nivelAutismo")
+    private String nivelAutismo;
+
+    @Column(name= "dataNascAut", nullable = false)
+    private LocalDate dataNascAut;
+
+    @Column(name= "voz")
+    private boolean voz;
+    
     // criando os relacionamentos da tabela
     // relacioamento bidirecional de usuárioxadministrador (*..1)
     @ManyToOne
