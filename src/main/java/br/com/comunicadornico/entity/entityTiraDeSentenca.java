@@ -21,10 +21,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "tb_tiradesentenca")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 
 public class entityTiraDeSentenca {
 

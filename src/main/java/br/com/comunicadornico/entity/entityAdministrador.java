@@ -19,10 +19,6 @@ public class entityAdministrador {
     //criando chave primária
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
 
     private Long idAdministrador;
 
