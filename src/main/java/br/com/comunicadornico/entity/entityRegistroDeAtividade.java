@@ -23,10 +23,19 @@ public class entityRegistroDeAtividade {
     private LocalDate dataHora;
     private int quantidadeCliques;
 
-    // Relação Muitos para Um com a tabela Usuário (Um usuário gera 1 ou muitos
-    // registros de atividade)
+    //criando as relações das tabelas:
+    
+    // realação RegistroXBotão, essa é uma relacão bidirecional, ou seja, a classe registro sabe qual botão ela pertence
+    @ManyToOne // Muitos para um
+    @JoinColumn(name = "fkBotao") // Cria a coluna na tabela de registros para guardar quem foi o botão clicado
+    private entityBotao botao;
+
+    // relação registroxusuario (*..1)
     @ManyToOne
-    @JoinColumn(name = "idUsuario") // cria a chave estrangeira apontando para o usuario que gerou a atividade
-    private List<entityUsuario> usuario;
+    @JoinColumn(name="fkUsuario")
+    private entityUsuario usuario;
+
+   
+  
 
 }

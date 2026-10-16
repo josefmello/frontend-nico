@@ -7,6 +7,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 //criando tabela
 
@@ -23,5 +27,16 @@ public class entityTiraDeSentenca {
     private List<Integer> sequenciaBotoes = new ArrayList<>();
     private String textoFormatado;
     private List<Integer> sugestao = new ArrayList<>();
+
+    //criando relacionamento das tabelas
+   
+    //relação tira x usuario (1..1)
+    @OneToOne
+    @JoinColumn(name="fkUsuario") 
+    private entityUsuario usuario;
+
+    //relação tira x botão
+    @OneToMany(mappedBy="tiraDeSentenca")
+    private List<entityBotao> botoes;
 
 }

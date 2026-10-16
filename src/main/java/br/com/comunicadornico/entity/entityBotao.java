@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
@@ -38,12 +39,29 @@ public class entityBotao {
     @ManyToMany // indica a relação da tabela, muito para muito
     @JoinTable( // faz o join da tabela, como essa é uma relação da muito para muitos, é necessário criar uma 3 tabela pra armazenamento
             name = "tb_botao_categoria", //nome da tabela que sera criada para juntar as duas
-            joinColumns = @JoinColumn(name = "idBotao"), //cria a linha na tabela "intermediaria" de botaoxcategoria que vai armazenar o id do botao
-            inverseJoinColumns = @JoinColumn(name = "idCategoria"))
+            joinColumns = @JoinColumn(name = "fkBotao"), //cria a linha na tabela "intermediaria" de botaoxcategoria que vai armazenar o id do botao
+            inverseJoinColumns = @JoinColumn(name = "fkCategoria"))
     private List<entityCategoria> categorias;
 
-    //criando a relação da tabela botão com a tabela RegistroDeAtividade (Um para Muitos, pois um botão tem muitos registros)
-    @OneToMany // indica a relação da tabela, como não é uma relação de *..* não precisa criar tabela, da pra armazenar direto
-    @JoinColumn(name = "idBotao")
-    private List<entityRegistroDeAtividade> registroDeAtivade; // aqui ta vermelho porque eu não criei a tabela RegistroDeAtividade
+    // criando relação da tabela botão com registro de atividade
+    // isso é uma relação biderecional, ou seja, registro sabe a qual botão ela está associada
+    @OneToMany(mappedBy = "botao") // botão é o nome da variavel criada na classe registro
+    private List<entityRegistroDeAtividade> registroDeAtividades;
+
+    // relação de botão x administrador (*..1)
+    @ManyToOne
+    @JoinColumn(name="fkAdministrador")
+    private entityAdministrador administrador;
+
+    // relação de botão x usuario (*..1)
+    @ManyToOne
+    @JoinColumn(name="fkUsuario")
+    private entityUsuario usuario;S
+
+    //relação de botão x tiradesetença (*..1)
+    @ManyToOne
+    @JoinColumn(name="fkTiraDeSentenca")
+    private entityTiraDeSentenca tiraDeSentenca;
+
 }
+
