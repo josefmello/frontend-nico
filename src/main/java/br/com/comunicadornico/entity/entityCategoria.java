@@ -4,8 +4,18 @@ package br.com.comunicadornico.entity;
 import java.util.ArrayList; //tradutor do sql
 import java.util.List;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 //criando a tabela
 @Entity
@@ -17,21 +27,16 @@ import lombok.*;
 
 public class entityCategoria {
 
-    @Id //cria a chave primaria
+    //cria a chave primaria
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategoria;
 
     //criando as variaveis
-    @Column(name= "nome", nullable = false) //avisa o banco de dados que essa coluna não pode ficar vazia
+    @Column(nullable = false) //avisa o banco de dados que essa coluna não pode ficar vazia
     private String nome;
-
-    @Column(name= "ordemBotao")
     private List<String> ordemBotao = new ArrayList<>();
-
-    @Column(name= "fotoCat")
     private String fotoCat;
-
-    @Column(name= "posicaoCat")
     private int posicaoCat;
 
     // criando as relaçoes

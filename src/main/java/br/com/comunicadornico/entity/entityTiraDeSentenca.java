@@ -2,9 +2,22 @@ package br.com.comunicadornico.entity;
 
 import java.util.ArrayList;
 import java.util.List;
-import jakarta.persistence.*;
-import lombok.*;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+//criando tabela
+//anotacoes
 
 @Entity
 @Table(name = "tb_tiradesentenca")
@@ -21,13 +34,8 @@ public class entityTiraDeSentenca {
     private Long idTiraDeSentenca;
 
     // variaveis
-    @Column
     private List<Integer> sequenciaBotoes = new ArrayList<>();
-
-    @Column
     private String textoFormatado;
-
-    @Column
     private List<Integer> sugestao = new ArrayList<>();
 
     //criando relacionamento das tabelas

@@ -1,16 +1,28 @@
 package br.com.comunicadornico.entity;
 //imports
 
-import jakarta.persistence.*;
-import lombok.*;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.List; //import para usar a lista
+
+import org.hibernate.internal.build.AllowNonPortable;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity  //informa o SpringBot que essa classe deve virar uma tabela real
 @Table(name = "tb_botao") // Etiqueta de identificação
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 
 public class entityBotao {
 
@@ -18,37 +30,24 @@ public class entityBotao {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // ativa o autoincremento 
     private Long idBotao;
 
-    // Colunas
-    @Column(name= "Legenda")
+    //    variaveis:  
     private String legenda;
-
-    @Column(name= "corFundo")
     private String corFundo;
-
-    @Column(name= "Foto")
     private String foto;
-
-    @Column(name= "audioPersonalizado")
     private String audioPersonalizado;
-
-    @Column(name= "audioFem")
     private String audioFem;
-
-    @Column(name= "audioMas")
     private String audioMas;
-
-    @Column(name= "tamanhoBotao")
     private int tamanhoBotao;
-
-    @Column(name= "posicaoBotao")
     private int posicaoBotao;
-
-    @Column(name= "oculto")
     private boolean oculto;
 
     // criando a relação da tabela botão com a categoria (Muitos para Muitos, pois uma categoria contém 1 ou muitos botões,
     // e um botão pode estar em um 1 ou muitas categorias)
-    
+    //anotacoes que gera automaticamente os construtores, getters e setters a partir do lombok
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     @ManyToMany // indica a relação da tabela, muito para muito
     @JoinTable( // faz o join da tabela, como essa é uma relação da muito para muitos, é necessário criar uma 3 tabela pra armazenamento
             name = "tb_botao_categoria", //nome da tabela que sera criada para juntar as duas
@@ -70,7 +69,7 @@ public class entityBotao {
     @ManyToOne
     @JoinColumn(name = "fkUsuario")
     private entityUsuario usuario;
-
+    S
 
     //relação de botão x tiradesetença (*..1)
     @ManyToOne
