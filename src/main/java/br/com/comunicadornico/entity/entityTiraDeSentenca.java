@@ -12,10 +12,20 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 //criando tabela
+//anotacoes
 
 @Entity
 @Table(name = "tb_tiradesentenca")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class entityTiraDeSentenca {
 
     // criar chave primaria
@@ -29,14 +39,13 @@ public class entityTiraDeSentenca {
     private List<Integer> sugestao = new ArrayList<>();
 
     //criando relacionamento das tabelas
-   
     //relação tira x usuario (1..1)
     @OneToOne
-    @JoinColumn(name="fkUsuario") 
+    @JoinColumn(name = "fkUsuario")
     private entityUsuario usuario;
 
     //relação tira x botão
-    @OneToMany(mappedBy="tiraDeSentenca")
+    @OneToMany(mappedBy = "tiraDeSentenca")
     private List<entityBotao> botoes;
 
 }

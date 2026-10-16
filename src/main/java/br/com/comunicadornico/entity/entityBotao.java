@@ -1,7 +1,10 @@
 package br.com.comunicadornico.entity;
 //imports
 
+import java.util.ArrayList;
 import java.util.List; //import para usar a lista
+
+import org.hibernate.internal.build.AllowNonPortable;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,6 +16,10 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity  //informa o SpringBot que essa classe deve virar uma tabela real
 @Table(name = "tb_botao") // Etiqueta de identificação
@@ -36,6 +43,11 @@ public class entityBotao {
 
     // criando a relação da tabela botão com a categoria (Muitos para Muitos, pois uma categoria contém 1 ou muitos botões,
     // e um botão pode estar em um 1 ou muitas categorias)
+    //anotacoes que gera automaticamente os construtores, getters e setters a partir do lombok
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     @ManyToMany // indica a relação da tabela, muito para muito
     @JoinTable( // faz o join da tabela, como essa é uma relação da muito para muitos, é necessário criar uma 3 tabela pra armazenamento
             name = "tb_botao_categoria", //nome da tabela que sera criada para juntar as duas
@@ -50,13 +62,14 @@ public class entityBotao {
 
     // relação de botão x administrador (*..1)
     @ManyToOne
-    @JoinColumn(name="fkAdministrador")
+    @JoinColumn(name = "fkAdministrador")
     private entityAdministrador administrador;
 
     // relação de botão x usuario (*..1)
     @ManyToOne
-    @JoinColumn(name="fkUsuario")
-    private entityUsuario usuario;S
+    @JoinColumn(name = "fkUsuario")
+    private entityUsuario usuario;
+    S
 
     //relação de botão x tiradesetença (*..1)
     @ManyToOne
@@ -64,4 +77,3 @@ public class entityBotao {
     private entityTiraDeSentenca tiraDeSentenca;
 
 }
-

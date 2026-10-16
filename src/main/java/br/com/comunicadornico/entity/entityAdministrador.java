@@ -19,6 +19,11 @@ public class entityAdministrador {
     //criando chave primária
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+
     private Long idAdministrador;
 
     //variaveis
@@ -34,23 +39,20 @@ public class entityAdministrador {
     private LocalDate dataAssinatura;
 
     // relacionamento das tabelas
-
     //criando relação biderecional administrador x usuário (1..*)
-    @OneToMany(mappedBy= "administrador") // informa que a classe que irá guardar a chave estrangeira de relação é a calsse Usuario
+    @OneToMany(mappedBy = "administrador") // informa que a classe que irá guardar a chave estrangeira de relação é a calsse Usuario
     private List<entityUsuario> usuarios; //cria o objeto usuário para armazenar
 
     //criando relação biderecional administrador x  botao (1..*)
-    @OneToMany(mappedBy="administrador")
+    @OneToMany(mappedBy = "administrador")
     private List<entityBotao> botoes;
 
     //criando relaçao bideracional administrador x categoria (1..*)
-    @OneToMany(mappedBy="administrador")
+    @OneToMany(mappedBy = "administrador")
     private List<entityCategoria> categorias;
 
     //criando relaçao  administrador x BackUpManager (1..1)
-    @OneToOne(mappedBy="administrador")
+    @OneToOne(mappedBy = "administrador")
     private entityBackUpManager backUpManager;
-
-
 
 }

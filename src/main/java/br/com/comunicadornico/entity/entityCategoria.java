@@ -12,10 +12,18 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 //criando a tabela
 @Entity
 @Table(name = "tb_categoria")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
 public class entityCategoria {
 
@@ -32,14 +40,13 @@ public class entityCategoria {
     private int posicaoCat;
 
     // criando as relaçoes
-
     // relaçao categoria x administrador (*..1)
-     @ManyToOne
-     @JoinColumn(name="fkAdministrador") 
-     private entityAdministrador administrador;
+    @ManyToOne
+    @JoinColumn(name = "fkAdministrador")
+    private entityAdministrador administrador;
 
-     // relaçao categoria x usuario (*..1)
-     @ManyToOne
-     @JoinColumn(name="fkUsuario") 
-     private entityUsuario usuario;
+    // relaçao categoria x usuario (*..1)
+    @ManyToOne
+    @JoinColumn(name = "fkUsuario")
+    private entityUsuario usuario;
 }

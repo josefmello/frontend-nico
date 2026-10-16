@@ -1,6 +1,8 @@
 package br.com.comunicadornico.entity;
 //imports
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,6 +18,11 @@ public class entityBackUpManager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+
     private Long idBackUp;
 
     //variaveis
@@ -23,10 +30,9 @@ public class entityBackUpManager {
     private LocalDate dataUltimoBackUp;
 
     // criando os relacionamentos da tabela
-
     // relacionamento BackUpManager x Administrador (1..1)
     @OneToOne
-    @JoinColumn(name="fkAdministrador")
+    @JoinColumn(name = "fkAdministrador")
     private entityAdministrador administrador;
 
 }
