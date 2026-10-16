@@ -69,7 +69,7 @@ public class entityBotao {
     // criando relação da tabela botão com registro de atividade
     // isso é uma relação biderecional, ou seja, registro sabe a qual botão ela está associada
     @OneToMany(mappedBy = "botao") // botão é o nome da variavel criada na classe registro
-    private List<entityRegistroDeAtividade> registroDeAtividades;
+    private List<entityRegistroDeAtividade> registroDeAtividade;
 
     // relação de botão x administrador (*..1)
     @ManyToOne
@@ -87,4 +87,116 @@ public class entityBotao {
     @JoinColumn(name="fkTiraDeSentenca")
     private entityTiraDeSentenca tiraDeSentenca;
 
+    // construtor com todos os atributos (exceto o id, gerado pelo banco)
+    public entityBotao(String legenda, String corFundo, String foto, String audioPersonalizado, String audioFem, String audioMas, int tamanhoBotao, int posicaoBotao, boolean oculto, List<entityCategoria> categorias, List<entityRegistroDeAtividade> registroDeAtividade) {
+        this.legenda = legenda;
+        this.corFundo = corFundo;
+        this.foto = foto;
+        this.audioPersonalizado = audioPersonalizado;
+        this.audioFem = audioFem;
+        this.audioMas = audioMas;
+        this.tamanhoBotao = tamanhoBotao;
+        this.posicaoBotao = posicaoBotao;
+        this.oculto = oculto;
+        this.categorias = categorias;
+        this.registroDeAtividade = registroDeAtividade;
+    }
+ 
+    public Long getIdBotao() {
+        return idBotao;
+    }
+ 
+    public void setIdBotao(Long idBotao) {
+        this.idBotao = idBotao;
+    }
+ 
+    public String getLegenda() {
+        return legenda;
+    }
+ 
+    public void setLegenda(String legenda) {
+        this.legenda = legenda;
+    }
+ 
+    public String getCorFundo() {
+        return corFundo;
+    }
+ 
+    public void setCorFundo(String corFundo) {
+        this.corFundo = corFundo;
+    }
+ 
+    public String getFoto() {
+        return foto;
+    }
+ 
+    public void setFoto(String foto) {
+        this.foto = foto;
+    }
+ 
+    public String getAudioPersonalizado() {
+        return audioPersonalizado;
+    }
+ 
+    public void setAudioPersonalizado(String audioPersonalizado) {
+        this.audioPersonalizado = audioPersonalizado;
+    }
+ 
+    public String getAudioFem() {
+        return audioFem;
+    }
+ 
+    public void setAudioFem(String audioFem) {
+        this.audioFem = audioFem;
+    }
+ 
+    public String getAudioMas() {
+        return audioMas;
+    }
+ 
+    public void setAudioMas(String audioMas) {
+        this.audioMas = audioMas;
+    }
+ 
+    public int getTamanhoBotao() {
+        return tamanhoBotao;
+    }
+ 
+    public void setTamanhoBotao(int tamanhoBotao) {
+        this.tamanhoBotao = tamanhoBotao;
+    }
+ 
+    public int getPosicaoBotao() {
+        return posicaoBotao;
+    }
+ 
+    public void setPosicaoBotao(int posicaoBotao) {
+        this.posicaoBotao = posicaoBotao;
+    }
+ 
+    public boolean isOculto() {
+        return oculto;
+    }
+ 
+    public void setOculto(boolean oculto) {
+        this.oculto = oculto;
+    }
+ 
+    public List<entityCategoria> getCategorias() {
+        return categorias;
+    }
+ 
+    public void setCategorias(List<entityCategoria> categorias) {
+        this.categorias = categorias;
+    }
+ 
+    public List<entityRegistroDeAtividade> getRegistroDeAtividade() {
+        return registroDeAtividade;
+    }
+ 
+    public void setRegistroDeAtividade(List<entityRegistroDeAtividade> registroDeAtividade) {
+        this.registroDeAtividade = registroDeAtividade;
+    }
 }
+
+

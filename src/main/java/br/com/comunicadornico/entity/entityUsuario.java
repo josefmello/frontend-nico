@@ -64,4 +64,65 @@ public class entityUsuario {
     @OneToOne(mappedBy = "usuario")
     private entityTiraDeSentenca tiraDeSentenca;
 
+    // Construtor padrão (exigido pelo JPA)
+    public entityUsuario() {
+    }
+ 
+    // Construtor com todos os atributos (exceto o id, gerado pelo banco)
+    public entityUsuario(String nome, String sexo, String nivelAutismo, LocalDate dataNascAut, boolean voz) {
+        this.nome = nome;
+        this.sexo = sexo;
+        this.nivelAutismo = nivelAutismo;
+        this.dataNascAut = dataNascAut;
+        this.voz = voz;
+    }
+ 
+    public Long getIdUsuario() {
+        return idUsuario;
+    }
+ 
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+ 
+    public String getNome() {
+        return nome;
+    }
+ 
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+ 
+    public String getSexo() {
+        return sexo;
+    }
+ 
+    public void setSexo(String sexo) {
+        this.sexo = sexo;
+    }
+ 
+    public String getNivelAutismo() {
+        return nivelAutismo;
+    }
+ 
+    public void setNivelAutismo(String nivelAutismo) {
+        this.nivelAutismo = nivelAutismo;
+    }
+ 
+    public LocalDate getDataNascAut() {
+        return dataNascAut;
+    }
+ 
+    public void setDataNascAut(LocalDate dataNascAut) {
+        this.dataNascAut = dataNascAut;
+    }
+ 
+    public boolean isVoz() {
+        return voz;
+    }
+ 
+    public void setVoz(boolean voz) {
+        this.voz = voz;
+    }
 }
+

@@ -48,4 +48,48 @@ public class entityTiraDeSentenca {
     @OneToMany(mappedBy = "tiraDeSentenca")
     private List<entityBotao> botoes;
 
+     // construtor padrão (exigido pelo JPA)
+    public entityTiraDeSentenca() {
+        this.sequenciaBotoes = new ArrayList<>();
+        this.sugestao = new ArrayList<>();
+    }
+ 
+    // construtor com todos os atributos (exceto o id, gerado pelo banco)
+    public entityTiraDeSentenca(List<Integer> sequenciaBotoes, String textoFormatado, List<Integer> sugestao) {
+        this.sequenciaBotoes = sequenciaBotoes;
+        this.textoFormatado = textoFormatado;
+        this.sugestao = sugestao;
+    }
+ 
+    public Long getIdTiraDeSentenca() {
+        return idTiraDeSentenca;
+    }
+ 
+    public void setIdTiraDeSentenca(Long idTiraDeSentenca) {
+        this.idTiraDeSentenca = idTiraDeSentenca;
+    }
+ 
+    public List<Integer> getSequenciaBotoes() {
+        return sequenciaBotoes;
+    }
+ 
+    public void setSequenciaBotoes(List<Integer> sequenciaBotoes) {
+        this.sequenciaBotoes = sequenciaBotoes;
+    }
+ 
+    public String getTextoFormatado() {
+        return textoFormatado;
+    }
+ 
+    public void setTextoFormatado(String textoFormatado) {
+        this.textoFormatado = textoFormatado;
+    }
+ 
+    public List<Integer> getSugestao() {
+        return sugestao;
+    }
+ 
+    public void setSugestao(List<Integer> sugestao) {
+        this.sugestao = sugestao;
+    }
 }
