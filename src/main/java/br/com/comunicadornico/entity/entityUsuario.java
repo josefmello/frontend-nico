@@ -2,31 +2,16 @@ package br.com.comunicadornico.entity;
 
 // import
 import java.time.LocalDate;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-
-<<<<<<< HEAD
+import jakarta.persistence.*;
 import java.util.List;
-=======
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
->>>>>>> 4ff495c777d5e50fa30f75a0145fed1b26779d67
 
 @Entity
 @Table(name = "tb_usuario")
 @Getter
 @Setter
-@NoArgsConstructor // o construtor vazio que o jpa exige 
+@NoArgsConstructor // o construtor vazio que o jpa exige
 @AllArgsConstructor  // o construtor com todos os atributos
 
 public class entityUsuario {
@@ -36,11 +21,20 @@ public class entityUsuario {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idUsuario;
 
-    //variaveis
+    // colunas
+    @Column(name= "nome", nullable = false)
     private String nome;
+
+    @Column(name= "sexo")
     private String sexo;
+
+    @Column(name= "nivelAutismo")
     private String nivelAutismo;
+
+    @Column(name= "dataNascAut", nullable = false)
     private LocalDate dataNascAut;
+
+    @Column(name= "voz")
     private boolean voz;
 
     // criando os relacionamentos da tabela
@@ -57,7 +51,7 @@ public class entityUsuario {
     @OneToMany(mappedBy = "usuario")
     private List<entityCategoria> categorias;
 
-    // relaciomaneto bideracional de usuário x botão (1..*)
+    //relaciomaneto bideracional de usuário x botão (1..*)
     @OneToMany(mappedBy = "usuario")
     private List<entityBotao> botoes;
 
