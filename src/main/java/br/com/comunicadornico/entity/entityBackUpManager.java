@@ -18,10 +18,7 @@ public class entityBackUpManager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
+
 
     private Long idBackUp;
 

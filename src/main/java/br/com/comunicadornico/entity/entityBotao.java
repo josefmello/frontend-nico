@@ -62,7 +62,7 @@ public class entityBotao {
     @ManyToOne
     @JoinColumn(name = "fkUsuario")
     private entityUsuario usuario;
-    S
+   
 
     //relação de botão x tiradesetença (*..1)
     @ManyToOne
