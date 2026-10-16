@@ -1,27 +1,23 @@
 package br.com.comunicadornico.entity;
-//imports
 
+//imports
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDate;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_backupmanager")
+
 public class entityBackUpManager {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
 
     private Long idBackUp;
 
@@ -34,5 +30,6 @@ public class entityBackUpManager {
     @OneToOne
     @JoinColumn(name = "fkAdministrador")
     private entityAdministrador administrador;
+
 
 }

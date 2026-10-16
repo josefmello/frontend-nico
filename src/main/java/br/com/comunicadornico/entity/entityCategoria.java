@@ -3,7 +3,7 @@ package br.com.comunicadornico.entity;
 //imports
 import java.util.ArrayList; //tradutor do sql
 import java.util.List;
-
+//import jakarta
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,18 +12,12 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 
 //criando a tabela
 @Entity
 @Table(name = "tb_categoria")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
+
 
 public class entityCategoria {
 
@@ -49,4 +43,5 @@ public class entityCategoria {
     @ManyToOne
     @JoinColumn(name = "fkUsuario")
     private entityUsuario usuario;
+
 }

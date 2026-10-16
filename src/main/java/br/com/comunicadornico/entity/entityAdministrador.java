@@ -1,6 +1,8 @@
 package br.com.comunicadornico.entity;
-
 // imports
+
+import java.util.List;
+// imports jakarta
 import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,21 +11,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
+import jakarta.persistence.CascadeType;
 
 //criando tabela
 @Entity
 @Table(name = "tb_administrador")
+
 public class entityAdministrador {
 
     //criando chave primária
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-
     private Long idAdministrador;
 
     //variaveis
@@ -40,7 +38,7 @@ public class entityAdministrador {
 
     // relacionamento das tabelas
     //criando relação biderecional administrador x usuário (1..*)
-    @OneToMany(mappedBy = "administrador") // informa que a classe que irá guardar a chave estrangeira de relação é a calsse Usuario
+    @OneToMany(mappedBy = "administrador", cascade = CascadeType.ALL, orphanRemoval = true) // informa que a classe que irá guardar a chave estrangeira de relação é a calsse Usuario
     private List<entityUsuario> usuarios; //cria o objeto usuário para armazenar
 
     //criando relação biderecional administrador x  botao (1..*)

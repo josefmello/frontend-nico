@@ -1,6 +1,8 @@
 package br.com.comunicadornico.entity;
+//imports 
 
-// import
+import java.util.List;
+// import jakarta
 import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,22 +14,8 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-<<<<<<< HEAD
-import java.util.List;
-=======
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
->>>>>>> 4ff495c777d5e50fa30f75a0145fed1b26779d67
-
 @Entity
 @Table(name = "tb_usuario")
-@Getter
-@Setter
-@NoArgsConstructor // o construtor vazio que o jpa exige 
-@AllArgsConstructor  // o construtor com todos os atributos
 
 public class entityUsuario {
 
