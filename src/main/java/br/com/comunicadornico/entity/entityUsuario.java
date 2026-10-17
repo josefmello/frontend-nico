@@ -11,8 +11,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 
@@ -124,5 +124,45 @@ public class entityUsuario {
     public void setVoz(boolean voz) {
         this.voz = voz;
     }
-}
 
+    // ADICIONADO: getters e setters dos relacionamentos
+    public entityAdministrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(entityAdministrador administrador) {
+        this.administrador = administrador;
+    }
+
+    public List<entityRegistroDeAtividade> getRegistros() {
+        return registros;
+    }
+
+    public void setRegistros(List<entityRegistroDeAtividade> registros) {
+        this.registros = registros;
+    }
+
+    public List<entityCategoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<entityCategoria> categorias) {
+        this.categorias = categorias;
+    }
+
+    public List<entityBotao> getBotoes() {
+        return botoes;
+    }
+
+    public void setBotoes(List<entityBotao> botoes) {
+        this.botoes = botoes;
+    }
+
+    public entityTiraDeSentenca getTiraDeSentenca() {
+        return tiraDeSentenca;
+    }
+
+    public void setTiraDeSentenca(entityTiraDeSentenca tiraDeSentenca) {
+        this.tiraDeSentenca = tiraDeSentenca;
+    }
+}

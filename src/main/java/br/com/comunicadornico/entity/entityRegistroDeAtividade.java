@@ -1,7 +1,6 @@
 package br.com.comunicadornico.entity;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -36,16 +35,18 @@ public class entityRegistroDeAtividade {
     private entityBotao botao;
 
     // relação registroxusuario (*..1)
+    // CORRIGIDO: antes era List<entityUsuario>. Como o relacionamento é muitos-para-um,
+    // cada registro pertence a UM usuário, então o atributo é um objeto único.
     @ManyToOne
     @JoinColumn(name = "fkUsuario")
-    private List<entityUsuario> usuario;
+    private entityUsuario usuario;
 
     // construtor padrao (exigido pelo JPA)
     public entityRegistroDeAtividade() {
     }
  
     // construtor com todos os atributos (exceto o id, gerado pelo banco)
-    public entityRegistroDeAtividade(LocalDate dataHora, int quantidadeCliques, List<entityUsuario> usuario) {
+    public entityRegistroDeAtividade(LocalDate dataHora, int quantidadeCliques, entityUsuario usuario) {
         this.dataHora = dataHora;
         this.quantidadeCliques = quantidadeCliques;
         this.usuario = usuario;
@@ -75,12 +76,21 @@ public class entityRegistroDeAtividade {
         this.quantidadeCliques = quantidadeCliques;
     }
  
-    public List<entityUsuario> getUsuario() {
+    public entityUsuario getUsuario() {
         return usuario;
     }
  
-    public void setUsuario(List<entityUsuario> usuario) {
+    public void setUsuario(entityUsuario usuario) {
         this.usuario = usuario;
+    }
+
+    // ADICIONADO: getter e setter do botão
+    public entityBotao getBotao() {
+        return botao;
+    }
+
+    public void setBotao(entityBotao botao) {
+        this.botao = botao;
     }
 
 }

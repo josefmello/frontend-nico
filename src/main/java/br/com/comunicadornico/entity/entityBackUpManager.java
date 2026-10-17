@@ -8,10 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-import java.time.LocalDate;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "tb_backupmanager")
@@ -69,9 +68,13 @@ public class entityBackUpManager {
     public void setDataUltimoBackUp(LocalDate dataUltimoBackUp) {
         this.dataUltimoBackUp = dataUltimoBackUp;
     }
+
+    // ADICIONADO: getter e setter do administrador
+    public entityAdministrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(entityAdministrador administrador) {
+        this.administrador = administrador;
+    }
 }
- 
-
-
-
-

@@ -1,7 +1,6 @@
 package br.com.comunicadornico.entity;
 
 //imports
-import java.util.ArrayList; //tradutor do sql
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -11,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 
@@ -30,9 +30,6 @@ public class entityCategoria {
     @Column(name= "nome", nullable = false) //avisa o banco de dados que essa coluna não pode ficar vazia
     private String nome;
 
-    @Column(name= "ordemBotao")
-    private List<String> ordemBotao = new ArrayList<>();
-
     @Column(name= "fotoCat")
     private String fotoCat;
 
@@ -50,15 +47,17 @@ public class entityCategoria {
     @JoinColumn(name = "fkUsuario")
     private entityUsuario usuario;
 
+    // ADICIONADO: relação categoria x botão pela tabela associativa (entityBotaoCategoria)
+    @OneToMany(mappedBy = "categoria")
+    private List<entityBotaoCategoria> botaoCategorias;
+
      // construtor padrao (exigido pelo JPA)
     public entityCategoria() {
-        this.ordemBotao = new ArrayList<>();
     }
  
     // construtor com todos os atributos (exceto o id, gerado pelo banco)
-    public entityCategoria(String nome, List<String> ordemBotao, String fotoCat, int posicaoCat) {
+    public entityCategoria(String nome, String fotoCat, int posicaoCat) {
         this.nome = nome;
-        this.ordemBotao = ordemBotao;
         this.fotoCat = fotoCat;
         this.posicaoCat = posicaoCat;
     }
@@ -79,15 +78,7 @@ public class entityCategoria {
         this.nome = nome;
     }
  
-    public List<String> getOrdemBotao() {
-        return ordemBotao;
-    }
- 
-    public void setOrdemBotao(List<String> ordemBotao) {
-        this.ordemBotao = ordemBotao;
-    }
- 
-    public String getFotoCat() {
+public String getFotoCat() {
         return fotoCat;
     }
  
@@ -101,5 +92,30 @@ public class entityCategoria {
  
     public void setPosicaoCat(int posicaoCat) {
         this.posicaoCat = posicaoCat;
+    }
+
+    // ADICIONADO: getters e setters dos relacionamentos
+    public entityAdministrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(entityAdministrador administrador) {
+        this.administrador = administrador;
+    }
+
+    public entityUsuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(entityUsuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public List<entityBotaoCategoria> getBotaoCategorias() {
+        return botaoCategorias;
+    }
+
+    public void setBotaoCategorias(List<entityBotaoCategoria> botaoCategorias) {
+        this.botaoCategorias = botaoCategorias;
     }
 }

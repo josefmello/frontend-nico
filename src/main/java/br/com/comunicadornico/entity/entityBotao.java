@@ -4,7 +4,7 @@ package br.com.comunicadornico.entity;
 import java.util.ArrayList;
 import java.util.List; //import para usar a lista
 
-import org.hibernate.internal.build.AllowNonPortable;
+// REMOVIDO: import org.hibernate.internal.build.AllowNonPortable (import automático errado)
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +12,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -49,22 +47,13 @@ public class entityBotao {
     @Column(name= "tamanhoBotao")
     private int tamanhoBotao;
 
-    @Column(name= "posicaoBotao")
-    private int posicaoBotao;
-
     @Column(name= "oculto")
     private boolean oculto;
 
-    // criando a relação da tabela botão com a categoria (Muitos para Muitos, pois uma categoria contém 1 ou muitos botões,
-    // e um botão pode estar em um 1 ou muitas categorias)
-    //anotacoes que gera automaticamente os construtores, getters e setters a partir do lombok
-
-    @ManyToMany // indica a relação da tabela, muito para muito
-    @JoinTable( // faz o join da tabela, como essa é uma relação da muito para muitos, é necessário criar uma 3 tabela pra armazenamento
-            name = "tb_botao_categoria", //nome da tabela que sera criada para juntar as duas
-            joinColumns = @JoinColumn(name = "fkBotao"), //cria a linha na tabela "intermediaria" de botaoxcategoria que vai armazenar o id do botao
-            inverseJoinColumns = @JoinColumn(name = "fkCategoria"))
-    private List<entityCategoria> categorias;
+    // CORRIGIDO: a relação botão x categoria agora usa a tabela associativa (entityBotaoCategoria)
+    // em vez do @ManyToMany automático. O botão conhece suas ligações com as categorias.
+    @OneToMany(mappedBy = "botao")
+    private List<entityBotaoCategoria> botaoCategorias;
 
     // criando relação da tabela botão com registro de atividade
     // isso é uma relação biderecional, ou seja, registro sabe a qual botão ela está associada
@@ -87,8 +76,12 @@ public class entityBotao {
     @JoinColumn(name="fkTiraDeSentenca")
     private entityTiraDeSentenca tiraDeSentenca;
 
+    // ADICIONADO: construtor padrao (exigido pelo JPA)
+    public entityBotao() {
+    }
+
     // construtor com todos os atributos (exceto o id, gerado pelo banco)
-    public entityBotao(String legenda, String corFundo, String foto, String audioPersonalizado, String audioFem, String audioMas, int tamanhoBotao, int posicaoBotao, boolean oculto, List<entityCategoria> categorias, List<entityRegistroDeAtividade> registroDeAtividade) {
+    public entityBotao(String legenda, String corFundo, String foto, String audioPersonalizado, String audioFem, String audioMas, int tamanhoBotao, boolean oculto, List<entityRegistroDeAtividade> registroDeAtividade) {
         this.legenda = legenda;
         this.corFundo = corFundo;
         this.foto = foto;
@@ -96,9 +89,7 @@ public class entityBotao {
         this.audioFem = audioFem;
         this.audioMas = audioMas;
         this.tamanhoBotao = tamanhoBotao;
-        this.posicaoBotao = posicaoBotao;
         this.oculto = oculto;
-        this.categorias = categorias;
         this.registroDeAtividade = registroDeAtividade;
     }
  
@@ -166,15 +157,7 @@ public class entityBotao {
         this.tamanhoBotao = tamanhoBotao;
     }
  
-    public int getPosicaoBotao() {
-        return posicaoBotao;
-    }
- 
-    public void setPosicaoBotao(int posicaoBotao) {
-        this.posicaoBotao = posicaoBotao;
-    }
- 
-    public boolean isOculto() {
+public boolean isOculto() {
         return oculto;
     }
  
@@ -182,12 +165,12 @@ public class entityBotao {
         this.oculto = oculto;
     }
  
-    public List<entityCategoria> getCategorias() {
-        return categorias;
+    public List<entityBotaoCategoria> getBotaoCategorias() {
+        return botaoCategorias;
     }
  
-    public void setCategorias(List<entityCategoria> categorias) {
-        this.categorias = categorias;
+    public void setBotaoCategorias(List<entityBotaoCategoria> botaoCategorias) {
+        this.botaoCategorias = botaoCategorias;
     }
  
     public List<entityRegistroDeAtividade> getRegistroDeAtividade() {
@@ -197,6 +180,29 @@ public class entityBotao {
     public void setRegistroDeAtividade(List<entityRegistroDeAtividade> registroDeAtividade) {
         this.registroDeAtividade = registroDeAtividade;
     }
+
+    // ADICIONADO: getters e setters dos relacionamentos
+    public entityAdministrador getAdministrador() {
+        return administrador;
+    }
+
+    public void setAdministrador(entityAdministrador administrador) {
+        this.administrador = administrador;
+    }
+
+    public entityUsuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(entityUsuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public entityTiraDeSentenca getTiraDeSentenca() {
+        return tiraDeSentenca;
+    }
+
+    public void setTiraDeSentenca(entityTiraDeSentenca tiraDeSentenca) {
+        this.tiraDeSentenca = tiraDeSentenca;
+    }
 }
-
-

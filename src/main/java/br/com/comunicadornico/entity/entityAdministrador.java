@@ -2,6 +2,7 @@ package br.com.comunicadornico.entity;
 
 // imports
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import java.util.List;
 
 //criando tabela
 @Entity
@@ -52,7 +52,8 @@ public class entityAdministrador {
     @Column(name= "valorMensalidade")
     private float valorMensalidade;
 
-    @Column(name= "valorMensalidade")
+    // CORRIGIDO: antes estava com o mesmo nome "valorMensalidade" (coluna repetida causava erro no Hibernate)
+    @Column(name= "dataAssinatura")
     private LocalDate dataAssinatura;
 
     // relacionamento das tabelas
@@ -178,7 +179,37 @@ public class entityAdministrador {
     public void setDataAssinatura(LocalDate dataAssinatura) {
         this.dataAssinatura = dataAssinatura;
     }
+
+    // ADICIONADO: getters e setters dos relacionamentos
+    public List<entityUsuario> getUsuarios() {
+        return usuarios;
+    }
+
+    public void setUsuarios(List<entityUsuario> usuarios) {
+        this.usuarios = usuarios;
+    }
+
+    public List<entityBotao> getBotoes() {
+        return botoes;
+    }
+
+    public void setBotoes(List<entityBotao> botoes) {
+        this.botoes = botoes;
+    }
+
+    public List<entityCategoria> getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(List<entityCategoria> categorias) {
+        this.categorias = categorias;
+    }
+
+    public entityBackUpManager getBackUpManager() {
+        return backUpManager;
+    }
+
+    public void setBackUpManager(entityBackUpManager backUpManager) {
+        this.backUpManager = backUpManager;
+    }
 }
- 
-
-
