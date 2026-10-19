@@ -1,10 +1,7 @@
 package br.com.comunicadornico.entity;
 //imports
 
-import java.util.ArrayList;
 import java.util.List; //import para usar a lista
-
-// REMOVIDO: import org.hibernate.internal.build.AllowNonPortable (import automático errado)
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -26,28 +23,28 @@ public class entityBotao {
     private Long idBotao;
 
     // Colunas
-    @Column(name= "Legenda")
+    @Column(name = "legenda")
     private String legenda;
 
-    @Column(name= "corFundo")
+    @Column(name = "corFundo")
     private String corFundo;
 
-    @Column(name= "Foto")
+    @Column(name = "foto")
     private String foto;
 
-    @Column(name= "audioPersonalizado")
+    @Column(name = "audioPersonalizado")
     private String audioPersonalizado;
 
-    @Column(name= "audioFem")
+    @Column(name = "audioFem")
     private String audioFem;
 
-    @Column(name= "audioMas")
+    @Column(name = "audioMas")
     private String audioMas;
 
-    @Column(name= "tamanhoBotao")
+    @Column(name = "tamanhoBotao")
     private int tamanhoBotao;
 
-    @Column(name= "oculto")
+    @Column(name = "oculto")
     private boolean oculto;
 
     // CORRIGIDO: a relação botão x categoria agora usa a tabela associativa (entityBotaoCategoria)
@@ -69,11 +66,10 @@ public class entityBotao {
     @ManyToOne
     @JoinColumn(name = "fkUsuario")
     private entityUsuario usuario;
-   
 
     //relação de botão x tiradesetença (*..1)
     @ManyToOne
-    @JoinColumn(name="fkTiraDeSentenca")
+    @JoinColumn(name = "fkTiraDeSentenca")
     private entityTiraDeSentenca tiraDeSentenca;
 
     // ADICIONADO: construtor padrao (exigido pelo JPA)
@@ -92,91 +88,91 @@ public class entityBotao {
         this.oculto = oculto;
         this.registroDeAtividade = registroDeAtividade;
     }
- 
+
     public Long getIdBotao() {
         return idBotao;
     }
- 
+
     public void setIdBotao(Long idBotao) {
         this.idBotao = idBotao;
     }
- 
+
     public String getLegenda() {
         return legenda;
     }
- 
+
     public void setLegenda(String legenda) {
         this.legenda = legenda;
     }
- 
+
     public String getCorFundo() {
         return corFundo;
     }
- 
+
     public void setCorFundo(String corFundo) {
         this.corFundo = corFundo;
     }
- 
+
     public String getFoto() {
         return foto;
     }
- 
+
     public void setFoto(String foto) {
         this.foto = foto;
     }
- 
+
     public String getAudioPersonalizado() {
         return audioPersonalizado;
     }
- 
+
     public void setAudioPersonalizado(String audioPersonalizado) {
         this.audioPersonalizado = audioPersonalizado;
     }
- 
+
     public String getAudioFem() {
         return audioFem;
     }
- 
+
     public void setAudioFem(String audioFem) {
         this.audioFem = audioFem;
     }
- 
+
     public String getAudioMas() {
         return audioMas;
     }
- 
+
     public void setAudioMas(String audioMas) {
         this.audioMas = audioMas;
     }
- 
+
     public int getTamanhoBotao() {
         return tamanhoBotao;
     }
- 
+
     public void setTamanhoBotao(int tamanhoBotao) {
         this.tamanhoBotao = tamanhoBotao;
     }
- 
-public boolean isOculto() {
+
+    public boolean isOculto() {
         return oculto;
     }
- 
+
     public void setOculto(boolean oculto) {
         this.oculto = oculto;
     }
- 
+
     public List<entityBotaoCategoria> getBotaoCategorias() {
         return botaoCategorias;
     }
- 
+
     public void setBotaoCategorias(List<entityBotaoCategoria> botaoCategorias) {
         this.botaoCategorias = botaoCategorias;
     }
- 
+
     public List<entityRegistroDeAtividade> getRegistroDeAtividade() {
         return registroDeAtividade;
     }
- 
+
     public void setRegistroDeAtividade(List<entityRegistroDeAtividade> registroDeAtividade) {
         this.registroDeAtividade = registroDeAtividade;
     }

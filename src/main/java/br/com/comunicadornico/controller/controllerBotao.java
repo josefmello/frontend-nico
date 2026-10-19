@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import br.com.comunicadornico.entity.entityBotao;
 
 @RestController 
@@ -38,8 +39,8 @@ public class controllerBotao {
 
     // READ - Consultar Botao pelo nome
     @GetMapping("/buscar")
-    public ResponseEntity<List<entityBotao>> buscarPorNome(@RequestParam String nome) {
-        // List<entityBotao> botoes = serviceBotao.buscarPorNome(nome);
+    public ResponseEntity<List<entityBotao>> buscarPorNome(@RequestParam String legenda) {
+        // List<entityBotao> botoes = serviceBotao.buscarPorNome(legenda);
         return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
