@@ -1,5 +1,6 @@
 package br.com.comunicadornico.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,4 +11,10 @@ public interface repositoryBotao extends JpaRepository<entityBotao, Long> {
 
     // cria o SELECT * FROM tb_botao WHERE nome (ou seja, faz a função de pesquisar pelo nome)
     Optional<entityBotao> findByNome(String legenda);
+
+    boolean existsByEmail(String email);
+
+    boolean existsByTelefone(String telefone);
+
+    List<entityBotao> findByLegendaContainingIgnoreCase(String nome);
 }
