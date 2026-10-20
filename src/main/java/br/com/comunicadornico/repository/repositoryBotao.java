@@ -10,11 +10,7 @@ import br.com.comunicadornico.entity.entityBotao;
 public interface repositoryBotao extends JpaRepository<entityBotao, Long> {
 
     // cria o SELECT * FROM tb_botao WHERE nome (ou seja, faz a função de pesquisar pelo nome)
-    Optional<entityBotao> findByNome(String legenda);
+    Optional<entityBotao> findByLegenda(String legenda);
 
-    boolean existsByEmail(String email);
-
-    boolean existsByTelefone(String telefone);
-
-    List<entityBotao> findByLegendaContainingIgnoreCase(String nome);
+    List<entityBotao> findByLegendaContainingIgnoreCase(String legenda);
 }
