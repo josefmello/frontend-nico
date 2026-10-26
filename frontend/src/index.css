@@ -8,6 +8,10 @@
   --nicoshine: #FFC857;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: var(--nicomist);
   color: var(--nicoturne);

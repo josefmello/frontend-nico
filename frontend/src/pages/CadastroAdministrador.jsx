@@ -1,4 +1,5 @@
 import { useState } from "react"
+import "./CadastroAdministrador.css"
 
 function CadastroAdministrador() {
     const [nome, setNome] = useState('')
@@ -38,7 +39,7 @@ function CadastroAdministrador() {
 
     return (
 
-        <form onSubmit={cadastrar}>
+        <form onSubmit={cadastrar} className="cartao">
 
             <h1>Cadastro de Administrador</h1>
 
