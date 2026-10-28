@@ -41,8 +41,8 @@ public class serviceBotao {
     }
 
     // READ - por nome (legenda)
-    public List<entityBotao> pesquisarBotao(String nome) {
-        return repositoryBotao.findByLegendaContainingIgnoreCase(nome);
+    public List<entityBotao> pesquisarBotao(String legenda) {
+        return repositoryBotao.findByLegendaContainingIgnoreCase(legenda);
     }
 
     // UPDATE
