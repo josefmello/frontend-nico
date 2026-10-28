@@ -1,7 +1,7 @@
-import CadastroAdministrador from "./pages/CadastroAdministrador";
+import TelaPrincipal from "./pages/TelaPrincipal";
 
 function App() {
-  return <CadastroAdministrador />
+  return <TelaPrincipal />
 }
 
 export default App;
