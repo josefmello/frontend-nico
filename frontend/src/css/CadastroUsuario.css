@@ -1,0 +1,198 @@
+/* Cadastro de Usuário — Nico (CSS puro)
+   Ocupa a altura da janela, sem rolagem, e se ajusta a celular, tablet e computador. */
+
+.cu-pagina {
+  --altura-menu: 0px; /* se houver menu de abas no topo do App.jsx, coloque a altura dele aqui (ex.: 64px) */
+
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: calc(100vh - var(--altura-menu));
+  height: calc(100dvh - var(--altura-menu));
+  overflow: hidden;
+  font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.cu-pagina *,
+.cu-pagina *::before,
+.cu-pagina *::after {
+  box-sizing: border-box;
+}
+
+/* Fundo azul claro */
+.cu-principal {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(8px, 2vh, 32px) clamp(8px, 3vw, 24px);
+  background: #b3e0fa;
+}
+
+/* Caixa branca central */
+.cu-card {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(8px, 2vh, 20px);
+  width: 100%;
+  max-width: 760px;
+  max-height: 100%;
+  overflow-y: auto; /* só aparece em telas muito pequenas, como segurança */
+  padding: clamp(16px, 4vh, 48px) clamp(16px, 6vw, 56px);
+  background: #ffffff;
+  border-radius: clamp(24px, 6vh, 48px);
+}
+
+/* Logo */
+.cu-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.cu-logo svg {
+  width: clamp(44px, 11vh, 96px);
+  height: clamp(44px, 11vh, 96px);
+}
+
+.cu-logo span {
+  font-size: clamp(44px, 11vh, 96px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -2px;
+  color: #2b9be8;
+}
+
+/* Campos: 2 colunas, Nome ocupa a linha inteira */
+.cu-campos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(8px, 2vh, 20px) clamp(10px, 2.5vw, 24px);
+  width: 100%;
+  max-width: 642px;
+  margin: 0 auto;
+}
+
+.cu-inteira { grid-column: 1 / -1; }
+
+.cu-campo { min-width: 0; }
+
+.cu-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: clamp(15px, 3vh, 26px);
+  font-weight: 700;
+  color: #000000;
+}
+
+.cu-input {
+  width: 100%;
+  padding: clamp(5px, 1.2vh, 10px) 12px;
+  font-family: inherit;
+  font-size: clamp(14px, 2.5vh, 20px);
+  font-weight: 500;
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #6b7280;
+  border-radius: 8px;
+  outline: none;
+}
+
+.cu-input::placeholder { color: #d1d5db; }
+.cu-input:focus { box-shadow: 0 0 0 2px #2b9be8; }
+.cu-input-erro { border-color: #ef4444; }
+
+/* Voz (liga/desliga) */
+.cu-voz {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: clamp(30px, 5vh, 44px);
+  cursor: pointer;
+}
+
+.cu-voz input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.cu-trilho {
+  position: relative;
+  flex-shrink: 0;
+  width: 52px;
+  height: 28px;
+  background: #9ca3af;
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+
+.cu-bolinha {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.2s;
+}
+
+.cu-voz input:checked + .cu-trilho { background: #2b9be8; }
+.cu-voz input:checked + .cu-trilho .cu-bolinha { transform: translateX(24px); }
+.cu-voz input:focus-visible + .cu-trilho { outline: 2px solid #2b9be8; outline-offset: 2px; }
+
+.cu-voz-texto {
+  font-size: clamp(14px, 2.5vh, 20px);
+  font-weight: 500;
+  color: #374151;
+}
+
+/* Aviso de erro (altura fixa) */
+.cu-aviso {
+  min-height: 1.3em;
+  margin: 0;
+  font-size: clamp(12px, 2vh, 15px);
+  line-height: 1.3;
+  text-align: center;
+  color: #dc2626;
+}
+
+/* Botões */
+.cu-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.cu-botao {
+  padding: clamp(5px, 1.2vh, 10px) 16px;
+  font-family: inherit;
+  font-size: clamp(17px, 3.4vh, 24px);
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cu-botao-secundario { color: #000000; background: #ffffff; border: 1px solid #d1d5db; }
+.cu-botao-secundario:hover { background: #f9fafb; }
+
+.cu-botao-principal { color: #ffffff; background: #000000; border: 1px solid #000000; }
+.cu-botao-principal:hover { background: #1f2937; }
+
+.cu-botao:focus-visible { outline: 2px solid #2b9be8; outline-offset: 2px; }
+
+/* Celulares estreitos: tudo em uma coluna */
+@media (max-width: 420px) {
+  .cu-campos { grid-template-columns: 1fr; }
+}

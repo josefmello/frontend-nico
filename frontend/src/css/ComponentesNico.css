@@ -1,0 +1,194 @@
+/* Componentes compartilhados das telas do Nico (CSS puro) */
+
+.nico-app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+  color: #000;
+}
+
+.nico-app *,
+.nico-app *::before,
+.nico-app *::after {
+  box-sizing: border-box;
+}
+
+/* Logo */
+.nico-logo { display: flex; align-items: center; gap: 8px; }
+.nico-logo svg { width: 40px; height: 40px; }
+.nico-logo span { font-size: 36px; font-weight: 800; letter-spacing: -1px; color: #2b9be8; }
+
+/* Topo */
+.nico-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 32px;
+  background: #d9d9d9;
+}
+
+.nico-modos { display: flex; border-radius: 8px; overflow: hidden; border: 1px solid #bbb; }
+
+.nico-modo {
+  padding: 10px 20px;
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  color: #000;
+  background: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.nico-modo-ativo { color: #fff; background: #000; }
+
+/* Corpo */
+.nico-corpo { flex: 1; display: flex; }
+
+.nico-lateral {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  width: 80px;
+  padding-top: 16px;
+  background: #3a7fc1;
+}
+
+.nico-avatar {
+  display: flex; align-items: center; justify-content: center;
+  width: 48px; height: 48px;
+  font-size: 28px;
+  background: #cfe3f5;
+  border: 3px solid #fff;
+  border-radius: 50%;
+}
+
+.nico-menu { width: 40px; height: 40px; padding: 4px; background: none; border: none; cursor: pointer; }
+.nico-menu svg { width: 100%; height: 100%; }
+
+.nico-principal {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px;
+  background: #8fb4d9;
+}
+
+.nico-cartao {
+  width: 100%;
+  max-width: 1000px;
+  padding: 28px 36px 36px;
+  background: #e0e0e0;
+  border-radius: 28px;
+}
+
+.nico-titulo { margin: 0 0 20px; font-size: 30px; font-weight: 800; text-align: center; color: #000; }
+
+/* Seções com borda arredondada */
+.nico-secao {
+  padding: 24px;
+  margin-bottom: 20px;
+  background: #d6d6d6;
+  border: 2px solid #333;
+  border-radius: 24px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.nico-midia { display: grid; grid-template-columns: 1fr 220px; gap: 24px; align-items: end; }
+.nico-midia-tres { grid-template-columns: 1.5fr 1fr 220px; }
+
+.nico-mini-titulo { display: block; margin-bottom: 6px; font-size: 13px; font-weight: 600; color: #555; text-align: center; }
+
+.nico-upload {
+  display: flex; align-items: center; justify-content: center;
+  height: 150px;
+  background: #fff;
+  border-radius: 16px;
+  cursor: pointer;
+  overflow: hidden;
+}
+.nico-upload svg { width: 72px; height: 72px; }
+.nico-upload img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.nico-upload input { display: none; }
+.nico-upload-nome { padding: 0 8px; font-size: 14px; font-weight: 600; text-align: center; word-break: break-all; }
+
+/* Visualização */
+.nico-previa { display: flex; flex-direction: column; align-items: center; }
+
+.nico-tile {
+  display: flex; flex-direction: column;
+  width: 150px; height: 150px;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+.nico-tile-imagem { flex: 1; display: flex; align-items: center; justify-content: center; min-height: 0; font-size: 64px; }
+.nico-tile-imagem img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.nico-tile-legenda { height: 32px; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 700; }
+
+/* Linhas do formulário */
+.nico-linha { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
+.nico-linha:last-child { margin-bottom: 0; }
+.nico-rotulo { width: 260px; font-size: 22px; color: #000; }
+
+.nico-entrada {
+  flex: 1;
+  padding: 6px 10px;
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 700;
+  color: #000;
+  background: #fff;
+  border: none;
+  border-radius: 4px;
+  outline: none;
+}
+.nico-entrada:focus { box-shadow: 0 0 0 2px #2b9be8; }
+.nico-entrada-erro { box-shadow: 0 0 0 2px #ef4444; }
+.nico-erro { margin: -8px 0 12px 274px; font-size: 14px; color: #dc2626; }
+
+.nico-check { width: 26px; height: 26px; accent-color: #000; cursor: pointer; }
+
+.nico-amostra { width: 24px; height: 24px; border: 1px solid #777; }
+
+.nico-roda {
+  position: relative;
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+  cursor: pointer;
+  overflow: hidden;
+}
+.nico-roda input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
+
+/* Botões */
+.nico-acoes { display: flex; justify-content: center; gap: 16px; margin-top: 8px; }
+
+.nico-botao {
+  padding: 10px 24px;
+  font-family: inherit;
+  font-size: 22px;
+  font-weight: 800;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.nico-botao-principal { color: #fff; background: #000; border: 1px solid #000; }
+.nico-botao-principal:hover { background: #1f2937; }
+.nico-botao-secundario {
+  color: #000; background: #fff; border: 1px solid #ccc;
+  text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px;
+}
+.nico-botao-secundario:hover { background: #f3f3f3; }
+
+@media (max-width: 800px) {
+  .nico-midia, .nico-midia-tres { grid-template-columns: 1fr; }
+  .nico-rotulo { width: 160px; font-size: 18px; }
+  .nico-erro { margin-left: 0; }
+}

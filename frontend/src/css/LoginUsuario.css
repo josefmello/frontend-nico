@@ -1,0 +1,247 @@
+/* Tela de Login — Nico (CSS puro, sem Tailwind) */
+
+.login-pagina {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.login-pagina *,
+.login-pagina *::before,
+.login-pagina *::after {
+  box-sizing: border-box;
+}
+
+/* Área azul */
+.login-principal {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  background: #b3e0fa;
+}
+
+/* Card branco */
+.login-card {
+  width: 100%;
+  max-width: 760px;
+  padding: 48px 56px;
+  background: #ffffff;
+  border-radius: 48px;
+}
+
+/* Logo */
+.login-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.login-logo svg {
+  width: 96px;
+  height: 96px;
+}
+
+.login-logo span {
+  font-size: 96px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -2px;
+  color: #2b9be8;
+}
+
+/* Campos */
+.login-campos {
+  width: 100%;
+  max-width: 642px;
+  margin: 40px auto 0;
+}
+
+.login-campo + .login-campo {
+  margin-top: 20px;
+}
+
+.login-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 30px;
+  font-weight: 700;
+  color: #000000;
+}
+
+.login-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 20px;
+  font-weight: 500;
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #6b7280;
+  border-radius: 8px;
+  outline: none;
+}
+
+.login-input::placeholder {
+  color: #d1d5db;
+}
+
+.login-input:focus {
+  box-shadow: 0 0 0 2px #2b9be8;
+}
+
+.login-input-erro {
+  border-color: #ef4444;
+}
+
+.login-erro {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: #dc2626;
+}
+
+/* Esqueci minha senha */
+.login-esqueci {
+  margin: 12px 0 0 4px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 16px;
+  font-weight: 500;
+  color: #9ca3af;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.login-esqueci:hover {
+  color: #4b5563;
+}
+
+/* Botões */
+.login-acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.login-botao {
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 24px;
+  font-weight: 800;
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 4px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.login-botao-secundario {
+  color: #000000;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+}
+
+.login-botao-secundario:hover {
+  background: #f9fafb;
+}
+
+.login-botao-principal {
+  color: #ffffff;
+  background: #000000;
+  border: 1px solid #000000;
+}
+
+.login-botao-principal:hover {
+  background: #1f2937;
+}
+
+.login-botao:focus-visible,
+.login-esqueci:focus-visible {
+  outline: 2px solid #2b9be8;
+  outline-offset: 2px;
+}
+
+/* Rodapé */
+.login-rodape {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 64px;
+  background: #d9d9d9;
+  border-top: 1px solid #d1d5db;
+}
+
+.login-rodape a {
+  color: #6b7280;
+}
+
+.login-rodape a:hover {
+  color: #374151;
+}
+
+.login-rodape .login-fale-conosco {
+  font-size: 14px;
+  font-weight: 500;
+  color: #000000;
+  text-decoration: none;
+}
+
+.login-rodape .login-fale-conosco:hover {
+  color: #000000;
+  text-decoration: underline;
+}
+
+.login-redes {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.login-redes svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+}
+
+/* Telas menores */
+@media (max-width: 640px) {
+  .login-card {
+    padding: 32px 24px;
+    border-radius: 32px;
+  }
+
+  .login-logo svg {
+    width: 64px;
+    height: 64px;
+  }
+
+  .login-logo span {
+    font-size: 64px;
+  }
+
+  .login-label {
+    font-size: 24px;
+  }
+
+  .login-input {
+    font-size: 18px;
+  }
+
+  .login-botao {
+    font-size: 20px;
+  }
+
+  .login-rodape {
+    padding: 16px 24px;
+  }
+}
