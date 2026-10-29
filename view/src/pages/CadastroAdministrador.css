@@ -1,29 +1,30 @@
-.cartao{
+.cartao {
     background-color: white;
     max-width: 420px;
-    margin: 48px auto;
-    padding: 32px;
+    margin: 16px auto;
+    padding: 24px;
     border-radius: 20px;
     box-shadow: 0px 8px 24px rgba(14, 58, 87, 0.12);
 }
 
-.cartao div{
+.cartao div {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
-.cartao input, .cartao select{
+.cartao input,
+.cartao select {
     width: 100%;
 }
 
-.cartao h1{
+.cartao h1 {
     font-size: 28px;
     margin-top: 0px;
 }
 
-.cartao button{
+.cartao button {
     width: 100%;
     margin-top: 8px;
 }

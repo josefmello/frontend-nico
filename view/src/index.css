@@ -20,14 +20,24 @@ body {
 }
 
 button {
-  background-color: var(--nicocean);
-  color: white;
+  background-color: var(--nicoleste);
+  color: black;
   font-family: inherit;
+  font-weight: 700;
   font-size: 18px;
   border: none;
   border-radius: 12px;
   padding: 12px 24px;
   cursor: pointer;
+}
+
+button:hover {
+  text-decoration: underline;
+}
+
+button.sair {
+  background-color: var(--nicocean);
+  color: white;
 }
 
 input, select {
@@ -43,4 +53,10 @@ input, select {
 input:focus, select:focus {
   outline: none;
   border-color: var(--nicocean);
+}
+
+.nicoLogo {
+  width: 400px;
+  display: block;
+  margin: 20px auto 8px;
 }
