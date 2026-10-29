@@ -37,6 +37,8 @@ function CadastroAdministrador() {
             })
             if (resposta.ok) {
                 alert("Administrador cadastrado com sucesso!") // deu certo :)
+            } else if (resposta.status === 409) {
+                alert("Já existe um cadastro com este e-mail e/ou telefone!") // barramento de duplicidade
             } else {
                 alert("Erro ao cadastrar administrador!") // deu errado :(
             }
