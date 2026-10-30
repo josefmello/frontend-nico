@@ -59,7 +59,7 @@ function LoginUsuario() {
                 id="email"
                 className={erros.email ? 'login-input login-input-erro' : 'login-input'}
                 type="email"
-                placeholder="Email"
+                placeholder="Digite o seu Email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
@@ -74,7 +74,7 @@ function LoginUsuario() {
                 id="senha"
                 className={erros.senha ? 'login-input login-input-erro' : 'login-input'}
                 type="password"
-                placeholder="Senha"
+                placeholder="Digite a sua Senha"
                 value={senha}
                 onChange={(e) => setSenha(e.target.value)}
               />
