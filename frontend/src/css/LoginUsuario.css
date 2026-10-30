@@ -143,105 +143,50 @@
   text-underline-offset: 4px;
   border-radius: 8px;
   cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
 }
 
+.login-botao:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(43, 155, 232, 0.35);
+}
+
+.login-botao:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+/* Criar Conta: azul bem claro -> azul médio no hover */
 .login-botao-secundario {
-  color: #000000;
-  background: #ffffff;
-  border: 1px solid #d1d5db;
+  color: #0b3a5e;
+  background: #e6f4fd;
+  border: 1px solid #b3e0fa;
 }
 
 .login-botao-secundario:hover {
-  background: #f9fafb;
+  background: #7cc4f2;
+  border-color: #7cc4f2;
 }
 
+/* Entrar: azul da logo -> azul escuro no hover */
 .login-botao-principal {
   color: #ffffff;
-  background: #000000;
-  border: 1px solid #000000;
+  background: #2b9be8;
+  border: 1px solid #2b9be8;
 }
 
 .login-botao-principal:hover {
-  background: #1f2937;
+  background: #1769aa;
+  border-color: #1769aa;
 }
 
 .login-botao:focus-visible,
 .login-esqueci:focus-visible {
   outline: 2px solid #2b9be8;
   outline-offset: 2px;
-}
-
-/* Rodapé */
-.login-rodape {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 64px;
-  background: #d9d9d9;
-  border-top: 1px solid #d1d5db;
-}
-
-.login-rodape a {
-  color: #6b7280;
-}
-
-.login-rodape a:hover {
-  color: #374151;
-}
-
-.login-rodape .login-fale-conosco {
-  font-size: 14px;
-  font-weight: 500;
-  color: #000000;
-  text-decoration: none;
-}
-
-.login-rodape .login-fale-conosco:hover {
-  color: #000000;
-  text-decoration: underline;
-}
-
-.login-redes {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-.login-redes svg {
-  display: block;
-  width: 24px;
-  height: 24px;
-}
-
-/* Telas menores */
-@media (max-width: 640px) {
-  .login-card {
-    padding: 32px 24px;
-    border-radius: 32px;
-  }
-
-  .login-logo svg {
-    width: 64px;
-    height: 64px;
-  }
-
-  .login-logo span {
-    font-size: 64px;
-  }
-
-  .login-label {
-    font-size: 24px;
-  }
-
-  .login-input {
-    font-size: 18px;
-  }
-
-  .login-botao {
-    font-size: 20px;
-  }
-
-  .login-rodape {
-    padding: 16px 24px;
-  }
 }

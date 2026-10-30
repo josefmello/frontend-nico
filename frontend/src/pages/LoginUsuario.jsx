@@ -98,37 +98,6 @@ function LoginUsuario() {
 
       </main>
 
-      <footer className="login-rodape">
-
-        <a className="login-fale-conosco" href="#fale-conosco">Fale Conosco</a>
-
-        <div className="login-redes">
-
-          <a href="#instagram" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <rect x="2" y="2" width="20" height="20" rx="5" />
-              <circle cx="12" cy="12" r="4" />
-              <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
-            </svg>
-          </a>
-
-          <a href="#linkedin" aria-label="LinkedIn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-              <rect x="2" y="2" width="20" height="20" rx="4" />
-              <path d="M8 11v6M8 7.5v.01M12 17v-6M12 13a3 3 0 0 1 6 0v4" />
-            </svg>
-          </a>
-
-          <a href="#x" aria-label="X">
-            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.451-6.231Zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77Z" />
-            </svg>
-          </a>
-
-        </div>
-
-      </footer>
-
     </div>
 
   )
