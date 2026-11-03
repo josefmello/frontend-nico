@@ -12,6 +12,7 @@
 
 .figura {
     font-size: 40px;
+    margin: 0;
 }
 
 .cartoes {
@@ -21,4 +22,11 @@
 
 .conteudo-main {
     padding: 24px;
+}
+
+.nome {
+    background-color: #ccc;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 0;
 }
