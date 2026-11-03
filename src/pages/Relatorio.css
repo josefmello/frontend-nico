@@ -6,6 +6,14 @@
     width: 210px;
 }
 
+.valor {
+    font-size: 40px;
+}
+
+.figura {
+    font-size: 40px;
+}
+
 .cartoes {
     display: flex;
     gap: 24px;
