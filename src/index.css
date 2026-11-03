@@ -60,3 +60,8 @@ input:focus, select:focus {
   display: block;
   margin: 20px auto 8px;
 }
+
+.tela-admin {
+  display: flex;
+  min-height: 100vh;
+}
