@@ -37,3 +37,10 @@
     border: 1px solid lightgrey;
     padding: 24px;
 }
+
+.periodo {
+    background-color: var(--nicolilac);
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}

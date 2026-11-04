@@ -28,6 +28,9 @@ function Relatorio() {
                 <MenuLateral />
                 <main className="conteudo-main">
                     <h1>Relatório</h1>
+                    <section className="periodo">
+                        <label>Período dos dados:<input type="date" /></label>
+                    </section>
                     <section className="cartoes">
                         {cartoes.map((cartao) => (
                             <article key={cartao.titulo} className="cartao">
