@@ -1,0 +1,24 @@
+.barra-topo {
+    display: flex;
+    background-color: var(--nicoleste);
+    padding: 5px;
+    padding-left: var(--largura-menu);
+}
+
+.modo-comunicacao, .modo-edicao {
+    background-color: white;
+    color: black;
+}
+
+.ativo {
+    background-color: black;
+    color: white;
+}
+
+.modo-comunicacao {
+    border-radius: 12px 0 0 12px;
+}
+
+.modo-edicao {
+    border-radius: 0 12px 12px 0;
+}

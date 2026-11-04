@@ -6,6 +6,8 @@
   --nicocean: #1D6FA3;
   --nicoturne: #0E3A57;
   --nicoshine: #FFC857;
+  --nicolilac: #F1ECF7;
+  --largura-menu: 290px;
 }
 
 * {
@@ -59,4 +61,9 @@ input:focus, select:focus {
   width: 400px;
   display: block;
   margin: 20px auto 8px;
+}
+
+.tela-admin {
+  display: flex;
+  min-height: 100vh;
 }
