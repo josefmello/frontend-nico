@@ -30,3 +30,10 @@
     padding: 12px;
     margin: 0;
 }
+
+.grafico {
+    margin-top: 24px;
+    background-color: white;
+    border: 1px solid lightgrey;
+    padding: 24px;
+}
