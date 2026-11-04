@@ -1,4 +1,5 @@
 import MenuLateral from "../components/MenuLateral.jsx"
+import BarraTopo from "../components/BarraTopo.jsx"
 import "./Relatorio.css"
 import { LineChart, Line, XAxis, CartesianGrid, Tooltip } from "recharts";
 const cartoes = [
@@ -21,32 +22,35 @@ const usoPorHora = [
 
 function Relatorio() {
     return (
-        <div className="tela-admin">
-            <MenuLateral />
-            <main className="conteudo-main">
-                <h1>Relatório</h1>
-                <section className="cartoes">
-                    {cartoes.map((cartao) => (
-                        <article key={cartao.titulo} className="cartao">
-                            <h2>{cartao.titulo}</h2>
-                            {cartao.valor && <p className="valor">{cartao.valor}</p>}
-                            {cartao.figura && <p className="figura">{cartao.figura}</p>}
-                            {cartao.nome && <p className="nome">{cartao.nome}</p>}
-                            <p className="legenda">{cartao.legenda}</p>
-                        </article>
-                    ))}
-                </section>
-                <section className="grafico">
-                    <h2>Gráfico de utilização de botões</h2>
-                    <p>Por dia</p>
-                    <LineChart width={900} height={300} data={usoPorHora}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                        <XAxis dataKey="hora" padding={{ left: 20, right: 20 }} />
-                        <Tooltip />
-                        <Line dataKey="botoes" stroke="#1D6FA3" />
-                    </LineChart>
-                </section>
-            </main>
+        <div>
+            <BarraTopo />
+            <div className="tela-admin">
+                <MenuLateral />
+                <main className="conteudo-main">
+                    <h1>Relatório</h1>
+                    <section className="cartoes">
+                        {cartoes.map((cartao) => (
+                            <article key={cartao.titulo} className="cartao">
+                                <h2>{cartao.titulo}</h2>
+                                {cartao.valor && <p className="valor">{cartao.valor}</p>}
+                                {cartao.figura && <p className="figura">{cartao.figura}</p>}
+                                {cartao.nome && <p className="nome">{cartao.nome}</p>}
+                                <p className="legenda">{cartao.legenda}</p>
+                            </article>
+                        ))}
+                    </section>
+                    <section className="grafico">
+                        <h2>Gráfico de utilização de botões</h2>
+                        <p>Por dia</p>
+                        <LineChart width={900} height={300} data={usoPorHora}>
+                            <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                            <XAxis dataKey="hora" padding={{ left: 20, right: 20 }} />
+                            <Tooltip />
+                            <Line dataKey="botoes" stroke="#1D6FA3" />
+                        </LineChart>
+                    </section>
+                </main>
+            </div>
         </div>
     )
 }

@@ -1,0 +1,5 @@
+.barra-topo {
+    background-color: var(--nicoleste);
+    padding: 5px;
+    padding-left: var(--largura-menu);
+}
