@@ -1,18 +1,19 @@
-import AdicionarBotao from "./pages/AdicionarBotao.jsx"
 import CadastroAdministrador from "./pages/CadastroAdministrador.jsx"
 import CadastroUsuario from "./pages/CadastroUsuario.jsx"
-import EditarCategoria from "./pages/EditarCategoria.jsx"
-import LoginUsuario from "./pages/LoginUsuario.jsx"
-import RelatorioUso from "./pages/RelatorioUso.jsx"
-import "./css/App.css"
+import EsqueciSenha from "./pages/EsqueciSenha.jsx"
+import Inicio from "./pages/Inicio.jsx"
+import Login from "./pages/Login.jsx"
+import "./App.css"
 
 const paginas = {
-  "/": { titulo: "Login", componente: LoginUsuario },
-  "/cadastro-administrador": { titulo: "Cadastro administrador", componente: CadastroAdministrador },
+  "/": { titulo: "Tela principal", componente: Inicio },
+  // Mesmo layout do administrador, já aberto na seção (a troca entre seções é por estado, dentro do Inicio)
+  "/gerenciar-botoes": { titulo: "Gerenciar Botões", componente: Inicio, props: { secaoInicial: "botoes" } },
+  "/gerenciar-categorias": { titulo: "Gerenciar Categorias", componente: Inicio, props: { secaoInicial: "categorias" } },
+  "/login": { titulo: "Login", componente: Login },
   "/cadastro-usuario": { titulo: "Cadastro usuário", componente: CadastroUsuario },
-  "/adicionar-botao": { titulo: "Adicionar botão", componente: AdicionarBotao },
-  "/editar-categoria": { titulo: "Editar categoria", componente: EditarCategoria },
-  "/relatorio-uso": { titulo: "Relatório de uso", componente: RelatorioUso },
+  "/esqueci-senha": { titulo: "Esqueci minha senha", componente: EsqueciSenha },
+  "/cadastro-administrador": { titulo: "Cadastro administrador", componente: CadastroAdministrador },
 }
 
 function App() {
@@ -33,7 +34,7 @@ function App() {
         ))}
       </nav>
       {pagina ? (
-        <pagina.componente />
+        <pagina.componente {...pagina.props} />
       ) : (
         <main className="portal-nao-encontrado">
           <h1>Página não encontrada</h1>
