@@ -1,0 +1,414 @@
+/* Formulários do Nico (Gerenciar Botões / Gerenciar Categorias).
+   Cores: SOMENTE as variáveis do design system definidas em index.css
+   (--nicoleste, --nicomist, --nicocean, --nicoturne, --nicoshine). Os tons extras abaixo
+   são derivados delas com color-mix(), nunca hex avulso. */
+
+.nico-formulario-pagina {
+  --nf-fundo-suave: color-mix(in srgb, var(--nicoleste) 22%, white);
+  --nf-fundo-forte: color-mix(in srgb, var(--nicoleste) 42%, white);
+  --nf-borda: color-mix(in srgb, var(--nicoleste) 75%, var(--nicoturne));
+  --nf-sombra: color-mix(in srgb, var(--nicoturne) 8%, transparent);
+  --nf-foco: color-mix(in srgb, var(--nicocean) 28%, transparent);
+  --nf-alerta: var(--nicoshine);
+  --nf-alerta-fundo: color-mix(in srgb, var(--nicoshine) 22%, white);
+  --nf-rotulo: 220px; /* largura da coluna dos rótulos: usada pela grade e pela mensagem de erro */
+  --nf-gap: 16px;
+
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 32px 56px;
+}
+
+.nico-formulario-pagina h1 {
+  margin: 0; /* o espaçamento vem do gap do <main> (regra global do TelaPrincipal.css) */
+  color: var(--nicoturne);
+  font-size: clamp(26px, 5vw, 34px);
+  font-weight: 800;
+  line-height: 1.15;
+}
+
+/* ---------- Seções (cards brancos) ---------- */
+
+.nico-secao {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  padding: 28px;
+  margin-bottom: 24px;
+  border-radius: 20px;
+  background: white;
+  box-shadow: 0 6px 24px var(--nf-sombra);
+}
+
+/* Mídia: foto, áudio e visualização em cards do mesmo tamanho, lado a lado (empilham no celular) */
+.nico-secao.nico-midia {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+  gap: 24px;
+  align-items: start;
+}
+
+.nico-mini-titulo {
+  display: block;
+  margin-bottom: 12px;
+  color: var(--nicoturne);
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* ---------- Dropzone (Enviar Foto / Enviar Áudio) ---------- */
+
+.nico-upload {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 200px;
+  padding: 16px;
+  overflow: hidden;
+  text-align: center;
+  color: var(--nicocean);
+  border: 2px dashed var(--nicocean);
+  border-radius: 20px;
+  background: var(--nf-fundo-suave);
+  cursor: pointer;
+  transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.nico-upload:hover {
+  background: var(--nf-fundo-forte);
+  border-color: var(--nicoturne);
+}
+
+.nico-upload:focus-within {
+  outline: 3px solid var(--nicocean);
+  outline-offset: 3px;
+}
+
+/* O input real cobre toda a área: clique, toque e arrastar-e-soltar funcionam em qualquer ponto */
+.nico-upload input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.nico-icone-upload {
+  flex: none; /* mantém o círculo perfeito mesmo em telas estreitas */
+  display: grid;
+  place-items: center;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 4px;
+  color: var(--nicocean);
+  font-size: 30px;
+  line-height: 1;
+  background: white;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px var(--nf-sombra);
+}
+
+.nico-upload-texto {
+  color: var(--nicocean);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.nico-upload-dica {
+  color: var(--nicoturne);
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.nico-upload-nome {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  color: var(--nicoturne);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Com arquivo escolhido: a imagem preenche o card e uma faixa convida a trocar */
+.nico-upload img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.nico-upload-trocar {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 6px 14px;
+  color: white;
+  font-size: 14px;
+  font-weight: 800;
+  background: var(--nicocean);
+  border-radius: 999px;
+}
+
+/* ---------- Visualização ---------- */
+
+.nico-visualizacao {
+  min-width: 0;
+}
+
+.nico-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border: 2px solid var(--nf-borda);
+  border-radius: 20px;
+}
+
+.nico-preview > img {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: cover;
+}
+
+.nico-preview > span:first-child {
+  padding: 8px;
+  font-size: 56px;
+}
+
+.nico-preview > span.nico-preview-vazio:first-child {
+  color: var(--nicoturne);
+  font-size: 15px;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.nico-preview-legenda {
+  width: 100%;
+  padding: 8px 10px;
+  overflow-wrap: anywhere;
+  text-align: center;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* ---------- Campos: rótulo e controle alinhados em grade ---------- */
+
+.nico-linha {
+  display: grid;
+  grid-template-columns: var(--nf-rotulo) minmax(0, 1fr);
+  align-items: center;
+  gap: var(--nf-gap);
+  min-height: 56px; /* todas as linhas têm a mesma altura mínima, com ou sem input */
+}
+
+.nico-rotulo {
+  color: var(--nicoturne);
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.nico-entrada {
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 18px;
+  font-size: 17px;
+  border-radius: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.nico-entrada:focus {
+  box-shadow: 0 0 0 4px var(--nf-foco);
+}
+
+/* Select com seta própria (só com as cores do tema) */
+select.nico-entrada {
+  appearance: none;
+  padding-right: 52px;
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--nicocean) 50%),
+    linear-gradient(135deg, var(--nicocean) 50%, transparent 50%);
+  background-position: calc(100% - 26px) 50%, calc(100% - 20px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* Erro: o tema não tem vermelho, então o alerta usa o amarelo da marca + ícone + texto (não depende só de cor) */
+.nico-entrada-erro,
+.nico-entrada-erro:focus {
+  border-color: var(--nf-alerta);
+  background-color: var(--nf-alerta-fundo);
+}
+
+.nico-erro {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: -12px 0 0 calc(var(--nf-rotulo) + var(--nf-gap)); /* alinhado à coluna do input */
+  padding: 8px 14px;
+  color: var(--nicoturne);
+  font-size: 15px;
+  font-weight: 700;
+  background: var(--nf-alerta-fundo);
+  border-left: 4px solid var(--nf-alerta);
+  border-radius: 8px;
+}
+
+.nico-erro::before {
+  content: "⚠";
+  color: var(--nicoturne);
+}
+
+.nico-check {
+  width: 28px;
+  height: 28px;
+  justify-self: start;
+  accent-color: var(--nicocean);
+  cursor: pointer;
+}
+
+/* ---------- Seletor de cor circular ---------- */
+
+.nico-cor-grupo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nico-cor-circulo {
+  position: relative;
+  flex: none;
+  width: 48px;
+  height: 48px;
+  border: 3px solid white;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--nicocean), 0 2px 8px var(--nf-sombra);
+  cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.nico-cor-circulo:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 0 3px var(--nicoturne), 0 4px 12px var(--nf-sombra);
+}
+
+.nico-cor-circulo:focus-within {
+  outline: 3px solid var(--nicocean);
+  outline-offset: 4px;
+}
+
+/* O seletor nativo fica invisível por cima do círculo (a cor aparece no círculo) */
+.nico-cor {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.nico-cor-valor {
+  color: var(--nicoturne);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0.8;
+}
+
+/* ---------- Ações (canto inferior direito) ---------- */
+
+.nico-acoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.nico-botao {
+  min-width: 160px;
+  min-height: 56px;
+  padding: 14px 36px;
+  font-size: 18px;
+  border: 2px solid transparent;
+  border-radius: 14px;
+  transition: box-shadow 0.2s, background-color 0.2s;
+}
+
+.nico-botao:focus-visible {
+  outline: 3px solid var(--nicocean);
+  outline-offset: 3px;
+}
+
+.nico-botao-principal {
+  background: var(--nicocean);
+  color: white;
+}
+
+.nico-botao-principal:hover {
+  background: var(--nicoturne);
+  box-shadow: 0 6px 16px var(--nf-sombra);
+}
+
+.nico-botao-secundario {
+  color: var(--nicocean);
+  background: white;
+  border-color: var(--nicocean);
+}
+
+.nico-botao-secundario:hover {
+  background: var(--nf-fundo-suave);
+}
+
+/* ---------- Responsivo ---------- */
+
+@media (max-width: 700px) {
+  .nico-formulario-pagina {
+    padding: 20px 16px 40px;
+  }
+
+  .nico-secao {
+    padding: 20px 16px;
+    gap: 20px;
+  }
+
+  .nico-secao.nico-midia {
+    gap: 20px;
+  }
+
+  .nico-linha {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    min-height: 0;
+  }
+
+  .nico-erro {
+    margin-left: 0;
+  }
+
+  /* Celular: botões em largura total, ação principal primeiro */
+  .nico-acoes {
+    flex-direction: column;
+  }
+
+  .nico-botao {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nico-formulario-pagina * {
+    transition: none !important;
+  }
+}

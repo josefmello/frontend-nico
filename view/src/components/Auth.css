@@ -1,0 +1,300 @@
+/* Design system das telas de acesso do Nico.
+   Usa as variáveis globais de index.css: --nicoleste, --nicomist, --nicocean, --nicoturne, --nicoshine.
+   Todas as classes têm prefixo "auth-" para não colidir com estilos globais (ex.: .cartao). */
+
+.auth-pagina {
+  --auth-erro: #b3261e;
+  --auth-erro-fundo: #fdf3f2;
+  --auth-aviso-fundo: color-mix(in srgb, var(--nicoshine) 22%, white);
+  --auth-sombra: 0 8px 24px rgba(14, 58, 87, 0.12);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: none; /* neutraliza o "main { max-width: 900px }" global do TelaPrincipal.css */
+  margin: 0;
+  min-height: 100dvh;
+  padding: clamp(12px, 3vw, 32px) 16px 48px;
+  background-color: var(--nicomist);
+}
+
+/* A logo vive dentro do card: acompanha a largura dele e nunca estoura no celular */
+.auth-logo {
+  display: block;
+  width: min(280px, 100%);
+  height: auto;
+  margin: 0 auto 16px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  padding: clamp(20px, 5vw, 36px);
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: var(--auth-sombra);
+}
+
+.auth-card--largo {
+  max-width: 640px;
+}
+
+.auth-titulo {
+  margin: 0 0 4px;
+  font-size: clamp(24px, 5vw, 30px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--nicoturne);
+  text-align: center;
+}
+
+.auth-titulo:focus {
+  outline: none; /* foco programático (leitor de tela), não é um controle */
+}
+
+.auth-subtitulo {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.45;
+  text-align: center;
+  color: var(--nicoturne);
+  opacity: 0.85;
+}
+
+/* ---------- Campos ---------- */
+
+.auth-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.auth-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--nicoturne);
+}
+
+.auth-opcional {
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.auth-input {
+  width: 100%;
+  min-height: 48px; /* alvo de toque confortável */
+  font-size: 16px;  /* evita zoom automático no iOS */
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.auth-input:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nicocean) 25%, transparent);
+}
+
+textarea.auth-input:focus {
+  border-color: var(--nicocean);
+}
+
+.auth-input::placeholder {
+  color: color-mix(in srgb, var(--nicoturne) 45%, white);
+}
+
+/* O index.css estiliza só input/select; o textarea recebe o mesmo visual aqui */
+textarea.auth-input {
+  font-family: inherit;
+  color: var(--nicoturne);
+  background-color: #fff;
+  border: 2px solid var(--nicoleste);
+  border-radius: 10px;
+  padding: 10px 14px;
+  outline: none;
+  min-height: 96px;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.auth-input--erro {
+  border-color: var(--auth-erro);
+  background-color: var(--auth-erro-fundo);
+}
+
+.auth-input--erro:focus {
+  border-color: var(--auth-erro);
+  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.2);
+}
+
+/* Alerta suave (ex.: senhas diferentes) usa o amarelo da marca */
+.auth-input--aviso,
+.auth-input--aviso:focus {
+  border-color: var(--nicoshine);
+  background-color: var(--auth-aviso-fundo);
+}
+
+.auth-input--aviso:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nicoshine) 40%, transparent);
+}
+
+.auth-dica,
+.auth-msg {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.auth-dica {
+  color: var(--nicoturne);
+  opacity: 0.75;
+}
+
+.auth-msg--erro {
+  color: var(--auth-erro);
+  font-weight: 600;
+}
+
+.auth-msg--aviso {
+  padding: 6px 10px;
+  color: var(--nicoturne);
+  background-color: var(--auth-aviso-fundo);
+  border-left: 4px solid var(--nicoshine);
+  border-radius: 6px;
+}
+
+.auth-msg--ok {
+  color: var(--nicocean);
+  font-weight: 600;
+}
+
+/* Agrupamento de campos (fieldset/legend) */
+.auth-grupo {
+  min-width: 0;
+  margin: 0 0 8px;
+  padding: 0;
+  border: none;
+}
+
+.auth-grupo > legend {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 0 0 6px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--nicocean);
+  border-bottom: 2px solid var(--nicoleste);
+}
+
+/* ---------- Senha com botão mostrar/ocultar ---------- */
+
+.auth-senha {
+  position: relative;
+}
+
+.auth-senha .auth-input {
+  padding-right: 92px;
+}
+
+.auth-mostrar {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  min-width: 44px;
+  min-height: 36px;
+  padding: 4px 10px;
+  font-size: 14px;
+  color: var(--nicocean);
+  background: transparent;
+  border-radius: 8px;
+}
+
+.auth-mostrar:hover {
+  background-color: var(--nicomist);
+}
+
+/* ---------- Botões (servem para <button> e <a>) ---------- */
+
+.auth-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.auth-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 24px;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.auth-btn:hover {
+  text-decoration: underline;
+}
+
+.auth-btn:focus-visible,
+.auth-link:focus-visible,
+.auth-mostrar:focus-visible {
+  outline: 3px solid var(--nicocean);
+  outline-offset: 2px;
+}
+
+/* Ação principal: segue o botão padrão da identidade (nicoleste) */
+.auth-btn--primario {
+  color: var(--nicoturne);
+  background-color: var(--nicoleste);
+}
+
+.auth-btn--primario:hover {
+  box-shadow: 0 6px 16px rgba(29, 111, 163, 0.3);
+}
+
+/* Ação secundária: contorno azul, mesma família do botão "sair" */
+.auth-btn--secundario {
+  color: var(--nicocean);
+  background-color: #fff;
+  border-color: var(--nicocean);
+}
+
+.auth-btn--secundario:hover {
+  background-color: var(--nicomist);
+}
+
+.auth-link {
+  color: var(--nicocean);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+.auth-link:hover {
+  color: var(--nicoturne);
+}
+
+@media (min-width: 560px) {
+  .auth-acoes--linha {
+    flex-direction: row-reverse; /* principal à direita, "Voltar" à esquerda */
+  }
+
+  .auth-acoes--linha .auth-btn {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-pagina * {
+    transition: none !important;
+  }
+}
