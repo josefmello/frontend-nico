@@ -1,0 +1,74 @@
+.botao-prancha {
+  width: 140px;
+  height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: white;
+  color: var(--nicoturne);
+  border: 3px solid var(--nicoleste);
+}
+
+.botao-prancha span:first-child {
+  font-size: 56px;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+section h2 {
+  width: 100%;
+  margin: 0;
+}
+
+.tira {
+  width: 100%;
+  min-height: 80px;
+  background-color: white;
+  border: 3px dashed var(--nicoleste);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.tira-vazia {
+  margin: 0;
+  color: var(--nicocean);
+}
+
+.tira {
+  width: 100%;
+  min-height: 80px;
+  background-color: white;
+  border: 3px dashed var(--nicoleste);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.tira-vazia {
+  margin: 0;
+  color: var(--nicocean);
+}
