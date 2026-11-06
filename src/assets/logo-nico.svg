@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 120" role="img" aria-label="Nico — Comunicador Aumentativo Alternativo">
+  <title>Nico — Comunicador Aumentativo Alternativo</title>
+  <!-- Balão de fala -->
+  <g>
+    <path d="M60 12
+             C 90 12, 110 32, 110 56
+             C 110 80, 90 98, 60 98
+             C 52 98, 44 96.5, 37 93.5
+             L 18 105
+             L 23 84
+             C 14 76, 10 67, 10 56
+             C 10 32, 30 12, 60 12 Z"
+          fill="#BDE3F7" stroke="#2D9CDB" stroke-width="7" stroke-linejoin="round"/>
+    <!-- Olhos -->
+    <circle cx="44" cy="48" r="6.5" fill="#1B75BB"/>
+    <circle cx="76" cy="48" r="6.5" fill="#1B75BB"/>
+    <!-- Sorriso -->
+    <path d="M40 64 Q 60 82 80 64" fill="none" stroke="#1B75BB" stroke-width="7" stroke-linecap="round"/>
+  </g>
+  <!-- Wordmark -->
+  <text x="130" y="68"
+        font-family="Nunito, 'Segoe UI', system-ui, sans-serif"
+        font-size="58" font-weight="800" letter-spacing="1"
+        fill="#2D9CDB">nico</text>
+  <!-- Subtítulo -->
+  <text x="132" y="94"
+        font-family="Nunito, 'Segoe UI', system-ui, sans-serif"
+        font-size="15.5" font-weight="600" letter-spacing="0.4"
+        fill="#1B75BB">Comunicador Aumentativo Alternativo</text>
+</svg>

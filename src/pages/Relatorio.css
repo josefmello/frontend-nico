@@ -1,0 +1,46 @@
+.cartao {
+    background-color: white;
+    border: 1px solid;
+    border-radius: 20px;
+    padding: 24px;
+    width: 210px;
+}
+
+.valor {
+    font-size: 40px;
+}
+
+.figura {
+    font-size: 40px;
+    margin: 0;
+}
+
+.cartoes {
+    display: flex;
+    gap: 24px;
+}
+
+.conteudo-main {
+    padding: 24px;
+}
+
+.nome {
+    background-color: #ccc;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 0;
+}
+
+.grafico {
+    margin-top: 24px;
+    background-color: white;
+    border: 1px solid lightgrey;
+    padding: 24px;
+}
+
+.periodo {
+    background-color: var(--nicolilac);
+    padding: 24px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+}
