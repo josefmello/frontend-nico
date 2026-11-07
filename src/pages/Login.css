@@ -30,3 +30,57 @@
   background-color: var(--nicoleste);
   border-radius: 2px;
 }
+/* Garante que a página ocupará a tela inteira e centralizará o conteúdo */
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+/* Centraliza o container principal do layout de autenticação (AuthLayout) */
+/* (Caso a classe do layout seja diferente, esta regra pega elementos comuns de container) */
+div[class*="layout"], .auth-layout, main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* Estilização e responsividade do Cartão de Login */
+.cartao {
+  width: 100%;
+  max-width: 440px; /* Largura máxima ideal para desktop */
+  padding: 32px;
+  background-color: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+  margin: auto; /* Garante centralização extra se necessário */
+}
+
+/* Responsividade para Dispositivos Móveis (Celulares) */
+@media (max-width: 480px) {
+  div[class*="layout"], .auth-layout, main {
+    padding: 12px; /* Reduz as margens laterais em telas pequenas */
+    align-items: center; /* Mantém centralizado verticalmente ou flexível */
+  }
+
+  .cartao {
+    padding: 20px 16px; /* Reduz o espaçamento interno do cartão no celular */
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.auth-card, .auth-container, div[class*="layout"] > div {
+  padding-top: 34px !important;
+}
+
+.auth-card h1, .auth-layout h1, h1 {
+  font-size: 56px !important; 
+}
+
