@@ -6,6 +6,7 @@ import { LayoutNico } from "../components"
 import TelaPrincipal from "./TelaPrincipal.jsx"
 import AdicionarBotao from "./AdicionarBotão.jsx"
 import EditarCategoria from "./EditarCategoria.jsx"
+import Relatorio from "./Relatorio.jsx"
 
 // Seções que ainda não têm tela própria: mostram um aviso simples no lugar certo do layout.
 function EmBreve({ titulo }) {
@@ -22,16 +23,12 @@ function EditarPerfil() {
   return <EmBreve titulo="Editar Perfil" />
 }
 
-function Relatorios() {
-  return <EmBreve titulo="Relatórios" />
-}
-
 // id do item do MenuLateral -> componente exibido na área de conteúdo
 const SECOES = {
   perfil: EditarPerfil,
   botoes: AdicionarBotao,
   categorias: EditarCategoria,
-  relatorios: Relatorios,
+  relatorios: Relatorio,
 }
 
 /**

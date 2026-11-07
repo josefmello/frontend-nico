@@ -1,5 +1,3 @@
-import MenuLateral from "../components/MenuLateral.jsx"
-import BarraTopo from "../components/BarraTopo.jsx"
 import "./Relatorio.css"
 import { LineChart, Line, XAxis, CartesianGrid, Tooltip } from "recharts";
 const cartoes = [
@@ -22,10 +20,6 @@ const usoPorHora = [
 
 function Relatorio() {
     return (
-        <div>
-            <BarraTopo />
-            <div className="tela-admin">
-                <MenuLateral />
                 <main className="conteudo-main">
                     <h1>Relatório</h1>
                     <section className="periodo">
@@ -53,8 +47,6 @@ function Relatorio() {
                         </LineChart>
                     </section>
                 </main>
-            </div>
-        </div>
     )
 }
 export default Relatorio
