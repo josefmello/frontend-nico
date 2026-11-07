@@ -1,16 +1,22 @@
 import { useState } from "react"
+import { useNavigate, Link } from "react-router-dom"
 import "./Login.css"
 import AuthLayout from "../components/AuthLayout.jsx"
 import Campo from "../components/Campo.jsx"
 import CampoSenha from "../components/CampoSenha.jsx"
 import { validarEmail } from "../utils/validacao.js"
+import { realizarLogin } from "../service/Auth.js"
 
 function Login() {
   const [email, setEmail] = useState("")
   const [senha, setSenha] = useState("")
   const [tocados, setTocados] = useState({})
 
-  // Erros derivados do estado: só aparecem depois que o campo foi "tocado" (blur ou envio)
+  const [erroApi, setErroApi] = useState("")
+  const [carregando, setCarregando] = useState(false)
+
+  const navigate = useNavigate()
+
   const erros = {
     email: validarEmail(email),
     senha: senha ? "" : "Digite sua senha.",
@@ -18,9 +24,10 @@ function Login() {
   const visivel = (campo) => (tocados[campo] ? erros[campo] : "")
   const tocar = (campo) => setTocados((t) => (t[campo] ? t : { ...t, [campo]: true }))
 
-  const entrar = (e) => {
+  const entrar = async (e) => {
     e.preventDefault()
     setTocados({ email: true, senha: true })
+    setErroApi("")
 
     const primeiroInvalido = ["email", "senha"].find((campo) => erros[campo])
     if (primeiroInvalido) {
@@ -28,12 +35,38 @@ function Login() {
       return
     }
 
-    // TODO: integrar com a API de autenticação quando o backend estiver pronto.
+    try {
+      setCarregando(true)
+
+      const dados = await realizarLogin(email, senha)
+
+      localStorage.setItem('token', dados.token)
+
+      // Redireciona o usuário para a tela de relatório após o sucesso
+      navigate("/relatorio")
+
+    } catch (erro) {
+      console.error("Erro no login:", erro)
+      
+      // Tratamento personalizado de erros da API
+      if (erro.response && erro.response.data && erro.response.data.message) {
+        setErroApi(erro.response.data.message)
+      } else if (erro.response && [401, 403, 404].includes(erro.response.status)) {
+        setErroApi("E-mail ou senha incorretos. Tente novamente ou clique em Esqueci minha senha")
+      } else {
+        setErroApi("Não foi possível conectar ao servidor. Tente novamente mais tarde.")
+      }
+    } finally {
+      setCarregando(false)
+    }
   }
 
   return (
     <AuthLayout titulo="Entrar" subtitulo="Que bom ver você de novo! Entre para continuar.">
       <form onSubmit={entrar} noValidate>
+
+        {erroApi && <div className="mensagem-erro-api" style={{ color: 'red', marginBottom: '15px' }}>{erroApi}</div>}
+
         <Campo id="email" label="E-mail" erro={visivel("email")}>
           {(a11y) => (
             <input
@@ -60,23 +93,23 @@ function Login() {
         />
 
         <div className="login-extras">
-          <a className="auth-link" href="/esqueci-senha">
+          <Link className="auth-link" to="/esqueci-senha">
             Esqueci minha senha
-          </a>
+          </Link>
         </div>
 
         <div className="auth-acoes">
-          <button type="submit" className="auth-btn auth-btn--primario">
-            Entrar
+          <button type="submit" className="auth-btn auth-btn--primario" disabled={carregando}>
+            {carregando ? "Entrando..." : "Entrar"}
           </button>
 
           <p className="login-divisor">
             <span>ainda não tem conta?</span>
           </p>
 
-          <a className="auth-btn auth-btn--secundario" href="/cadastro-usuario">
+          <Link className="auth-btn auth-btn--secundario" to="/cadastroadm">
             Criar conta
-          </a>
+          </Link>
         </div>
       </form>
     </AuthLayout>

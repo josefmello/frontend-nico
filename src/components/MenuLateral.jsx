@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
 import "./MenuLateral.css"
-import nicoLogo from "../../view/src/assets/logo-nico.svg"
+import nicoLogo from "../assets/logo-nico.svg"
 
 // `id` é a chave da seção no layout (Inicio.jsx). `emBreve`: só o botão existe, sem tela por enquanto.
 const ITENS = [
