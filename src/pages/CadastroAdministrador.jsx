@@ -1,6 +1,8 @@
 import { useState } from "react"
+import { useNavigate } from "react-router-dom"
 import "./CadastroAdministrador.css"
 import nicoLogo from "../assets/logo-nico.svg"
+import { registarAdministrador } from "../service/Administrador.js"
 
 function CadastroAdministrador() {
     const [nome, setNome] = useState('')
@@ -12,6 +14,9 @@ function CadastroAdministrador() {
     const [csenha, setCSenha] = useState('')
     const [pin, setPin] = useState('')
     const [cpin, setCPin] = useState('')
+
+    const [carregando, setCarregando] = useState(false)
+    const navigate = useNavigate()
 
     const cadastrar = async (e) => {
         e.preventDefault()
@@ -27,25 +32,27 @@ function CadastroAdministrador() {
 
         const administrador = { nome, email, telefone: tel, dataNasc, sexo, senha, pin: Number(pin) }
 
-        try {
-            const resposta = await fetch("/api/administradores", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(administrador)
-            })
-            if (resposta.ok) {
-                alert("Administrador cadastrado com sucesso!") // deu certo :)
-            } else if (resposta.status === 409) {
-                alert("Já existe um cadastro com este e-mail e/ou telefone!") // barramento de duplicidade
-            } else {
-                alert("Erro ao cadastrar administrador!") // deu errado :(
-            }
 
-        }
-        catch (erro) {
-            alert("Não foi possível conectar-se ao servidor. Tente novamente mais tarde.")
+        try {
+            setCarregando(true)
+            
+            await registarAdministrador(administrador)
+            
+            alert("Administrador cadastrado com sucesso!")
+            
+    
+            navigate("/") 
+            
+        } catch (erro) {
+           
+            if (erro.response && erro.response.status === 409) {
+                alert("Já existe um cadastro com este e-mail e/ou telefone!") 
+            } else {
+                console.error("Erro no registo:", erro)
+                alert("Erro ao cadastrar administrador. Tente novamente.") 
+            }
+        } finally {
+            setCarregando(false)
         }
     }
 
