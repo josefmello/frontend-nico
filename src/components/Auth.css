@@ -3,7 +3,7 @@
    Todas as classes têm prefixo "auth-" para não colidir com estilos globais (ex.: .cartao). */
 
 .auth-pagina {
-  --auth-erro: #b3261e;
+  --auth-erro: #d62219;
   --auth-erro-fundo: #fdf3f2;
   --auth-aviso-fundo: color-mix(in srgb, var(--nicoshine) 22%, white);
   --auth-sombra: 0 8px 24px rgba(14, 58, 87, 0.12);
@@ -22,9 +22,9 @@
 /* A logo vive dentro do card: acompanha a largura dele e nunca estoura no celular */
 .auth-logo {
   display: block;
-  width: min(280px, 100%);
+  width: min(480px, 100%);
   height: auto;
-  margin: 0 auto 16px;
+  margin: 0 auto 40px;
 }
 
 .auth-card {
@@ -166,7 +166,6 @@ textarea.auth-input {
   font-weight: 600;
 }
 
-/* Agrupamento de campos (fieldset/legend) */
 .auth-grupo {
   min-width: 0;
   margin: 0 0 8px;
@@ -186,7 +185,6 @@ textarea.auth-input {
   border-bottom: 2px solid var(--nicoleste);
 }
 
-/* ---------- Senha com botão mostrar/ocultar ---------- */
 
 .auth-senha {
   position: relative;
@@ -213,8 +211,6 @@ textarea.auth-input {
 .auth-mostrar:hover {
   background-color: var(--nicomist);
 }
-
-/* ---------- Botões (servem para <button> e <a>) ---------- */
 
 .auth-acoes {
   display: flex;
@@ -252,7 +248,6 @@ textarea.auth-input {
   outline-offset: 2px;
 }
 
-/* Ação principal: segue o botão padrão da identidade (nicoleste) */
 .auth-btn--primario {
   color: var(--nicoturne);
   background-color: var(--nicoleste);
@@ -262,7 +257,7 @@ textarea.auth-input {
   box-shadow: 0 6px 16px rgba(29, 111, 163, 0.3);
 }
 
-/* Ação secundária: contorno azul, mesma família do botão "sair" */
+
 .auth-btn--secundario {
   color: var(--nicocean);
   background-color: #fff;
@@ -285,7 +280,7 @@ textarea.auth-input {
 
 @media (min-width: 560px) {
   .auth-acoes--linha {
-    flex-direction: row-reverse; /* principal à direita, "Voltar" à esquerda */
+    flex-direction: row-reverse; 
   }
 
   .auth-acoes--linha .auth-btn {
@@ -298,3 +293,93 @@ textarea.auth-input {
     transition: none !important;
   }
 }
+
+.auth-card, .auth-container, div[class*="layout"] > div {
+  width: 100%;
+  max-width: 640px; 
+  padding: 100px 30px; 
+  box-sizing: border-box;
+}
+/* Garante que apenas o container do CampoSenha fica relativo */
+div:has(> input[type="password"]), 
+div:has(> input[id*="senha"]) {
+  position: relative !important;
+}
+
+/* Afasta o texto digitado para a esquerda para não bater no botão */
+input[type="password"],
+input[type="text"][id*="senha"] {
+  padding-right: 70px !important;
+  box-sizing: border-box !important;
+}
+
+/* Posiciona EXCLUSIVAMENTE o botão de mostrar/ocultar senha no canto direito do input */
+div:has(> input[type="password"]) > button[type="button"],
+div:has(> input[id*="senha"]) > button[type="button"] {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: transparent !important;
+  border: none !important;
+  color: #0e3a57 !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  padding: 4px 8px !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+
+div:has(> input[type="password"]) > button[type="button"]:hover,
+div:has(> input[id*="senha"]) > button[type="button"]:hover {
+  opacity: 0.7 !important;
+}
+
+/* 1. Remove a altura fixa forçada para as caixas voltarem ao tamanho normal */
+.cartao input,
+.cartao select,
+.campo-senha input,
+input[type="password"],
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"] {
+  height: auto !important;
+  padding: 10px 14px !important;
+}
+
+/* Garante espaço apenas nos campos de senha */
+.campo-senha input,
+input[type="password"] {
+  padding-right: 65px !important;
+}
+
+/* 2. Centraliza o botão "Mostrar / Ocultar" perfeitamente no meio exato da altura */
+div:has(> input[type="password"]),
+.campo-senha {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  margin-bottom: 12px !important; /* Controla a distância certinha entre os campos */
+}
+
+div:has(> input[type="password"]) > button[type="button"],
+.campo-senha button,
+button.btn-mostrar-senha {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important; /* Centraliza 100% no meio vertical */
+  background: transparent !important;
+  border: none !important;
+  color: #0e3a57 !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: normal !important;
+  box-shadow: none !important;
+}
+

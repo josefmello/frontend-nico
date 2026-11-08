@@ -2,45 +2,41 @@ import { useRef, useState } from "react"
 import "./CadastroUsuario.css"
 import AuthLayout from "../components/AuthLayout.jsx"
 import Campo from "../components/Campo.jsx"
-import CampoSenha from "../components/CampoSenha.jsx"
-import { validarEmail } from "../utils/validacao.js"
+import { registarUsuario } from "../service/Usuario.js"
 
 const LIMITE_BIOGRAFIA = 500
-const MIN_SENHA = 8
 
 function CadastroUsuario() {
   const [nome, setNome] = useState("")
   const [sexo, setSexo] = useState("")
-  const [dataNasc, setDataNasc] = useState("")
+  const [dataNascAut, setDataNascAut] = useState("")
   const [nivelAutismo, setNivelAutismo] = useState("")
+  const [voz, setVoz] = useState("") // Estado para o Tipo de voz
   const [biografia, setBiografia] = useState("")
-  const [email, setEmail] = useState("")
-  const [senha, setSenha] = useState("")
-  const [confirmar, setConfirmar] = useState("")
   const [tocados, setTocados] = useState({})
+  
   const [sucesso, setSucesso] = useState(false)
+  const [carregando, setCarregando] = useState(false)
+  
   const formRef = useRef(null)
 
   const hoje = new Date().toISOString().split("T")[0]
-  const senhasDiferentes = confirmar !== "" && senha !== confirmar
 
-  // Erros que bloqueiam o envio (derivados do estado)
+  // Erros que bloqueiam o envio
   const erros = {
     nome: nome.trim() ? "" : "Informe o nome.",
     sexo: sexo ? "" : "Selecione o sexo.",
-    dataNasc: !dataNasc
+    dataNascAut: !dataNascAut
       ? "Informe a data de nascimento."
-      : dataNasc > hoje
+      : dataNascAut > hoje
         ? "A data não pode ser no futuro."
-        : dataNasc < "1900-01-01"
+        : dataNascAut < "1900-01-01"
           ? "Confira o ano de nascimento."
           : "",
+    voz: voz !== "" ? "" : "Selecione o tipo de voz.",
     nivelAutismo: nivelAutismo ? "" : "Selecione o nível.",
-    email: validarEmail(email),
-    senha: !senha ? "Crie uma senha." : senha.length < MIN_SENHA ? `Use pelo menos ${MIN_SENHA} caracteres.` : "",
-    confirmar: !confirmar ? "Repita a senha para confirmar." : "",
   }
-  const ordem = ["nome", "dataNasc", "sexo", "nivelAutismo", "email", "senha", "confirmar"]
+  const ordem = ["nome", "dataNascAut", "sexo", "voz", "nivelAutismo"]
 
   const visivel = (campo) => (tocados[campo] ? erros[campo] : "")
   const tocar = (campo) => setTocados((t) => (t[campo] ? t : { ...t, [campo]: true }))
@@ -49,32 +45,48 @@ function CadastroUsuario() {
     setter(e.target.value)
   }
 
-  const cadastrar = (e) => {
+  const cadastrar = async (e) => {
     e.preventDefault()
     setTocados(Object.fromEntries(ordem.map((campo) => [campo, true])))
 
-    const invalido = ordem.find((campo) => erros[campo]) || (senhasDiferentes && "confirmar")
+    const invalido = ordem.find((campo) => erros[campo])
     if (invalido) {
       setSucesso(false)
       document.getElementById(invalido)?.focus()
       return
     }
 
-    // TODO: enviar para a API. Nunca registrar a senha em log.
+    // Objeto formatado incluindo a biografia e a conversão de "voz" para booleano
     const usuario = {
       nome: nome.trim(),
       sexo,
-      dataNasc,
-      nivelAutismo: Number(nivelAutismo),
-      biografia: biografia.trim(),
-      email: email.trim(),
+      nivelAutismo: `Nivel ${nivelAutismo}`,
+      dataNascAut,
+      voz: voz === "true", // Converte string "true" para boolean true e "false" para boolean false
+      biografia: biografia.trim() // Incluído para não faltar no payload
     }
-    console.log(usuario)
-    setSucesso(true)
-    formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+    
+    try {
+      setCarregando(true)
+      
+      await registarUsuario(usuario) 
+      
+      setSucesso(true)
+      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+      
+      // Opcional: Redirecionar para o comunicador após alguns segundos de sucesso
+      setTimeout(() => {
+        // navigate("/comunicador")
+      }, 1500)
+      
+    } catch (erro) {
+      console.error("Erro no registo do usuário:", erro)
+      alert("Erro ao cadastrar usuário. Verifique os dados e tente novamente.")
+      setSucesso(false)
+    } finally {
+      setCarregando(false)
+    }
   }
-
-  const senhasIguais = senha !== "" && confirmar !== "" && senha === confirmar
 
   return (
     <AuthLayout
@@ -85,11 +97,11 @@ function CadastroUsuario() {
       <form ref={formRef} onSubmit={cadastrar} noValidate>
         {sucesso && (
           <p className="cu-sucesso" role="status">
-            ✓ Tudo certo! Os dados foram conferidos.
+            ✓ Tudo certo! Usuário cadastrado com sucesso.
           </p>
         )}
 
-        <fieldset className="auth-grupo">
+        <fieldset className="auth-grupo" disabled={carregando}>
           <legend>Sobre o usuário</legend>
 
           <div className="cu-grade">
@@ -109,31 +121,44 @@ function CadastroUsuario() {
               </Campo>
             </div>
 
-            <Campo id="dataNasc" label="Data de nascimento" erro={visivel("dataNasc")}>
+            <Campo id="dataNascAut" label="Data de nascimento" erro={visivel("dataNascAut")}>
               {(a11y) => (
                 <input
                   {...a11y}
                   type="date"
                   min="1900-01-01"
                   max={hoje}
-                  value={dataNasc}
-                  onChange={editar(setDataNasc)}
-                  onBlur={() => tocar("dataNasc")}
+                  value={dataNascAut}
+                  onChange={editar(setDataNascAut)}
+                  onBlur={() => tocar("dataNascAut")}
                 />
               )}
             </Campo>
 
-              <div className="cu-inteira">
-            <Campo id="sexo" label="Sexo" erro={visivel("sexo")}>
-              {(a11y) => (
-                <select {...a11y} value={sexo} onChange={editar(setSexo)} onBlur={() => tocar("sexo")}>
-                  <option value="">Selecione</option>
-                  <option value="masculino">Masculino</option>
-                  <option value="feminino">Feminino</option>
-                  <option value="outro">Outro(a)</option>
-                </select>
-              )}
-            </Campo>
+            <div className="cu-inteira">
+              <Campo id="sexo" label="Sexo" erro={visivel("sexo")}>
+                {(a11y) => (
+                  <select {...a11y} value={sexo} onChange={editar(setSexo)} onBlur={() => tocar("sexo")}>
+                    <option value="">Selecione</option>
+                    <option value="Masculino">Masculino</option>
+                    <option value="Feminino">Feminino</option>
+                    <option value="Outro">Outro(a)</option>
+                  </select>
+                )}
+              </Campo>
+            </div>
+
+            {/* Novo campo: Tipo de voz */}
+            <div className="cu-inteira">
+              <Campo id="voz" label="Tipo de voz" erro={visivel("voz")}>
+                {(a11y) => (
+                  <select {...a11y} value={voz} onChange={editar(setVoz)} onBlur={() => tocar("voz")}>
+                    <option value="">Selecione</option>
+                    <option value="true">Voz Masculina</option>
+                    <option value="false">Voz Feminina</option>
+                  </select>
+                )}
+              </Campo>
             </div>
 
             <div className="cu-inteira">
@@ -174,59 +199,10 @@ function CadastroUsuario() {
           </div>
         </fieldset>
 
-        <fieldset className="auth-grupo">
-          <legend>Dados de acesso</legend>
-
-          <div className="cu-grade">
-            <div className="cu-inteira">
-              <Campo id="email" label="E-mail" erro={visivel("email")}>
-                {(a11y) => (
-                  <input
-                    {...a11y}
-                    type="email"
-                    inputMode="email"
-                    autoComplete="email"
-                    placeholder="nome@email.com"
-                    value={email}
-                    onChange={editar(setEmail)}
-                    onBlur={() => tocar("email")}
-                  />
-                )}
-              </Campo>
-            </div>
-
-            <CampoSenha
-              id="senha"
-              label="Senha"
-              autoComplete="new-password"
-              dica={`Mínimo de ${MIN_SENHA} caracteres.`}
-              value={senha}
-              onChange={editar(setSenha)}
-              onBlur={() => tocar("senha")}
-              erro={visivel("senha")}
-            />
-
-            <CampoSenha
-              id="confirmar"
-              label="Confirmar senha"
-              autoComplete="new-password"
-              value={confirmar}
-              onChange={editar(setConfirmar)}
-              onBlur={() => tocar("confirmar")}
-              erro={visivel("confirmar")}
-              aviso={senhasDiferentes ? "As senhas ainda não são iguais." : ""}
-              ok={senhasIguais ? "As senhas coincidem." : ""}
-            />
-          </div>
-        </fieldset>
-
         <div className="auth-acoes auth-acoes--linha">
-          <button type="submit" className="auth-btn auth-btn--primario">
-            Registrar
+          <button type="submit" className="auth-btn auth-btn--primario" disabled={carregando}>
+            {carregando ? "Registrando..." : "Registrar"}
           </button>
-          <a className="auth-btn auth-btn--secundario" href="/login">
-            Voltar ao Login
-          </a>
         </div>
        
       </form>
