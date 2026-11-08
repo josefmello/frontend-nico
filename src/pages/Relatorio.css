@@ -3,7 +3,6 @@
     border: 1px solid;
     border-radius: 20px;
     padding: 24px;
-    width: 210px;
 }
 
 .valor {
@@ -16,7 +15,8 @@
 }
 
 .cartoes {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
     gap: 24px;
 }
 
