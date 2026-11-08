@@ -6,6 +6,8 @@ import Campo from "../components/Campo.jsx"
 import CampoSenha from "../components/CampoSenha.jsx"
 import { validarEmail } from "../utils/validacao.js"
 import { realizarLogin } from "../service/Auth.js"
+// IMPORTANTE: Importe a função que vai buscar os usuários (vamos criá-la no seu service)
+import { buscarMeusUsuarios } from "../service/Usuario.js" 
 
 function Login() {
   const [email, setEmail] = useState("")
@@ -38,17 +40,29 @@ function Login() {
     try {
       setCarregando(true)
 
+      // 1. Faz o login e guarda o token
       const dados = await realizarLogin(email, senha)
-
       localStorage.setItem('token', dados.token)
 
-      // Redireciona o usuário para a tela de relatório após o sucesso
-      navigate("/relatorio")
+      // 2. Busca os usuários associados a este administrador logado
+      try {
+        const meusUsuarios = await buscarMeusUsuarios()
+        
+        // 3. Valida e Redireciona
+        if (meusUsuarios && meusUsuarios.length > 0) {
+          navigate("/comunicador") // Já tem usuário, vai para o comunicador (ou /relatorio)
+        } else {
+          navigate("/cadastro-usuario") // Não tem usuário, vai obrigatoriamente cadastrar
+        }
+      } catch (erroBusca) {
+        console.error("Erro ao verificar usuários vinculados:", erroBusca)
+        // Se der erro na busca por algum motivo, mandamos para o cadastro por segurança
+        navigate("/cadastro-usuario") 
+      }
 
     } catch (erro) {
       console.error("Erro no login:", erro)
       
-      // Tratamento personalizado de erros da API
       if (erro.response && erro.response.data && erro.response.data.message) {
         setErroApi(erro.response.data.message)
       } else if (erro.response && [401, 403, 404].includes(erro.response.status)) {

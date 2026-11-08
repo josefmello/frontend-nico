@@ -8,4 +8,11 @@ export const registarUsuario = async (dadosUsuario) => {
   } catch (erro) {
     throw erro; 
   }
-};
+
+  
+}
+export const buscarMeusUsuarios = async () => {
+  // Ajuste o caminho da URL de acordo com o endpoint GET que criamos no Spring Boot
+  const resposta = await api.get('/api/usuarios/meus-usuarios') 
+  return resposta.data
+}
