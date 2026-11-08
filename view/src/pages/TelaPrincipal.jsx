@@ -12,8 +12,15 @@ function TelaPrincipal() {
                     {frase.length === 0 && <p className="tira-vazia">Toque nos botões para montar sua frase</p>}
                     {frase.length > 0 && <p>{frase.join(" ")}</p>}
                 </div>
-                <button disabled>Apagar</button>
-                <button disabled>Falar</button>
+                <button disabled={frase.length === 0} onClick={() => setFrase(frase.slice(0, -1))}>
+                    Apagar
+                </button>
+                <button disabled={frase.length === 0} onClick={() => console.log(frase.join(" "))}>
+                    Falar
+                </button>
+                <button disabled={frase.length === 0} onClick={() => setFrase([])}>
+                    Limpar
+                </button>
             </section>
 
             <section>
