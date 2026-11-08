@@ -39,8 +39,7 @@ html, body, #root {
 }
 
 /* Centraliza o container principal do layout de autenticação (AuthLayout) */
-/* (Caso a classe do layout seja diferente, esta regra pega elementos comuns de container) */
-div[class*="layout"], .auth-layout, main {
+.auth-layout, .auth-pagina {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -64,7 +63,7 @@ div[class*="layout"], .auth-layout, main {
 
 /* Responsividade para Dispositivos Móveis (Celulares) */
 @media (max-width: 480px) {
-  div[class*="layout"], .auth-layout, main {
+  .auth-layout, .auth-pagina {
     padding: 12px; /* Reduz as margens laterais em telas pequenas */
     align-items: center; /* Mantém centralizado verticalmente ou flexível */
   }
@@ -76,11 +75,11 @@ div[class*="layout"], .auth-layout, main {
   }
 }
 
-.auth-card, .auth-container, div[class*="layout"] > div {
+.auth-card, .auth-container {
   padding-top: 34px !important;
 }
 
-.auth-card h1, .auth-layout h1, h1 {
+.auth-card h1, .auth-layout h1 {
   font-size: 56px !important; 
 }
 
