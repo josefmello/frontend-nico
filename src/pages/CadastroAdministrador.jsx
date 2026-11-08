@@ -37,7 +37,7 @@ function CadastroAdministrador() {
             setCarregando(true)
             await registarAdministrador(administrador)
             alert("Administrador cadastrado com sucesso!")
-            navigate("/cadastro-usuario") 
+            navigate("/") 
         } catch (erro) {
             if (erro.response && erro.response.status === 409) {
                 alert("Já existe um cadastro com este e-mail e/ou telefone!") 

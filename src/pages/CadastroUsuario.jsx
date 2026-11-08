@@ -56,13 +56,14 @@ function CadastroUsuario() {
       return
     }
 
-    // Objeto formatado com a conversão de "voz" para booleano (true/false)
+    // Objeto formatado incluindo a biografia e a conversão de "voz" para booleano
     const usuario = {
       nome: nome.trim(),
       sexo,
       nivelAutismo: `Nivel ${nivelAutismo}`,
       dataNascAut,
       voz: voz === "true", // Converte string "true" para boolean true e "false" para boolean false
+      biografia: biografia.trim() // Incluído para não faltar no payload
     }
     
     try {
@@ -72,6 +73,11 @@ function CadastroUsuario() {
       
       setSucesso(true)
       formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+      
+      // Opcional: Redirecionar para o comunicador após alguns segundos de sucesso
+      setTimeout(() => {
+        // navigate("/comunicador")
+      }, 1500)
       
     } catch (erro) {
       console.error("Erro no registo do usuário:", erro)
