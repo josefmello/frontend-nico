@@ -5,7 +5,7 @@ import AuthLayout from "../components/AuthLayout.jsx"
 import Campo from "../components/Campo.jsx"
 import CampoSenha from "../components/CampoSenha.jsx"
 import { validarEmail } from "../utils/validacao.js"
-import { realizarLogin } from "../service/Auth.js"
+import { realizarLogin } from "../service/auth.js"
 // IMPORTANTE: Importe a função que vai buscar os usuários (vamos criá-la no seu service)
 import { buscarMeusUsuarios } from "../service/Usuario.js" 
 
