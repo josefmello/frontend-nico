@@ -1,6 +1,11 @@
 import "./TelaPrincipal.css"
 import { useState } from "react"
 const categorias = ["Comer", "Beber", "Sentir", "Brincar", "Lugares", "Pessoas"]
+const botoes = [
+    { texto: "Eu", emoji: "🙋", audio: "/audios/eu.mp3" },
+    { texto: "Quero", emoji: "👉", audio: "/audios/quero.mp3" },
+    { texto: "Água", emoji: "💧", audio: "/audios/agua.mp3" },
+]
 
 function TelaPrincipal() {
     const [frase, setFrase] = useState([])
@@ -10,12 +15,12 @@ function TelaPrincipal() {
                 <h2>Frase</h2>
                 <div className="tira">
                     {frase.length === 0 && <p className="tira-vazia">Toque nos botões para montar sua frase</p>}
-                    {frase.length > 0 && <p>{frase.join(" ")}</p>}
+                    {frase.length > 0 && <p>{frase.map((b) => b.texto).join(" ")}</p>}
                 </div>
                 <button disabled={frase.length === 0} onClick={() => setFrase(frase.slice(0, -1))}>
                     Apagar
                 </button>
-                <button disabled={frase.length === 0} onClick={() => console.log(frase.join(" "))}>
+                <button disabled={frase.length === 0} onClick={() => console.log(frase.map((b) => b.texto).join(" "))}>
                     Falar
                 </button>
                 <button disabled={frase.length === 0} onClick={() => setFrase([])}>
@@ -32,10 +37,12 @@ function TelaPrincipal() {
 
             <section>
                 <h2>Prancha</h2>
-                <button className="botao-prancha" onClick={() => setFrase([...frase, "Água"])}>
-                    <span role="img" aria-label="água">💧</span>
-                    <span>Água</span>
-                </button>
+                {botoes.map((botao) => (
+                    <button key={botao.texto} className="botao-prancha" onClick={() => setFrase([...frase, botao])}>
+                        <span role="img" aria-label={botao.texto}>{botao.emoji}</span>
+                        <span>{botao.texto}</span>
+                    </button>
+                ))}
             </section>
         </main>
     )
