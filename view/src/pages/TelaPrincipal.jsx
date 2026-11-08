@@ -9,6 +9,17 @@ const botoes = [
 
 function TelaPrincipal() {
     const [frase, setFrase] = useState([])
+    function falar() {
+        let i = 0
+        function tocar() {
+            if (i >= frase.length) return
+            const som = new Audio(frase[i].audio)
+            i = i + 1
+            som.onended = tocar
+            som.play()
+        }
+        tocar()
+    }
     return (
         <main>
             <section>
@@ -20,7 +31,7 @@ function TelaPrincipal() {
                 <button disabled={frase.length === 0} onClick={() => setFrase(frase.slice(0, -1))}>
                     Apagar
                 </button>
-                <button disabled={frase.length === 0} onClick={() => console.log(frase.map((b) => b.texto).join(" "))}>
+                <button disabled={frase.length === 0} onClick={falar}>
                     Falar
                 </button>
                 <button disabled={frase.length === 0} onClick={() => setFrase([])}>
