@@ -1,28 +1,31 @@
 import "./TelaPrincipal.css"
+import { useState } from "react"
 const categorias = ["Comer", "Beber", "Sentir", "Brincar", "Lugares", "Pessoas"]
 
 function TelaPrincipal() {
+    const [frase, setFrase] = useState([])
     return (
         <main>
             <section>
                 <h2>Frase</h2>
                 <div className="tira">
-                    <p className="tira-vazia">Toque nos botões para montar sua frase</p>
+                    {frase.length === 0 && <p className="tira-vazia">Toque nos botões para montar sua frase</p>}
+                    {frase.length > 0 && <p>{frase.join(" ")}</p>}
                 </div>
                 <button disabled>Apagar</button>
                 <button disabled>Falar</button>
             </section>
 
             <section>
-                    <h2>Categorias</h2>
-                    {categorias.map((categoria) => (
-                        <button key={categoria}>{categoria}</button>
-                    ))}
+                <h2>Categorias</h2>
+                {categorias.map((categoria) => (
+                    <button key={categoria}>{categoria}</button>
+                ))}
             </section>
 
             <section>
                 <h2>Prancha</h2>
-                <button className="botao-prancha">
+                <button className="botao-prancha" onClick={() => setFrase([...frase, "Água"])}>
                     <span role="img" aria-label="água">💧</span>
                     <span>Água</span>
                 </button>
