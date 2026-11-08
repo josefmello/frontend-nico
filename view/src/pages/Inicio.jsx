@@ -8,6 +8,7 @@ import AdicionarBotao from "./AdicionarBotão.jsx"
 import EditarCategoria from "./EditarCategoria.jsx"
 import Relatorio from "./Relatorio.jsx"
 import EditarPerfil from "./EditarPerfil.jsx"
+import EdicaoUsuario from "./EdicaoUsuario.jsx"
 
 // Seções que ainda não têm tela própria: mostram um aviso simples no lugar certo do layout.
 function EmBreve({ titulo }) {
@@ -26,6 +27,7 @@ const SECOES = {
   botoes: AdicionarBotao,
   categorias: EditarCategoria,
   relatorios: Relatorio,
+  usuario: EdicaoUsuario,
 }
 
 /**

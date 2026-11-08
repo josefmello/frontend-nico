@@ -5,7 +5,7 @@ import nicoLogo from "../assets/logo-nico.svg"
 // `id` é a chave da seção no layout (Inicio.jsx). `emBreve`: só o botão existe, sem tela por enquanto.
 const ITENS = [
     { id: "perfil", rotulo: "Editar Perfil" },
-    { id: "usuario", rotulo: "Edição de Usuário", emBreve: true },
+    { id: "usuario", rotulo: "Edição de Usuário"},
     { id: "botoes", rotulo: "Gerenciar Botões" },
     { id: "categorias", rotulo: "Gerenciar Categorias" },
     { id: "relatorios", rotulo: "Relatórios" },
