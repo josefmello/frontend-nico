@@ -1,0 +1,35 @@
+/* Cadastro de Usuário — complementos específicos. Base visual (card, campos, botões) em components/Auth.css */
+
+/* Mobile: 1 coluna. Tablet/desktop: 2 colunas, com campos "inteiros" ocupando a linha toda. */
+.cu-grade {
+  display: grid;
+  grid-template-columns: 1fr;
+  column-gap: 16px;
+}
+
+.cu-grade > .cu-inteira {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 600px) {
+  .cu-grade {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Mensagem de sucesso (validação concluída) */
+.cu-sucesso {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  font-weight: 700;
+  color: var(--nicoturne);
+  background-color: var(--nicoleste);
+  border-radius: 10px;
+}
+
+.cu-rodape {
+  margin: 20px 0 0;
+  font-size: 15px;
+  text-align: center;
+  color: var(--nicoturne);
+}

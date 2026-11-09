@@ -1,0 +1,184 @@
+/* Pop-up de PIN do Modo Edição. Cores do design system (index.css), exceto o preto/branco
+   dos botões, que seguem o botão de modo ativo da barra superior. */
+
+.pin-modal {
+  width: min(440px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  border: none;
+  background: transparent; /* o "card" é o formulário; assim clicar fora dele = clicar no backdrop */
+  color: var(--nicoturne);
+  overflow: visible;
+}
+
+.pin-modal::backdrop {
+  background: color-mix(in srgb, var(--nicoturne) 70%, transparent);
+  backdrop-filter: blur(2px);
+}
+
+.pin-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(100dvh - 32px);
+  padding: clamp(18px, 5vw, 28px);
+  overflow-y: auto; /* telas muito baixas: rola em vez de cortar */
+  background: white;
+  border-radius: 28px;
+  box-shadow: 0 20px 56px color-mix(in srgb, var(--nicoturne) 35%, transparent);
+}
+
+.pin-logo {
+  display: block;
+  width: min(260px, 80%);
+  height: auto;
+  margin: 0 auto;
+}
+
+.pin-painel {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: clamp(16px, 4vw, 24px);
+  border: 1px solid color-mix(in srgb, var(--nicoleste) 70%, white);
+  border-radius: 16px;
+}
+
+.pin-titulo {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.pin-explica {
+  margin: 0 0 6px;
+  font-size: 15px;
+  line-height: 1.4;
+  opacity: 0.85;
+}
+
+.pin-rotulo {
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.pin-entrada {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 16px;
+  font-size: 22px; /* >= 16px: o iOS não dá zoom ao focar */
+  text-align: center; /* aparência de campo de PIN: 4 bolinhas centralizadas */
+  letter-spacing: 0.5em;
+  border-radius: 12px;
+}
+
+.pin-entrada:focus {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--nicocean) 28%, transparent);
+}
+
+/* O tema não tem vermelho: o erro usa o amarelo da marca + ícone + texto */
+.pin-entrada--erro,
+.pin-entrada--erro:focus {
+  border-color: var(--nicoshine);
+  background-color: color-mix(in srgb, var(--nicoshine) 20%, white);
+}
+
+.pin-erro {
+  margin: 0;
+  padding: 8px 12px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.35;
+  background: color-mix(in srgb, var(--nicoshine) 22%, white);
+  border-left: 4px solid var(--nicoshine);
+  border-radius: 8px;
+}
+
+.pin-acoes {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 10px;
+}
+
+.pin-botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 128px;
+  min-height: 50px;
+  padding: 10px 22px;
+  font-size: 18px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+}
+
+.pin-botao--secundario {
+  background: white;
+  color: black;
+  border-color: color-mix(in srgb, var(--nicoleste) 60%, white);
+}
+
+.pin-botao--secundario:hover {
+  background: var(--nicomist);
+}
+
+.pin-botao--principal {
+  background: black;
+  color: white;
+}
+
+.pin-botao--principal:disabled {
+  opacity: 0.75;
+  cursor: progress;
+  text-decoration: none;
+}
+
+.pin-botao:focus-visible,
+.pin-esqueci:focus-visible {
+  outline: 3px solid var(--nicocean);
+  outline-offset: 2px;
+}
+
+/* Link "Esqueci minha senha" (ação futura): texto discreto, sem aparência de botão */
+.pin-esqueci {
+  align-self: center;
+  padding: 8px 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: color-mix(in srgb, var(--nicoturne) 60%, white);
+  background: transparent;
+  border-radius: 8px;
+}
+
+.pin-spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: pin-gira 0.7s linear infinite;
+}
+
+@keyframes pin-gira {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pin-spinner {
+    animation-duration: 2s; /* continua indicando carregamento, só mais devagar */
+  }
+}
+
+@media (max-width: 420px) {
+  .pin-acoes {
+    flex-direction: column-reverse; /* "Entrar" em cima, em largura total */
+  }
+
+  .pin-botao {
+    width: 100%;
+  }
+}

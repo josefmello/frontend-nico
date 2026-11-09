@@ -1,0 +1,385 @@
+/* Design system das telas de acesso do Nico.
+   Usa as variáveis globais de index.css: --nicoleste, --nicomist, --nicocean, --nicoturne, --nicoshine.
+   Todas as classes têm prefixo "auth-" para não colidir com estilos globais (ex.: .cartao). */
+
+.auth-pagina {
+  --auth-erro: #d62219;
+  --auth-erro-fundo: #fdf3f2;
+  --auth-aviso-fundo: color-mix(in srgb, var(--nicoshine) 22%, white);
+  --auth-sombra: 0 8px 24px rgba(14, 58, 87, 0.12);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  max-width: none; /* neutraliza o "main { max-width: 900px }" global do TelaPrincipal.css */
+  margin: 0;
+  min-height: 100dvh;
+  padding: clamp(12px, 3vw, 32px) 16px 48px;
+  background-color: var(--nicomist);
+}
+
+/* A logo vive dentro do card: acompanha a largura dele e nunca estoura no celular */
+.auth-logo {
+  display: block;
+  width: min(480px, 100%);
+  height: auto;
+  margin: 0 auto 40px;
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 440px;
+  padding: clamp(20px, 5vw, 36px);
+  background-color: #fff;
+  border-radius: 20px;
+  box-shadow: var(--auth-sombra);
+}
+
+.auth-card--largo {
+  max-width: 640px;
+}
+
+.auth-titulo {
+  margin: 0 0 4px;
+  font-size: clamp(24px, 5vw, 30px);
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--nicoturne);
+  text-align: center;
+}
+
+.auth-titulo:focus {
+  outline: none; /* foco programático (leitor de tela), não é um controle */
+}
+
+.auth-subtitulo {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.45;
+  text-align: center;
+  color: var(--nicoturne);
+  opacity: 0.85;
+}
+
+/* ---------- Campos ---------- */
+
+.auth-campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+.auth-label {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--nicoturne);
+}
+
+.auth-opcional {
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+.auth-input {
+  width: 100%;
+  min-height: 48px; /* alvo de toque confortável */
+  font-size: 16px;  /* evita zoom automático no iOS */
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
+}
+
+.auth-input:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nicocean) 25%, transparent);
+}
+
+textarea.auth-input:focus {
+  border-color: var(--nicocean);
+}
+
+.auth-input::placeholder {
+  color: color-mix(in srgb, var(--nicoturne) 45%, white);
+}
+
+/* O index.css estiliza só input/select; o textarea recebe o mesmo visual aqui */
+textarea.auth-input {
+  font-family: inherit;
+  color: var(--nicoturne);
+  background-color: #fff;
+  border: 2px solid var(--nicoleste);
+  border-radius: 10px;
+  padding: 10px 14px;
+  outline: none;
+  min-height: 96px;
+  resize: vertical;
+  line-height: 1.4;
+}
+
+.auth-input--erro {
+  border-color: var(--auth-erro);
+  background-color: var(--auth-erro-fundo);
+}
+
+.auth-input--erro:focus {
+  border-color: var(--auth-erro);
+  box-shadow: 0 0 0 3px rgba(179, 38, 30, 0.2);
+}
+
+/* Alerta suave (ex.: senhas diferentes) usa o amarelo da marca */
+.auth-input--aviso,
+.auth-input--aviso:focus {
+  border-color: var(--nicoshine);
+  background-color: var(--auth-aviso-fundo);
+}
+
+.auth-input--aviso:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nicoshine) 40%, transparent);
+}
+
+.auth-dica,
+.auth-msg {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.auth-dica {
+  color: var(--nicoturne);
+  opacity: 0.75;
+}
+
+.auth-msg--erro {
+  color: var(--auth-erro);
+  font-weight: 600;
+}
+
+.auth-msg--aviso {
+  padding: 6px 10px;
+  color: var(--nicoturne);
+  background-color: var(--auth-aviso-fundo);
+  border-left: 4px solid var(--nicoshine);
+  border-radius: 6px;
+}
+
+.auth-msg--ok {
+  color: var(--nicocean);
+  font-weight: 600;
+}
+
+.auth-grupo {
+  min-width: 0;
+  margin: 0 0 8px;
+  padding: 0;
+  border: none;
+}
+
+.auth-grupo > legend {
+  width: 100%;
+  margin-bottom: 12px;
+  padding: 0 0 6px;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--nicocean);
+  border-bottom: 2px solid var(--nicoleste);
+}
+
+
+.auth-senha {
+  position: relative;
+}
+
+.auth-senha .auth-input {
+  padding-right: 92px;
+}
+
+.auth-mostrar {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  min-width: 44px;
+  min-height: 36px;
+  padding: 4px 10px;
+  font-size: 14px;
+  color: var(--nicocean);
+  background: transparent;
+  border-radius: 8px;
+}
+
+.auth-mostrar:hover {
+  background-color: var(--nicomist);
+}
+
+.auth-acoes {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.auth-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 24px;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
+}
+
+.auth-btn:hover {
+  text-decoration: underline;
+}
+
+.auth-btn:focus-visible,
+.auth-link:focus-visible,
+.auth-mostrar:focus-visible {
+  outline: 3px solid var(--nicocean);
+  outline-offset: 2px;
+}
+
+.auth-btn--primario {
+  color: var(--nicoturne);
+  background-color: var(--nicoleste);
+}
+
+.auth-btn--primario:hover {
+  box-shadow: 0 6px 16px rgba(29, 111, 163, 0.3);
+}
+
+
+.auth-btn--secundario {
+  color: var(--nicocean);
+  background-color: #fff;
+  border-color: var(--nicocean);
+}
+
+.auth-btn--secundario:hover {
+  background-color: var(--nicomist);
+}
+
+.auth-link {
+  color: var(--nicocean);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+.auth-link:hover {
+  color: var(--nicoturne);
+}
+
+@media (min-width: 560px) {
+  .auth-acoes--linha {
+    flex-direction: row-reverse; 
+  }
+
+  .auth-acoes--linha .auth-btn {
+    flex: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-pagina * {
+    transition: none !important;
+  }
+}
+
+.auth-card, .auth-container, div[class*="layout"] > div {
+  width: 100%;
+  max-width: 640px; 
+  padding: 100px 30px; 
+  box-sizing: border-box;
+}
+/* Garante que apenas o container do CampoSenha fica relativo */
+div:has(> input[type="password"]), 
+div:has(> input[id*="senha"]) {
+  position: relative !important;
+}
+
+/* Afasta o texto digitado para a esquerda para não bater no botão */
+input[type="password"],
+input[type="text"][id*="senha"] {
+  padding-right: 70px !important;
+  box-sizing: border-box !important;
+}
+
+/* Posiciona EXCLUSIVAMENTE o botão de mostrar/ocultar senha no canto direito do input */
+div:has(> input[type="password"]) > button[type="button"],
+div:has(> input[id*="senha"]) > button[type="button"] {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  background: transparent !important;
+  border: none !important;
+  color: #0e3a57 !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  padding: 4px 8px !important;
+  width: auto !important;
+  margin: 0 !important;
+}
+
+div:has(> input[type="password"]) > button[type="button"]:hover,
+div:has(> input[id*="senha"]) > button[type="button"]:hover {
+  opacity: 0.7 !important;
+}
+
+/* 1. Remove a altura fixa forçada para as caixas voltarem ao tamanho normal */
+.cartao input,
+.cartao select,
+.campo-senha input,
+input[type="password"],
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"] {
+  height: auto !important;
+  padding: 10px 14px !important;
+}
+
+/* Garante espaço apenas nos campos de senha */
+.campo-senha input,
+input[type="password"] {
+  padding-right: 65px !important;
+}
+
+/* 2. Centraliza o botão "Mostrar / Ocultar" perfeitamente no meio exato da altura */
+div:has(> input[type="password"]),
+.campo-senha {
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  margin-bottom: 12px !important; /* Controla a distância certinha entre os campos */
+}
+
+div:has(> input[type="password"]) > button[type="button"],
+.campo-senha button,
+button.btn-mostrar-senha {
+  position: absolute !important;
+  right: 12px !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important; /* Centraliza 100% no meio vertical */
+  background: transparent !important;
+  border: none !important;
+  color: #0e3a57 !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  font-size: 13px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: normal !important;
+  box-shadow: none !important;
+}
+

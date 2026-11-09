@@ -1,16 +1,29 @@
 .barra-topo {
     display: flex;
     background-color: var(--nicoleste);
-    padding: 5px;
-    padding-left: var(--largura-menu);
+    padding: 8px 12px;
 }
 
-.modo-comunicacao, .modo-edicao {
+.barra-modos {
+    display: flex;
+    width: 100%;
+    max-width: 440px;
+}
+
+.modo-comunicacao,
+.modo-edicao {
+    flex: 1;
+    min-height: 44px; /* alvo de toque confortável */
+    padding: 10px 16px;
+    font-size: clamp(14px, 3.6vw, 18px);
     background-color: white;
     color: black;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-.ativo {
+/* Modo ativo: fundo preto e texto branco (declarado depois para vencer o estado inativo) */
+.modo-comunicacao.ativo,
+.modo-edicao.ativo {
     background-color: black;
     color: white;
 }
@@ -21,4 +34,17 @@
 
 .modo-edicao {
     border-radius: 0 12px 12px 0;
+}
+
+.modo-comunicacao:focus-visible,
+.modo-edicao:focus-visible {
+    outline: 3px solid var(--nicocean);
+    outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modo-comunicacao,
+    .modo-edicao {
+        transition: none;
+    }
 }
