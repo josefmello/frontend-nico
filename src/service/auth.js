@@ -1,4 +1,4 @@
-git add .import api from './Api.js';
+import api from './Api.js';
 
 export const realizarLogin = async (email, senha) => {
   try {
