@@ -43,7 +43,6 @@ function Login() {
       // 1. Faz o login e guarda o token
       const dados = await realizarLogin(email, senha)
       localStorage.setItem('token', dados.token)
-
       // 2. Busca os usuários associados a este administrador logado
       try {
         const meusUsuarios = await buscarMeusUsuarios()

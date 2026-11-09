@@ -22,6 +22,7 @@ function BarraTopo({ modo = "comunicacao", onMudarModo = () => {} }) {
                     type="button"
                     className={`modo-edicao${edicao ? " ativo" : ""}`}
                     aria-pressed={edicao}
+                    aria-haspopup="dialog" /* pede a senha antes de abrir */
                     onClick={() => onMudarModo("edicao")}
                 >
                     Modo Edição
