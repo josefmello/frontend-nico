@@ -2,6 +2,7 @@ import { useState } from "react"
 import "./Inicio.css"
 import BarraTopo from "../components/BarraTopo.jsx"
 import MenuLateral from "../components/MenuLateral.jsx"
+import PinAuthModal from "../components/PinAuthModal.jsx"
 import { LayoutNico } from "../components/index.jsx"
 import TelaPrincipal from "./TelaPrincipal.jsx"
 import AdicionarBotao from "./AdicionarBotão.jsx"
@@ -38,19 +39,37 @@ const SECOES = {
  * `secaoInicial` permite abrir direto numa seção (ex.: links antigos /gerenciar-botoes).
  */
 function Inicio({ secaoInicial }) {
-  const [modo, setModo] = useState(secaoInicial ? "edicao" : "comunicacao")
+  // O Modo Edição é protegido: a tela sempre começa em "comunicacao" e só muda depois que o
+  // pop-up de senha for aprovado pela API. Abrir direto numa seção (ex.: /relatorio) também pede a senha.
+  const [modo, setModo] = useState("comunicacao")
   const [secao, setSecao] = useState(secaoInicial || "botoes")
+  const [pedindoSenha, setPedindoSenha] = useState(Boolean(secaoInicial))
 
   const edicao = modo === "edicao"
   const Conteudo = SECOES[secao] || AdicionarBotao
 
+  const mudarModo = (novoModo) => {
+    if (novoModo === "comunicacao") {
+      setModo("comunicacao") // sair do modo de edição não precisa de senha
+    } else if (!edicao) {
+      setPedindoSenha(true) // entrar nele só depois da autenticação
+    }
+  }
+
+  const aoAutenticar = () => {
+    setPedindoSenha(false)
+    setModo("edicao")
+  }
+
   return (
     <div className={edicao ? "admin-layout admin-layout--edicao" : "admin-layout"}>
-      <BarraTopo modo={modo} onMudarModo={setModo} />
+      <BarraTopo modo={modo} onMudarModo={mudarModo} />
 
       {edicao && <MenuLateral secaoAtiva={secao} onSelecionar={setSecao} />}
 
       {edicao ? <Conteudo /> : <TelaPrincipal />}
+
+      {pedindoSenha && <PinAuthModal onFechar={() => setPedindoSenha(false)} onSucesso={aoAutenticar} />}
     </div>
   )
 }
