@@ -1,12 +1,14 @@
 import { useRef, useState } from "react"
+import { useNavigate } from "react-router-dom";
 import "./CadastroUsuario.css"
 import AuthLayout from "../components/AuthLayout.jsx"
-import Campo from "../components/Campo.jsx"
-import { registarUsuario } from "../service/Usuario.js"
+import Campo from "../components/Campo.jsx";
+import { registarUsuario, buscarMeusUsuarios } from "../service/Usuario.js";
 
 const LIMITE_BIOGRAFIA = 500
 
 function CadastroUsuario() {
+  const navigate = useNavigate();
   const [nome, setNome] = useState("")
   const [sexo, setSexo] = useState("")
   const [dataNascAut, setDataNascAut] = useState("")
@@ -14,10 +16,10 @@ function CadastroUsuario() {
   const [voz, setVoz] = useState("") // Estado para o Tipo de voz
   const [biografia, setBiografia] = useState("")
   const [tocados, setTocados] = useState({})
-  
+
   const [sucesso, setSucesso] = useState(false)
   const [carregando, setCarregando] = useState(false)
-  
+
   const formRef = useRef(null)
 
   const hoje = new Date().toISOString().split("T")[0]
@@ -65,20 +67,42 @@ function CadastroUsuario() {
       voz: voz === "true", // Converte string "true" para boolean true e "false" para boolean false
       biografia: biografia.trim() // Incluído para não faltar no payload
     }
-    
+
     try {
       setCarregando(true)
-      
-      await registarUsuario(usuario) 
-      
-      setSucesso(true)
-      formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
-      
-      // Opcional: Redirecionar para o comunicador após alguns segundos de sucesso
-      setTimeout(() => {
-        // navigate("/comunicador")
-      }, 1500)
-      
+
+      await registarUsuario(usuario);
+
+      const meusUsuarios =
+        await buscarMeusUsuarios();
+
+      if (
+        !Array.isArray(meusUsuarios) ||
+        meusUsuarios.length === 0
+      ) {
+        throw new Error(
+          "O usuário foi cadastrado, mas não foi localizado."
+        );
+      }
+
+      const usuarioCriado = meusUsuarios[0];
+
+      localStorage.setItem(
+        "idUsuario",
+        String(usuarioCriado.idUsuario)
+      );
+
+      localStorage.setItem(
+        "usuario",
+        JSON.stringify(usuarioCriado)
+      );
+
+      setSucesso(true);
+
+      navigate("/comunicador", {
+        replace: true,
+      });
+
     } catch (erro) {
       console.error("Erro no registo do usuário:", erro)
       alert("Erro ao cadastrar usuário. Verifique os dados e tente novamente.")
@@ -204,7 +228,7 @@ function CadastroUsuario() {
             {carregando ? "Registrando..." : "Registrar"}
           </button>
         </div>
-       
+
       </form>
     </AuthLayout>
   )
