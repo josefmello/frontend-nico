@@ -12,3 +12,10 @@ export const realizarLogin = async (email, senha) => {
     throw erro;
   }
 };
+
+// Valida o PIN do administrador logado (o token Bearer, enviado pelo Api.js, identifica quem é).
+// 200 = PIN correto; 400/401 = PIN incorreto.
+export const validarPin = async (pin) => {
+  const resposta = await api.post('/api/login/pin', { pin: Number(pin) });
+  return resposta.data;
+};
