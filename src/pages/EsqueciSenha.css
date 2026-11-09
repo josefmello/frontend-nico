@@ -1,0 +1,42 @@
+/* Esqueci minha senha — estado de feedback. Base visual em components/Auth.css */
+
+.esqueci-sucesso {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.esqueci-icone {
+  display: grid;
+  place-items: center;
+  width: 72px;
+  height: 72px;
+  font-size: 34px;
+  color: var(--nicocean);
+  background-color: var(--nicoleste);
+  border-radius: 50%;
+}
+
+.esqueci-mensagem {
+  margin: 0;
+  font-size: clamp(17px, 4vw, 19px);
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--nicoturne);
+}
+
+.esqueci-dica {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--nicoturne);
+  opacity: 0.8;
+}
+
+.esqueci-email {
+  overflow-wrap: anywhere; /* e-mails longos não estouram o card no celular */
+  color: var(--nicocean);
+}
