@@ -3,17 +3,7 @@ import "./PinAuthModal.css"
 import nicoLogo from "../assets/logo-nico.svg"
 import { validarPin } from "../service/auth.js"
 
-const TAMANHO_PIN = 4 // o PIN é cadastrado com 4 dígitos (CadastroAdministrador)
-
-/**
- * Pop-up que protege o Modo Edição: pede o PIN do administrador logado e só chama
- * `onSucesso` depois que a API confirmar (POST /api/login/pin).
- *
- * Uso: monte-o apenas enquanto estiver aberto ({aberto && <PinAuthModal ... />}).
- * Assim o campo, o erro e o carregamento voltam ao estado inicial a cada abertura.
- *
- * Props: onFechar() | onSucesso() | onEsqueciSenha() (opcional, ação futura)
- */
+const TAMANHO_PIN = 4 
 function PinAuthModal({ onFechar, onSucesso, onEsqueciSenha }) {
   const dialogRef = useRef(null)
   const inputRef = useRef(null)

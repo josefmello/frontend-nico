@@ -92,6 +92,22 @@ function Login() {
         dados.token
       );
 
+      const administradorLogado = {
+        idAdministrador: dados.idAdministrador,
+        nome: dados.nome?.trim() || "",
+      };
+
+      localStorage.setItem(
+        "administrador",
+        JSON.stringify(administradorLogado)
+      );
+
+      console.log(
+        "Administrador salvo:",
+        administradorLogado
+      );
+
+
       const meusUsuarios =
         await buscarMeusUsuarios();
 
@@ -142,6 +158,7 @@ function Login() {
       localStorage.removeItem(
         "usuario"
       );
+      localStorage.removeItem("administrador");
 
       const mensagemApi =
         erro.response?.data?.message;
