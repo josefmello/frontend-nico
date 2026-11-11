@@ -9,3 +9,13 @@ export const registarAdministrador = async (dadosAdmin) => {
     throw erro; 
   }
 };
+
+export const buscarAdministrador = async (idAdministrador) => {
+  const resposta = await api.get(`/api/administradores/${idAdministrador}`);
+  return resposta.data;
+};
+
+export const atualizarAdministrador = async (idAdministrador, dadosAdmin) => {
+  const resposta = await api.put(`/api/administradores/${idAdministrador}`, dadosAdmin);
+  return resposta.data;
+};

@@ -1,5 +1,4 @@
-/* Pop-up de PIN do Modo Edição. Cores do design system (index.css), exceto o preto/branco
-   dos botões, que seguem o botão de modo ativo da barra superior. */
+/* Pop-up de PIN do Modo Edição. Cores e efeitos seguem o index.css e o Auth.css (Login). */
 
 .pin-modal {
   width: min(440px, calc(100vw - 32px));
@@ -62,23 +61,29 @@
   font-weight: 800;
 }
 
-.pin-entrada {
+/* Mesmo visual dos inputs da tela de Login (borda azul 2px, raio 10px, texto à esquerda).
+   O Auth.css força padding-right: 65px em input[type="password"] (espaço do "Mostrar"),
+   o que empurrava o cursor para o meio; aqui o padding é restaurado. */
+.pin-campo .pin-entrada {
   width: 100%;
-  min-height: 52px;
-  padding: 12px 16px;
-  font-size: 22px; /* >= 16px: o iOS não dá zoom ao focar */
-  text-align: center; /* aparência de campo de PIN: 4 bolinhas centralizadas */
-  letter-spacing: 0.5em;
-  border-radius: 12px;
+  min-height: 48px;
+  padding: 10px 14px !important;
+  font-size: 18px;
+  text-align: left;
+  letter-spacing: 0.2em;
+  border: 2px solid var(--nicoleste);
+  border-radius: 10px;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
 
-.pin-entrada:focus {
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--nicocean) 28%, transparent);
+.pin-campo .pin-entrada:focus {
+  border-color: var(--nicocean);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--nicocean) 25%, transparent);
 }
 
 /* O tema não tem vermelho: o erro usa o amarelo da marca + ícone + texto */
-.pin-entrada--erro,
-.pin-entrada--erro:focus {
+.pin-campo .pin-entrada--erro,
+.pin-campo .pin-entrada--erro:focus {
   border-color: var(--nicoshine);
   background-color: color-mix(in srgb, var(--nicoshine) 20%, white);
 }
@@ -110,23 +115,35 @@
   min-height: 50px;
   padding: 10px 22px;
   font-size: 18px;
-  border: 1px solid transparent;
+  font-weight: 700;
+  border: 2px solid transparent;
   border-radius: 12px;
+  transition: background-color 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
+.pin-botao:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+/* Cancelar = .auth-btn--secundario */
 .pin-botao--secundario {
-  background: white;
-  color: black;
-  border-color: color-mix(in srgb, var(--nicoleste) 60%, white);
+  background-color: #fff;
+  color: var(--nicocean);
+  border-color: var(--nicocean);
 }
 
 .pin-botao--secundario:hover {
-  background: var(--nicomist);
+  background-color: var(--nicomist);
 }
 
+/* Entrar = .auth-btn--primario (azul claro + brilho no hover) */
 .pin-botao--principal {
-  background: black;
-  color: white;
+  background-color: var(--nicoleste);
+  color: var(--nicoturne);
+}
+
+.pin-botao--principal:hover:not(:disabled) {
+  box-shadow: 0 6px 16px rgba(29, 111, 163, 0.3);
 }
 
 .pin-botao--principal:disabled {
@@ -147,9 +164,14 @@
   padding: 8px 12px;
   font-size: 16px;
   font-weight: 700;
-  color: color-mix(in srgb, var(--nicoturne) 60%, white);
+  color: var(--nicocean);
   background: transparent;
   border-radius: 8px;
+  text-underline-offset: 3px;
+}
+
+.pin-esqueci:hover {
+  color: var(--nicoturne);
 }
 
 .pin-spinner {
