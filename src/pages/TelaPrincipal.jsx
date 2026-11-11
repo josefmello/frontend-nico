@@ -8,8 +8,8 @@ import {
 
 import { useNavigate } from "react-router-dom";
 
-import logoNico from "../assets/logo-nico.svg";
-import SeletorModo from "../components/SeletorModo.jsx";
+import MenuComunicador from "../components/MenuComunicador.jsx";
+import PinAuthModal from "../components/PinAuthModal.jsx";
 
 import {
   buscarBotoesResolvidos,
@@ -24,39 +24,58 @@ const LIMITE_ITENS_FRASE = 20;
 function TelaPrincipal() {
   const navigate = useNavigate();
 
-  const [modo, setModo] = useState("comunicacao");
+  const [modo, setModo] =
+    useState("comunicacao");
 
-  const [frase, setFrase] = useState([]);
-
-  const [categoriaAtiva, setCategoriaAtiva] =
-    useState(0);
-
-  const [arrastandoId, setArrastandoId] =
-    useState(null);
-
-  const [sobreTira, setSobreTira] =
+  const [modalPinAberto, setModalPinAberto] =
     useState(false);
 
-  const [itemTiraArrastado, setItemTiraArrastado] =
-    useState(null);
+  const [frase, setFrase] =
+    useState([]);
 
-  const [itemReproduzindo, setItemReproduzindo] =
-    useState(null);
+  const [
+    categoriaAtiva,
+    setCategoriaAtiva,
+  ] = useState(0);
 
-  const [reproduzindoFrase, setReproduzindoFrase] =
-    useState(false);
+  const [
+    arrastandoId,
+    setArrastandoId,
+  ] = useState(null);
 
-  const [botoes, setBotoes] = useState([]);
+  const [
+    sobreTira,
+    setSobreTira,
+  ] = useState(false);
 
-  const [categorias, setCategorias] = useState([]);
+  const [
+    itemTiraArrastado,
+    setItemTiraArrastado,
+  ] = useState(null);
+
+  const [
+    itemReproduzindo,
+    setItemReproduzindo,
+  ] = useState(null);
+
+  const [
+    reproduzindoFrase,
+    setReproduzindoFrase,
+  ] = useState(false);
+
+  const [botoes, setBotoes] =
+    useState([]);
+
+  const [categorias, setCategorias] =
+    useState([]);
 
   const [carregando, setCarregando] =
     useState(true);
 
-  const [erro, setErro] = useState("");
+  const [erro, setErro] =
+    useState("");
 
   const audioAtualRef = useRef(null);
-
   const reproducaoIdRef = useRef(0);
 
   const usuario = useMemo(() => {
@@ -77,8 +96,8 @@ function TelaPrincipal() {
     }
   }, []);
 
-  const carregarComunicador = useCallback(
-    async () => {
+  const carregarComunicador =
+    useCallback(async () => {
       const idUsuario =
         localStorage.getItem("idUsuario");
 
@@ -99,24 +118,35 @@ function TelaPrincipal() {
           botoesRecebidos,
           categoriasRecebidas,
         ] = await Promise.all([
-          buscarBotoesResolvidos(idUsuario),
-          buscarCategoriasResolvidas(idUsuario),
+          buscarBotoesResolvidos(
+            idUsuario
+          ),
+          buscarCategoriasResolvidas(
+            idUsuario
+          ),
         ]);
 
         const botoesVisiveis =
-          Array.isArray(botoesRecebidos)
+          Array.isArray(
+            botoesRecebidos
+          )
             ? botoesRecebidos.filter(
-                (botao) => !botao.oculto
+                (botao) =>
+                  !botao.oculto
               )
             : [];
 
         const categoriasValidas =
-          Array.isArray(categoriasRecebidas)
+          Array.isArray(
+            categoriasRecebidas
+          )
             ? categoriasRecebidas
             : [];
 
         setBotoes(botoesVisiveis);
-        setCategorias(categoriasValidas);
+        setCategorias(
+          categoriasValidas
+        );
         setCategoriaAtiva(0);
       } catch (erroRequisicao) {
         console.error(
@@ -125,7 +155,8 @@ function TelaPrincipal() {
         );
 
         const status =
-          erroRequisicao.response?.status;
+          erroRequisicao.response
+            ?.status;
 
         if (status === 401) {
           setErro(
@@ -143,9 +174,7 @@ function TelaPrincipal() {
       } finally {
         setCarregando(false);
       }
-    },
-    []
-  );
+    }, []);
 
   useEffect(() => {
     carregarComunicador();
@@ -163,47 +192,93 @@ function TelaPrincipal() {
   }, []);
 
   const alterarModo = (novoModo) => {
-    setModo(novoModo);
+    if (novoModo === "comunicacao") {
+      setModo("comunicacao");
+      return;
+    }
+
+    setModalPinAberto(true);
+  };
+
+  const fecharModalPin = () => {
+    setModalPinAberto(false);
+    setModo("comunicacao");
+  };
+
+  const liberarModoEdicao = () => {
+    setModalPinAberto(false);
+    setModo("edicao");
+
+    navigate("/administrador", {
+      replace: true,
+    });
+  };
+
+  const abrirRecuperacaoSenha = () => {
+    setModalPinAberto(false);
+    setModo("comunicacao");
+
+    navigate("/esqueci-senha");
   };
 
   const categoriaAtual =
-    categorias[categoriaAtiva] ?? null;
+    categorias[categoriaAtiva] ??
+    null;
 
-  const botoesFiltrados = useMemo(() => {
-    if (!categoriaAtual) {
-      return botoes;
-    }
-
-    return botoes.filter((botao) => {
-      if (!Array.isArray(botao.idsCategorias)) {
-        return false;
+  const botoesFiltrados =
+    useMemo(() => {
+      if (!categoriaAtual) {
+        return botoes;
       }
 
-      return botao.idsCategorias.includes(
-        categoriaAtual.idCategoria
-      );
-    });
-  }, [botoes, categoriaAtual]);
+      return botoes.filter(
+        (botao) => {
+          if (
+            !Array.isArray(
+              botao.idsCategorias
+            )
+          ) {
+            return false;
+          }
 
-  const criarItemDaTira = (botao) => ({
+          return botao.idsCategorias.includes(
+            categoriaAtual.idCategoria
+          );
+        }
+      );
+    }, [
+      botoes,
+      categoriaAtual,
+    ]);
+
+  const criarItemDaTira = (
+    botao
+  ) => ({
     ...botao,
-    idItemTira: `${botao.idBotao}-${Date.now()}-${Math.random()}`,
+
+    idItemTira:
+      `${botao.idBotao}-${Date.now()}-${Math.random()}`,
   });
 
-  const pararReproducao = useCallback(() => {
-    reproducaoIdRef.current += 1;
+  const pararReproducao =
+    useCallback(() => {
+      reproducaoIdRef.current += 1;
 
-    if (audioAtualRef.current) {
-      audioAtualRef.current.pause();
-      audioAtualRef.current.currentTime = 0;
-      audioAtualRef.current = null;
-    }
+      if (audioAtualRef.current) {
+        audioAtualRef.current.pause();
+        audioAtualRef.current.currentTime =
+          0;
+        audioAtualRef.current =
+          null;
+      }
 
-    setItemReproduzindo(null);
-    setReproduzindoFrase(false);
-  }, []);
+      setItemReproduzindo(null);
+      setReproduzindoFrase(false);
+    }, []);
 
-  const acionarBotao = (botao) => {
+  const acionarBotao = (
+    botao
+  ) => {
     const idUsuario =
       localStorage.getItem("idUsuario");
 
@@ -214,30 +289,42 @@ function TelaPrincipal() {
         botao.audioResolvido
       );
 
-      audioAtualRef.current = audio;
+      audioAtualRef.current =
+        audio;
 
       audio.onended = () => {
-        audioAtualRef.current = null;
-        setItemReproduzindo(null);
+        audioAtualRef.current =
+          null;
+
+        setItemReproduzindo(
+          null
+        );
       };
 
       audio.onerror = () => {
-        audioAtualRef.current = null;
-        setItemReproduzindo(null);
+        audioAtualRef.current =
+          null;
+
+        setItemReproduzindo(
+          null
+        );
 
         console.error(
           `Não foi possível reproduzir o áudio do botão ${botao.legenda}.`
         );
       };
 
-      audio.play().catch((erroAudio) => {
-        audioAtualRef.current = null;
+      audio
+        .play()
+        .catch((erroAudio) => {
+          audioAtualRef.current =
+            null;
 
-        console.error(
-          "Não foi possível reproduzir o áudio:",
-          erroAudio
-        );
-      });
+          console.error(
+            "Não foi possível reproduzir o áudio:",
+            erroAudio
+          );
+        });
     } else {
       console.warn(
         `O botão "${botao.legenda}" não possui áudio.`
@@ -263,15 +350,21 @@ function TelaPrincipal() {
     });
   };
 
-  const iniciarArraste = (evento, botao) => {
-    evento.dataTransfer.effectAllowed = "copy";
+  const iniciarArraste = (
+    evento,
+    botao
+  ) => {
+    evento.dataTransfer.effectAllowed =
+      "copy";
 
     evento.dataTransfer.setData(
       "application/json",
       JSON.stringify(botao)
     );
 
-    setArrastandoId(botao.idBotao);
+    setArrastandoId(
+      botao.idBotao
+    );
   };
 
   const finalizarArraste = () => {
@@ -279,20 +372,28 @@ function TelaPrincipal() {
     setSobreTira(false);
   };
 
-  const permitirSoltarNaTira = (evento) => {
+  const permitirSoltarNaTira = (
+    evento
+  ) => {
     evento.preventDefault();
 
-    evento.dataTransfer.dropEffect = "copy";
+    evento.dataTransfer.dropEffect =
+      "copy";
 
     setSobreTira(true);
   };
 
-  const sairDaTira = (evento) => {
-    const novoElemento = evento.relatedTarget;
+  const sairDaTira = (
+    evento
+  ) => {
+    const novoElemento =
+      evento.relatedTarget;
 
     if (
       novoElemento &&
-      evento.currentTarget.contains(novoElemento)
+      evento.currentTarget.contains(
+        novoElemento
+      )
     ) {
       return;
     }
@@ -300,7 +401,9 @@ function TelaPrincipal() {
     setSobreTira(false);
   };
 
-  const soltarNaTira = (evento) => {
+  const soltarNaTira = (
+    evento
+  ) => {
     evento.preventDefault();
 
     setSobreTira(false);
@@ -325,21 +428,26 @@ function TelaPrincipal() {
     }
 
     try {
-      const botao = JSON.parse(dados);
+      const botao =
+        JSON.parse(dados);
 
-      setFrase((fraseAtual) => {
-        if (
-          fraseAtual.length >=
-          LIMITE_ITENS_FRASE
-        ) {
-          return fraseAtual;
+      setFrase(
+        (fraseAtual) => {
+          if (
+            fraseAtual.length >=
+            LIMITE_ITENS_FRASE
+          ) {
+            return fraseAtual;
+          }
+
+          return [
+            ...fraseAtual,
+            criarItemDaTira(
+              botao
+            ),
+          ];
         }
-
-        return [
-          ...fraseAtual,
-          criarItemDaTira(botao),
-        ];
-      });
+      );
     } catch (erroLeitura) {
       console.error(
         "Não foi possível adicionar o botão à tira:",
@@ -361,35 +469,42 @@ function TelaPrincipal() {
 
     evento.preventDefault();
 
-    setFrase((fraseAtual) => {
-      if (
-        fraseAtual.length >=
-        LIMITE_ITENS_FRASE
-      ) {
-        return fraseAtual;
-      }
+    setFrase(
+      (fraseAtual) => {
+        if (
+          fraseAtual.length >=
+          LIMITE_ITENS_FRASE
+        ) {
+          return fraseAtual;
+        }
 
-      return [
-        ...fraseAtual,
-        criarItemDaTira(botao),
-      ];
-    });
+        return [
+          ...fraseAtual,
+          criarItemDaTira(
+            botao
+          ),
+        ];
+      }
+    );
   };
 
   const removerItemDaTira = (
     idItemTira
   ) => {
     if (
-      idItemTira === itemReproduzindo
+      idItemTira ===
+      itemReproduzindo
     ) {
       pararReproducao();
     }
 
-    setFrase((fraseAtual) =>
-      fraseAtual.filter(
-        (item) =>
-          item.idItemTira !== idItemTira
-      )
+    setFrase(
+      (fraseAtual) =>
+        fraseAtual.filter(
+          (item) =>
+            item.idItemTira !==
+            idItemTira
+        )
     );
   };
 
@@ -436,59 +551,68 @@ function TelaPrincipal() {
 
     if (
       !idItemOrigem ||
-      idItemOrigem === idItemDestino
+      idItemOrigem ===
+      idItemDestino
     ) {
-      setItemTiraArrastado(null);
+      setItemTiraArrastado(
+        null
+      );
+
       return;
     }
 
-    setFrase((fraseAtual) => {
-      const indiceOrigem =
-        fraseAtual.findIndex(
-          (item) =>
-            item.idItemTira ===
-            idItemOrigem
-        );
+    setFrase(
+      (fraseAtual) => {
+        const indiceOrigem =
+          fraseAtual.findIndex(
+            (item) =>
+              item.idItemTira ===
+              idItemOrigem
+          );
 
-      const indiceDestino =
-        fraseAtual.findIndex(
-          (item) =>
-            item.idItemTira ===
-            idItemDestino
-        );
+        const indiceDestino =
+          fraseAtual.findIndex(
+            (item) =>
+              item.idItemTira ===
+              idItemDestino
+          );
 
-      if (
-        indiceOrigem < 0 ||
-        indiceDestino < 0
-      ) {
-        return fraseAtual;
-      }
+        if (
+          indiceOrigem < 0 ||
+          indiceDestino < 0
+        ) {
+          return fraseAtual;
+        }
 
-      const novaFrase = [
-        ...fraseAtual,
-      ];
+        const novaFrase = [
+          ...fraseAtual,
+        ];
 
-      const [itemMovido] =
+        const [itemMovido] =
+          novaFrase.splice(
+            indiceOrigem,
+            1
+          );
+
         novaFrase.splice(
-          indiceOrigem,
-          1
+          indiceDestino,
+          0,
+          itemMovido
         );
 
-      novaFrase.splice(
-        indiceDestino,
-        0,
-        itemMovido
-      );
+        return novaFrase;
+      }
+    );
 
-      return novaFrase;
-    });
-
-    setItemTiraArrastado(null);
+    setItemTiraArrastado(
+      null
+    );
   };
 
   const apagarUltimo = () => {
-    setFrase((fraseAtual) =>
-      fraseAtual.slice(0, -1)
+    setFrase(
+      (fraseAtual) =>
+        fraseAtual.slice(0, -1)
     );
   };
 
@@ -510,7 +634,9 @@ function TelaPrincipal() {
     const idReproducao =
       reproducaoIdRef.current;
 
-    setReproduzindoFrase(true);
+    setReproduzindoFrase(
+      true
+    );
 
     let indice = 0;
 
@@ -522,14 +648,25 @@ function TelaPrincipal() {
         return;
       }
 
-      if (indice >= frase.length) {
-        audioAtualRef.current = null;
-        setItemReproduzindo(null);
-        setReproduzindoFrase(false);
+      if (
+        indice >= frase.length
+      ) {
+        audioAtualRef.current =
+          null;
+
+        setItemReproduzindo(
+          null
+        );
+
+        setReproduzindoFrase(
+          false
+        );
+
         return;
       }
 
-      const item = frase[indice];
+      const item =
+        frase[indice];
 
       indice += 1;
 
@@ -546,9 +683,11 @@ function TelaPrincipal() {
         item.audioResolvido
       );
 
-      audioAtualRef.current = audio;
+      audioAtualRef.current =
+        audio;
 
-      audio.onended = tocarProximo;
+      audio.onended =
+        tocarProximo;
 
       audio.onerror = () => {
         console.error(
@@ -558,16 +697,16 @@ function TelaPrincipal() {
         tocarProximo();
       };
 
-      audio.play().catch(
-        (erroAudio) => {
+      audio
+        .play()
+        .catch((erroAudio) => {
           console.error(
             "Erro ao reproduzir áudio:",
             erroAudio
           );
 
           tocarProximo();
-        }
-      );
+        });
     };
 
     tocarProximo();
@@ -579,39 +718,56 @@ function TelaPrincipal() {
     setCategoriaAtiva(indice);
   };
 
-  const categoriaAnterior = () => {
-    if (categorias.length === 0) {
-      return;
-    }
+  const categoriaAnterior =
+    () => {
+      if (
+        categorias.length === 0
+      ) {
+        return;
+      }
 
-    setCategoriaAtiva(
-      (indiceAtual) =>
-        indiceAtual === 0
-          ? categorias.length - 1
-          : indiceAtual - 1
-    );
-  };
+      setCategoriaAtiva(
+        (indiceAtual) =>
+          indiceAtual === 0
+            ? categorias.length - 1
+            : indiceAtual - 1
+      );
+    };
 
-  const proximaCategoria = () => {
-    if (categorias.length === 0) {
-      return;
-    }
+  const proximaCategoria =
+    () => {
+      if (
+        categorias.length === 0
+      ) {
+        return;
+      }
 
-    setCategoriaAtiva(
-      (indiceAtual) =>
-        indiceAtual ===
-        categorias.length - 1
-          ? 0
-          : indiceAtual + 1
-    );
-  };
+      setCategoriaAtiva(
+        (indiceAtual) =>
+          indiceAtual ===
+          categorias.length - 1
+            ? 0
+            : indiceAtual + 1
+      );
+    };
 
   const sair = () => {
     pararReproducao();
 
-    localStorage.removeItem("token");
-    localStorage.removeItem("idUsuario");
-    localStorage.removeItem("usuario");
+    localStorage.removeItem(
+      "token"
+    );
+
+    localStorage.removeItem(
+      "idUsuario"
+    );
+
+    localStorage.removeItem(
+      "usuario"
+    );
+    localStorage.removeItem(
+  "administrador"
+);
 
     navigate("/", {
       replace: true,
@@ -643,7 +799,9 @@ function TelaPrincipal() {
 
           <button
             type="button"
-            onClick={carregarComunicador}
+            onClick={
+              carregarComunicador
+            }
           >
             Tentar novamente
           </button>
@@ -654,34 +812,30 @@ function TelaPrincipal() {
 
   return (
     <div className="tela-comunicador">
-      <header className="menu-comunicador">
-        <div className="menu-comunicador__marca">
-          <img
-            className="menu-comunicador__logo"
-            src={logoNico}
-            alt="Nico"
-          />
-        </div>
+      <MenuComunicador
+        modo={modo}
+        onChangeModo={
+          alterarModo
+        }
+        nomeUsuario={
+          usuario?.nome
+        }
+        onSair={sair}
+      />
 
-        <SeletorModo
-          modo={modo}
-          onChange={alterarModo}
+      {modalPinAberto && (
+        <PinAuthModal
+          onFechar={
+            fecharModalPin
+          }
+          onSucesso={
+            liberarModoEdicao
+          }
+          onEsqueciSenha={
+            abrirRecuperacaoSenha
+          }
         />
-
-        <div className="menu-comunicador__acoes">
-          <span className="menu-comunicador__usuario">
-            {usuario?.nome || "Usuário"}
-          </span>
-
-          <button
-            type="button"
-            className="menu-comunicador__botao menu-comunicador__botao--sair"
-            onClick={sair}
-          >
-            Sair
-          </button>
-        </div>
-      </header>
+      )}
 
       <div className="comunicador-conteudo">
         <section className="cartao-tira">
@@ -691,7 +845,9 @@ function TelaPrincipal() {
                 Tira de sentença
               </span>
 
-              <h1>Monte sua frase</h1>
+              <h1>
+                Monte sua frase
+              </h1>
             </div>
 
             <span className="cartao-tira__contador">
@@ -708,11 +864,15 @@ function TelaPrincipal() {
                 ? "tira-sentenca tira-sentenca--ativa"
                 : "tira-sentenca"
             }
-            onDragOver={permitirSoltarNaTira}
+            onDragOver={
+              permitirSoltarNaTira
+            }
             onDragEnter={() =>
               setSobreTira(true)
             }
-            onDragLeave={sairDaTira}
+            onDragLeave={
+              sairDaTira
+            }
             onDrop={soltarNaTira}
           >
             {frase.length === 0 ? (
@@ -726,75 +886,95 @@ function TelaPrincipal() {
 
                 <div>
                   <strong>
-                    Arraste os botões para
-                    esta área
+                    Arraste os botões
+                    para esta área
                   </strong>
 
                   <p>
                     Os itens aparecerão
-                    aqui na ordem escolhida.
+                    aqui na ordem
+                    escolhida.
                   </p>
                 </div>
               </div>
             ) : (
               <div className="tira-sentenca__itens">
-                {frase.map((botao) => (
-                  <div
-                    className={[
-                      "tira-sentenca__item",
-                      itemTiraArrastado ===
-                      botao.idItemTira
-                        ? "tira-sentenca__item--arrastando"
-                        : "",
-                      itemReproduzindo ===
-                      botao.idItemTira
-                        ? "tira-sentenca__item--reproduzindo"
-                        : "",
-                    ]
-                      .filter(Boolean)
-                      .join(" ")}
-                    key={botao.idItemTira}
-                    draggable
-                    onDragStart={(evento) =>
-                      iniciarArrasteNaTira(
-                        evento,
-                        botao
-                      )
-                    }
-                    onDragOver={
-                      permitirReordenacao
-                    }
-                    onDrop={(evento) =>
-                      soltarSobreItem(
-                        evento,
+                {frase.map(
+                  (botao) => (
+                    <div
+                      className={[
+                        "tira-sentenca__item",
+
+                        itemTiraArrastado ===
                         botao.idItemTira
-                      )
-                    }
-                    onDragEnd={() =>
-                      setItemTiraArrastado(
-                        null
-                      )
-                    }
-                  >
-                    <button
-                      type="button"
-                      className="tira-sentenca__remover"
-                      aria-label={`Remover ${botao.legenda} da frase`}
-                      onClick={() =>
-                        removerItemDaTira(
+                          ? "tira-sentenca__item--arrastando"
+                          : "",
+
+                        itemReproduzindo ===
+                        botao.idItemTira
+                          ? "tira-sentenca__item--reproduzindo"
+                          : "",
+                      ]
+                        .filter(Boolean)
+                        .join(" ")}
+                      key={
+                        botao.idItemTira
+                      }
+                      draggable
+                      title={
+                        botao.legenda
+                      }
+                      aria-label={
+                        botao.legenda
+                      }
+                      onDragStart={(
+                        evento
+                      ) =>
+                        iniciarArrasteNaTira(
+                          evento,
+                          botao
+                        )
+                      }
+                      onDragOver={
+                        permitirReordenacao
+                      }
+                      onDrop={(
+                        evento
+                      ) =>
+                        soltarSobreItem(
+                          evento,
                           botao.idItemTira
                         )
                       }
+                      onDragEnd={() =>
+                        setItemTiraArrastado(
+                          null
+                        )
+                      }
                     >
-                      ×
-                    </button>
+                      <button
+                        type="button"
+                        className="tira-sentenca__remover"
+                        aria-label={`Remover ${botao.legenda} da frase`}
+                        onClick={() =>
+                          removerItemDaTira(
+                            botao.idItemTira
+                          )
+                        }
+                      >
+                        ×
+                      </button>
 
-                    <div className="tira-sentenca__item-conteudo">
                       {botao.foto ? (
                         <img
-                          src={botao.foto}
+                          className="tira-sentenca__imagem"
+                          src={
+                            botao.foto
+                          }
                           alt=""
-                          draggable={false}
+                          draggable={
+                            false
+                          }
                         />
                       ) : (
                         <span
@@ -805,21 +985,8 @@ function TelaPrincipal() {
                         </span>
                       )}
                     </div>
-
-                    <div
-                      className="tira-sentenca__item-faixa"
-                      style={{
-                        "--cor-faixa":
-                          botao.corFundo ||
-                          "#b3b4b7",
-                      }}
-                    >
-                      <span>
-                        {botao.legenda}
-                      </span>
-                    </div>
-                  </div>
-                ))}
+                  )
+                )}
               </div>
             )}
           </div>
@@ -830,7 +997,9 @@ function TelaPrincipal() {
               disabled={
                 frase.length === 0
               }
-              onClick={apagarUltimo}
+              onClick={
+                apagarUltimo
+              }
             >
               Apagar último
             </button>
@@ -851,7 +1020,9 @@ function TelaPrincipal() {
             {reproduzindoFrase && (
               <button
                 type="button"
-                onClick={pararReproducao}
+                onClick={
+                  pararReproducao
+                }
               >
                 Parar
               </button>
@@ -889,7 +1060,9 @@ function TelaPrincipal() {
               </div>
 
               <span className="prancha-botoes__quantidade">
-                {botoesFiltrados.length}{" "}
+                {
+                  botoesFiltrados.length
+                }{" "}
                 {botoesFiltrados.length ===
                 1
                   ? "botão"
@@ -898,22 +1071,26 @@ function TelaPrincipal() {
             </div>
 
             <p className="prancha-botoes__instrucao">
-              Clique para ouvir ou arraste
-              para a tira de sentença.
+              Clique para ouvir ou
+              arraste para a tira de
+              sentença.
             </p>
 
             <div className="prancha-botoes__grade">
               {botoesFiltrados.length ===
               0 ? (
                 <p className="prancha-botoes__vazia">
-                  Nenhum botão cadastrado
-                  nesta categoria.
+                  Nenhum botão
+                  cadastrado nesta
+                  categoria.
                 </p>
               ) : (
                 botoesFiltrados.map(
                   (botao) => (
                     <div
-                      key={botao.idBotao}
+                      key={
+                        botao.idBotao
+                      }
                       className={
                         arrastandoId ===
                         botao.idBotao
@@ -929,7 +1106,9 @@ function TelaPrincipal() {
                       role="button"
                       tabIndex={0}
                       aria-label={`${botao.legenda}. Clique para ouvir ou arraste para a tira.`}
-                      onDragStart={(evento) =>
+                      onDragStart={(
+                        evento
+                      ) =>
                         iniciarArraste(
                           evento,
                           botao
@@ -939,9 +1118,13 @@ function TelaPrincipal() {
                         finalizarArraste
                       }
                       onClick={() =>
-                        acionarBotao(botao)
+                        acionarBotao(
+                          botao
+                        )
                       }
-                      onKeyDown={(evento) =>
+                      onKeyDown={(
+                        evento
+                      ) =>
                         adicionarPeloTeclado(
                           evento,
                           botao
@@ -952,9 +1135,13 @@ function TelaPrincipal() {
                         {botao.foto ? (
                           <img
                             className="botao-comunicador__imagem"
-                            src={botao.foto}
+                            src={
+                              botao.foto
+                            }
                             alt=""
-                            draggable={false}
+                            draggable={
+                              false
+                            }
                           />
                         ) : (
                           <span
@@ -968,7 +1155,9 @@ function TelaPrincipal() {
 
                       <div className="botao-comunicador__faixa">
                         <span className="botao-comunicador__legenda">
-                          {botao.legenda}
+                          {
+                            botao.legenda
+                          }
                         </span>
                       </div>
                     </div>
@@ -987,7 +1176,9 @@ function TelaPrincipal() {
             <button
               type="button"
               className="carrossel-categorias__seta"
-              onClick={categoriaAnterior}
+              onClick={
+                categoriaAnterior
+              }
               aria-label="Categoria anterior"
               disabled={
                 categorias.length === 0
@@ -997,14 +1188,18 @@ function TelaPrincipal() {
             </button>
 
             <div className="carrossel-categorias__lista">
-              {categorias.length === 0 ? (
+              {categorias.length ===
+              0 ? (
                 <p className="carrossel-categorias__vazia">
                   Nenhuma categoria
                   cadastrada.
                 </p>
               ) : (
                 categorias.map(
-                  (categoria, indice) => (
+                  (
+                    categoria,
+                    indice
+                  ) => (
                     <button
                       type="button"
                       key={
@@ -1041,7 +1236,9 @@ function TelaPrincipal() {
                       )}
 
                       <span>
-                        {categoria.nome}
+                        {
+                          categoria.nome
+                        }
                       </span>
                     </button>
                   )
@@ -1052,7 +1249,9 @@ function TelaPrincipal() {
             <button
               type="button"
               className="carrossel-categorias__seta"
-              onClick={proximaCategoria}
+              onClick={
+                proximaCategoria
+              }
               aria-label="Próxima categoria"
               disabled={
                 categorias.length === 0

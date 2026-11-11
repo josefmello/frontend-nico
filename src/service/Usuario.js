@@ -16,3 +16,13 @@ export const buscarMeusUsuarios = async () => {
   const resposta = await api.get('/api/usuarios/meus-usuarios') 
   return resposta.data
 }
+
+export const buscarUsuario = async (idUsuario) => {
+  const resposta = await api.get(`/api/usuarios/${idUsuario}`)
+  return resposta.data
+}
+
+export const atualizarUsuario = async (idUsuario, dadosUsuario) => {
+  const resposta = await api.put(`/api/usuarios/${idUsuario}`, dadosUsuario)
+  return resposta.data
+}
