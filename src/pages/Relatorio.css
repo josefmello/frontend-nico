@@ -271,6 +271,43 @@
   height: 340px;
 }
 
+.grafico-tooltip {
+  padding: 10px 12px;
+
+  color: var(--nicoturne, #08324d);
+  background-color: #ffffff;
+
+  border: 1px solid #d5dce0;
+  border-radius: 10px;
+
+  box-shadow: 0 4px 14px rgba(14, 58, 87, 0.14);
+}
+
+.grafico-tooltip__horario {
+  margin: 0 0 8px;
+  font-weight: 800;
+}
+
+.grafico-tooltip__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  font-size: 13px;
+}
+
+.grafico-tooltip__imagem {
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+
+  object-fit: contain;
+
+  background-color: #ffffff;
+  border: 1px solid #d5dce0;
+  border-radius: 8px;
+}
+
 /* Responsividade */
 
 @media (max-width: 1100px) {

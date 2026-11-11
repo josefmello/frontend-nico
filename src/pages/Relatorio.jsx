@@ -23,22 +23,6 @@ import {
 
 import "./Relatorio.css";
 
-const diasDaSemana = [
-  "Domingo",
-  "Segunda-feira",
-  "Terça-feira",
-  "Quarta-feira",
-  "Quinta-feira",
-  "Sexta-feira",
-  "Sábado",
-];
-
-function diaDaSemana(data) {
-  return new Date(
-    `${data}T12:00:00Z`
-  ).getUTCDay();
-}
-
 function partesDataHora(valor) {
   const [data, horario = ""] =
     (valor ?? "").split("T");
@@ -60,15 +44,94 @@ function quantidadeCliques(registro) {
     : 1;
 }
 
-function formatarData(data) {
-  if (!data) {
-    return "";
+function BotaoGraficoPonto({
+  cx,
+  cy,
+  payload,
+}) {
+  if (
+    cx == null ||
+    cy == null ||
+    !payload.idBotao
+  ) {
+    return null;
   }
 
-  const [ano, mes, dia] =
-    data.split("-");
+  return (
+    <g>
+      <circle
+        cx={cx}
+        cy={cy}
+        r={18}
+        fill="#ffffff"
+        stroke="#d5dce0"
+      />
 
-  return `${dia}/${mes}/${ano}`;
+      {payload.fotoBotao ? (
+        <image
+          href={payload.fotoBotao}
+          x={cx - 14}
+          y={cy - 14}
+          width={28}
+          height={28}
+          preserveAspectRatio="xMidYMid meet"
+        />
+      ) : (
+        <circle
+          cx={cx}
+          cy={cy}
+          r={7}
+          fill="#1D6FA3"
+        />
+      )}
+
+      <title>
+        {payload.nomeBotao}:{" "}
+        {payload.quantidade}{" "}
+        {payload.quantidade === 1
+          ? "vez"
+          : "vezes"}
+      </title>
+    </g>
+  );
+}
+
+function TooltipGrafico({
+  active,
+  payload,
+  label,
+}) {
+  const ponto = payload?.[0]?.payload;
+
+  if (!active || !ponto?.idBotao) {
+    return null;
+  }
+
+  return (
+    <div className="grafico-tooltip">
+      <p className="grafico-tooltip__horario">
+        {label}
+      </p>
+
+      <div className="grafico-tooltip__item">
+        {ponto.fotoBotao ? (
+          <img
+            className="grafico-tooltip__imagem"
+            src={ponto.fotoBotao}
+            alt=""
+          />
+        ) : null}
+
+        <span>
+          {ponto.nomeBotao}:{" "}
+          {ponto.quantidade}{" "}
+          {ponto.quantidade === 1
+            ? "vez"
+            : "vezes"}
+        </span>
+      </div>
+    </div>
+  );
 }
 
 function Relatorio() {
@@ -92,19 +155,6 @@ function Relatorio() {
 
   const [dataFinal, setDataFinal] =
     useState("");
-
-  const [
-    diaSelecionado,
-    setDiaSelecionado,
-  ] = useState("");
-
-  const [
-    horaSelecionada,
-    setHoraSelecionada,
-  ] = useState("");
-
-  const [agrupamento, setAgrupamento] =
-    useState("hora");
 
   const [
     carregandoUsuarios,
@@ -245,7 +295,7 @@ function Relatorio() {
   const dados = useMemo(() => {
     const registrosFiltrados =
       registros.filter((registro) => {
-        const { data, hora } =
+        const { data } =
           partesDataHora(
             registro.dataHora
           );
@@ -264,21 +314,6 @@ function Relatorio() {
         if (
           dataFinal &&
           data > dataFinal
-        ) {
-          return false;
-        }
-
-        if (
-          diaSelecionado !== "" &&
-          diaDaSemana(data) !==
-            Number(diaSelecionado)
-        ) {
-          return false;
-        }
-
-        if (
-          horaSelecionada !== "" &&
-          hora !== horaSelecionada
         ) {
           return false;
         }
@@ -310,7 +345,7 @@ function Relatorio() {
     const intervalosAtivos =
       new Set();
 
-    const usoPorPeriodo =
+    const cliquesPorHora =
       new Map();
 
     registrosFiltrados.forEach(
@@ -341,16 +376,18 @@ function Relatorio() {
           `${data}-${hora}`
         );
 
-        const chavePeriodo =
-          agrupamento === "dia"
-            ? data
-            : hora;
+        const botoesDaHora =
+          cliquesPorHora.get(hora) ??
+          new Map();
 
-        usoPorPeriodo.set(
-          chavePeriodo,
-          (usoPorPeriodo.get(
-            chavePeriodo
-          ) ?? 0) + cliques
+        botoesDaHora.set(
+          idBotao,
+          (botoesDaHora.get(idBotao) ?? 0) +
+            cliques
+        );
+        cliquesPorHora.set(
+          hora,
+          botoesDaHora
         );
 
         const idsCategorias =
@@ -412,24 +449,42 @@ function Relatorio() {
         )
       );
 
-    const grafico = [
-      ...usoPorPeriodo.entries(),
-    ]
-      .sort(([a], [b]) =>
-        a.localeCompare(b)
-      )
-      .map(
-        ([
-          periodo,
-          quantidade,
-        ]) => ({
-          periodo:
-            agrupamento === "dia"
-              ? formatarData(periodo)
-              : `${periodo}:00`,
-          botoes: quantidade,
-        })
-      );
+    const grafico = Array.from(
+      { length: 24 },
+      (_, hora) => {
+        const horaFormatada = String(
+          hora
+        ).padStart(2, "0");
+        const maisUsadoNaHora = [
+          ...(cliquesPorHora.get(
+            horaFormatada
+          ) ?? new Map()),
+        ].sort(
+          ([idA, quantidadeA], [idB, quantidadeB]) =>
+            quantidadeB - quantidadeA ||
+            idA.localeCompare(idB)
+        )[0];
+        const botao = maisUsadoNaHora
+          ? botoesPorId.get(
+              maisUsadoNaHora[0]
+            )
+          : null;
+
+        return {
+          periodo: `${horaFormatada}:00`,
+          quantidade:
+            maisUsadoNaHora?.[1] ?? 0,
+          idBotao: maisUsadoNaHora?.[0] ?? "",
+          nomeBotao:
+            botao?.legenda ??
+            botao?.nome ??
+            (maisUsadoNaHora
+              ? `Botão ${maisUsadoNaHora[0]}`
+              : ""),
+          fotoBotao: botao?.foto ?? "",
+        };
+      }
+    );
 
     return {
       total,
@@ -456,13 +511,10 @@ function Relatorio() {
       grafico,
     };
   }, [
-    agrupamento,
     botoes,
     categorias,
     dataFinal,
     dataInicial,
-    diaSelecionado,
-    horaSelecionada,
     registros,
   ]);
 
@@ -482,9 +534,6 @@ function Relatorio() {
   const limparFiltros = () => {
     setDataInicial("");
     setDataFinal("");
-    setDiaSelecionado("");
-    setHoraSelecionada("");
-    setAgrupamento("hora");
   };
 
   const carregando =
@@ -581,87 +630,6 @@ function Relatorio() {
           />
         </label>
 
-        <label>
-          Dia da semana:
-
-          <select
-            value={diaSelecionado}
-            onChange={(evento) =>
-              setDiaSelecionado(
-                evento.target.value
-              )
-            }
-          >
-            <option value="">
-              Todos
-            </option>
-
-            {diasDaSemana.map(
-              (dia, indice) => (
-                <option
-                  key={dia}
-                  value={indice}
-                >
-                  {dia}
-                </option>
-              )
-            )}
-          </select>
-        </label>
-
-        <label>
-          Hora:
-
-          <select
-            value={horaSelecionada}
-            onChange={(evento) =>
-              setHoraSelecionada(
-                evento.target.value
-              )
-            }
-          >
-            <option value="">
-              Todas
-            </option>
-
-            {Array.from(
-              { length: 24 },
-              (_, hora) =>
-                String(hora).padStart(
-                  2,
-                  "0"
-                )
-            ).map((hora) => (
-              <option
-                key={hora}
-                value={hora}
-              >
-                {hora}:00
-              </option>
-            ))}
-          </select>
-        </label>
-
-        <label>
-          Exibir gráfico:
-
-          <select
-            value={agrupamento}
-            onChange={(evento) =>
-              setAgrupamento(
-                evento.target.value
-              )
-            }
-          >
-            <option value="hora">
-              Por hora
-            </option>
-
-            <option value="dia">
-              Por dia
-            </option>
-          </select>
-        </label>
       </section>
 
       {erro && (
@@ -755,15 +723,12 @@ function Relatorio() {
             </h2>
 
             <p>
-              {agrupamento === "dia"
-                ? "Por dia"
-                : "Por hora"}
+              Botão mais utilizado em cada horário
             </p>
           </div>
         </div>
 
-        {dados.grafico.length ===
-        0 ? (
+        {dados.total === 0 ? (
           <p className="relatorio-mensagem">
             Não há utilizações para
             os filtros selecionados.
@@ -790,23 +755,25 @@ function Relatorio() {
 
                 <XAxis
                   dataKey="periodo"
+                  interval={2}
                 />
 
                 <YAxis
                   allowDecimals={false}
                 />
 
-                <Tooltip />
+                <Tooltip
+                  content={<TooltipGrafico />}
+                />
 
                 <Line
                   type="monotone"
-                  dataKey="botoes"
-                  name="Botões usados"
+                  dataKey="quantidade"
+                  name="Cliques do botão mais utilizado"
                   stroke="#1D6FA3"
                   strokeWidth={2}
-                  activeDot={{
-                    r: 6,
-                  }}
+                  dot={<BotaoGraficoPonto />}
+                  activeDot={false}
                 />
               </LineChart>
             </ResponsiveContainer>
