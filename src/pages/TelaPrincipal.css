@@ -466,23 +466,31 @@
 
 .botao-comunicador__conteudo {
   min-height: 130px;
-  padding: 14px;
+  padding: 12px;
 
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
 
   background-color: #ffffff;
 }
 
 .botao-comunicador__imagem {
-  width: 100%;
-  height: 120px;
+  width: 110px;
+  height: 110px;
 
   display: block;
+  flex: 0 0 auto;
 
   object-fit: contain;
+  object-position: center;
+
+  transform-origin: center;
 
   pointer-events: none;
+  user-select: none;
 }
 
 .botao-comunicador__placeholder {
