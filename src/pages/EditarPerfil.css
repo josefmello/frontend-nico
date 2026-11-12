@@ -1,0 +1,167 @@
+/* Editar Perfil: cabeçalho fora do card (padrão da tela de Relatório) e formulário em coluna única.
+   Cores: só variáveis do index.css. */
+
+.editar-perfil {
+  --ep-foco: color-mix(in srgb, var(--nicocean) 28%, transparent);
+
+  width: 100%;
+  max-width: 944px; /* 880px do card + 2 × 32px de padding */
+  margin: 0 auto; /* cabeçalho e card centralizados na mesma coluna */
+  padding: 32px 32px 56px;
+}
+
+/* ---------- Cabeçalho (mesmo padrão do Relatório) ---------- */
+
+.editar-perfil__cabecalho {
+  margin-bottom: 20px;
+}
+
+.editar-perfil__sobre-titulo {
+  display: block;
+  margin-bottom: 4px;
+  color: var(--nicocean);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.editar-perfil__cabecalho h1 {
+  margin: 0;
+  color: var(--nicoturne);
+  font-size: clamp(28px, 4vw, 38px);
+}
+
+/* ---------- Card: coluna única ---------- */
+
+.editar-perfil__card {
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto; /* só o card é centralizado na horizontal */
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 36px;
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 8px 28px color-mix(in srgb, var(--nicoturne) 10%, transparent);
+}
+
+.editar-perfil__card > label {
+  display: flex;
+  flex-direction: column;
+  gap: 12px; /* espaço entre o rótulo e a caixa */
+  width: 100%;
+  color: var(--nicoturne);
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* !important: o Auth.css força padding/altura em input[type=...] com !important */
+.editar-perfil__card > label > input,
+.editar-perfil__card > label > select {
+  width: 100%;
+  min-height: 56px;
+  padding: 14px 18px !important;
+  color: var(--nicoturne);
+  font-size: 18px;
+  font-weight: 400;
+  background-color: white;
+  border: 1.5px solid var(--nicoleste);
+  border-radius: 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.editar-perfil__card > label > input:focus,
+.editar-perfil__card > label > select:focus {
+  border-color: var(--nicocean);
+  box-shadow: 0 0 0 4px var(--ep-foco);
+}
+
+.editar-perfil__card > label > select {
+  appearance: none;
+  padding-right: 52px !important;
+  cursor: pointer;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--nicocean) 50%),
+    linear-gradient(135deg, var(--nicocean) 50%, transparent 50%);
+  background-position: calc(100% - 26px) 50%, calc(100% - 20px) 50%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+/* Botão Salvar: igual ao "Entrar" do Login, no rodapé à direita */
+.editar-perfil__card > button {
+  align-self: flex-end;
+  margin-top: 16px; /* somado ao gap de 24px do card = 40px até a última caixa */
+  min-width: 200px;
+  min-height: 56px;
+  padding: 14px 40px;
+  color: var(--nicoturne);
+  font-size: 20px;
+  font-weight: 800;
+  background-color: var(--nicoleste);
+  border: 2px solid transparent;
+  border-radius: 12px;
+  transition: box-shadow 0.2s, background-color 0.2s;
+}
+
+.editar-perfil__card > button:hover {
+  text-decoration: underline;
+  box-shadow: 0 6px 18px rgba(29, 111, 163, 0.35);
+}
+
+.editar-perfil__card > button:focus-visible {
+  outline: 3px solid var(--nicocean);
+  outline-offset: 3px;
+}
+
+@media (max-width: 700px) {
+  .editar-perfil {
+    padding: 20px 16px 40px;
+  }
+
+  .editar-perfil__card {
+    gap: 20px;
+    padding: 22px 16px;
+    border-radius: 18px;
+  }
+
+  .editar-perfil__card > button {
+    align-self: stretch;
+  }
+}
+
+/* Avisos de carregamento / sucesso / erro da API */
+.editar-perfil__aviso {
+  margin: 0;
+  padding: 12px 16px;
+  color: var(--nicoturne);
+  font-size: 17px;
+  font-weight: 700;
+  background: color-mix(in srgb, var(--nicoleste) 22%, white);
+  border-left: 4px solid var(--nicocean);
+  border-radius: 10px;
+}
+
+.editar-perfil__aviso--sucesso {
+  background: color-mix(in srgb, var(--nicoleste) 40%, white);
+  border-left-color: var(--nicocean);
+}
+
+.editar-perfil__aviso--erro {
+  background: color-mix(in srgb, var(--nicoshine) 22%, white);
+  border-left-color: var(--nicoshine);
+}
+
+.editar-perfil__card > label > :disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+.editar-perfil__card > button:disabled {
+  opacity: 0.75;
+  cursor: progress;
+  text-decoration: none;
+  box-shadow: none;
+}
