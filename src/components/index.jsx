@@ -2,13 +2,24 @@ import "./NicoForms.css"
 
 // Casca do conteúdo das telas de edição. A barra de modos e o menu lateral ficam no
 // layout do administrador (pages/Inicio.jsx), para que a troca de tela aconteça por estado.
-export function LayoutNico({ titulo, children }) {
+export function LayoutNico({
+  titulo,
+  children,
+  className = "",
+}) {
+  const classes = [
+    "nico-formulario-pagina",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   return (
-    <main className="nico-formulario-pagina">
+    <main className={classes}>
       <h1>{titulo}</h1>
       {children}
     </main>
-  )
+  );
 }
 
 export function CampoCor({ rotulo, valor, onChange }) {

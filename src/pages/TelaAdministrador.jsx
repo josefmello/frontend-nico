@@ -11,19 +11,36 @@ import MenuComunicador from "../components/MenuComunicador.jsx";
 import MenuLateral from "../components/MenuLateral.jsx";
 
 import AdicionarBotao from "./AdicionarBotão.jsx";
-import EditarCategoria from "./EditarCategoria.jsx";
 import Relatorio from "./Relatorio.jsx";
 import EditarPerfil from "./EditarPerfil.jsx";
 import EdicaoUsuario from "./EdicaoUsuario.jsx";
+import AdicionarCategoria  from "./AdicionarCategoria.jsx";
+import "./TelaAdministrador.css"; 
+import EditarBotao  from "./EditarBotao.jsx"; 
+import EditarCategoria  from "./EditarCategoria.jsx";
 
-import "./TelaAdministrador.css";
 
 const SECOES = {
-  perfil: EditarPerfil,
-  usuario: EdicaoUsuario,
-  adicionarBotao: AdicionarBotao,
-  categorias: EditarCategoria,
-  relatorios: Relatorio,
+  perfil:
+    EditarPerfil,
+
+  usuario:
+    EdicaoUsuario,
+
+  adicionarBotao:
+    AdicionarBotao,
+
+  editarBotao:
+    EditarBotao,
+
+  adicionarCategoria:
+    AdicionarCategoria,
+
+  editarCategoria:
+    EditarCategoria,
+
+  relatorios:
+    Relatorio,
 };
 
 function TelaAdministrador({
@@ -49,8 +66,8 @@ function TelaAdministrador({
 
         return administradorSalvo
           ? JSON.parse(
-              administradorSalvo
-            )
+            administradorSalvo
+          )
           : null;
       } catch (erroLeitura) {
         console.error(

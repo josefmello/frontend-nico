@@ -11,7 +11,8 @@
   --nf-foco: color-mix(in srgb, var(--nicocean) 28%, transparent);
   --nf-alerta: var(--nicoshine);
   --nf-alerta-fundo: color-mix(in srgb, var(--nicoshine) 22%, white);
-  --nf-rotulo: 220px; /* largura da coluna dos rótulos: usada pela grade e pela mensagem de erro */
+  --nf-rotulo: 220px;
+  /* largura da coluna dos rótulos: usada pela grade e pela mensagem de erro */
   --nf-gap: 16px;
 
   max-width: 960px;
@@ -20,7 +21,8 @@
 }
 
 .nico-formulario-pagina h1 {
-  margin: 0; /* o espaçamento vem do gap do <main> (regra global do TelaPrincipal.css) */
+  margin: 0;
+  /* o espaçamento vem do gap do <main> (regra global do TelaPrincipal.css) */
   color: var(--nicoturne);
   font-size: clamp(26px, 5vw, 34px);
   font-weight: 800;
@@ -99,7 +101,8 @@
 }
 
 .nico-icone-upload {
-  flex: none; /* mantém o círculo perfeito mesmo em telas estreitas */
+  flex: none;
+  /* mantém o círculo perfeito mesmo em telas estreitas */
   display: grid;
   place-items: center;
   width: 60px;
@@ -135,7 +138,7 @@
 
 /* Com arquivo escolhido: a imagem preenche o card e uma faixa convida a trocar */
 .nico-upload img {
-position: absolute;
+  position: absolute;
   inset: 0;
 
   width: 100%;
@@ -177,8 +180,8 @@ position: absolute;
   border-radius: 20px;
 }
 
-.nico-preview > img {
-    flex: 1;
+.nico-preview>img {
+  flex: 1;
   min-height: 0;
 
   width: 100%;
@@ -187,12 +190,12 @@ position: absolute;
   object-fit: contain;
 }
 
-.nico-preview > span:first-child {
+.nico-preview>span:first-child {
   padding: 8px;
   font-size: 56px;
 }
 
-.nico-preview > span.nico-preview-vazio:first-child {
+.nico-preview>span.nico-preview-vazio:first-child {
   color: var(--nicoturne);
   font-size: 15px;
   font-weight: 700;
@@ -215,7 +218,8 @@ position: absolute;
   grid-template-columns: var(--nf-rotulo) minmax(0, 1fr);
   align-items: center;
   gap: var(--nf-gap);
-  min-height: 56px; /* todas as linhas têm a mesma altura mínima, com ou sem input */
+  min-height: 56px;
+  /* todas as linhas têm a mesma altura mínima, com ou sem input */
 }
 
 .nico-rotulo {
@@ -261,7 +265,8 @@ select.nico-entrada {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin: -12px 0 0 calc(var(--nf-rotulo) + var(--nf-gap)); /* alinhado à coluna do input */
+  margin: -12px 0 0 calc(var(--nf-rotulo) + var(--nf-gap));
+  /* alinhado à coluna do input */
   padding: 8px 14px;
   color: var(--nicoturne);
   font-size: 15px;
@@ -419,37 +424,30 @@ select.nico-entrada {
   .nico-formulario-pagina * {
     transition: none !important;
   }
+}
 
-  .nico-mensagem {
+/* ---------- Mensagens ---------- */
+
+.nico-mensagem {
   margin: 0 0 20px;
   padding: 14px 18px;
-
   color: var(--nicoturne);
-
   border-radius: 12px;
-
   font-size: 16px;
   font-weight: 700;
 }
 
 .nico-mensagem--sucesso {
   background-color:
-    color-mix(
-      in srgb,
+    color-mix(in srgb,
       var(--nicoleste) 45%,
-      white
-    );
-
-  border-left:
-    5px solid var(--nicocean);
+      white);
+  border-left: 5px solid var(--nicocean);
 }
 
 .nico-mensagem--erro {
-  background-color:
-    var(--nf-alerta-fundo);
-
-  border-left:
-    5px solid var(--nf-alerta);
+  background-color: var(--nf-alerta-fundo);
+  border-left: 5px solid var(--nf-alerta);
 }
 
 .nico-botao:disabled,
@@ -457,4 +455,917 @@ select.nico-entrada {
   cursor: not-allowed;
   opacity: 0.65;
 }
+
+/* =========================================================
+   ADICIONAR CATEGORIA
+   ========================================================= */
+
+/*
+ * TelaAdministrador já aplica 24px de padding.
+ * O formulário ocupa todo o restante da área branca.
+ */
+.tela-administrador__conteudo .nico-formulario-pagina.nico-formulario-categoria {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0 0 56px;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria>h1 {
+  width: 100%;
+  margin: 0 0 22px;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria form {
+  width: 100%;
+  min-width: 0;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-secao {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin-right: 0;
+  margin-left: 0;
+  padding: 30px 34px;
+}
+
+/* ---------- Foto e pré-visualização ---------- */
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-midia-categoria {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 40px;
+  align-items: start;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-midia-categoria>div {
+  min-width: 0;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-midia-categoria .nico-upload,
+.tela-administrador__conteudo .nico-formulario-categoria .nico-preview-categoria {
+  box-sizing: border-box;
+  width: 100%;
+  height: 230px;
+  min-height: 230px;
+  max-height: 230px;
+}
+
+/*
+ * O upload mantém position: relative porque
+ * o input invisível precisa cobrir toda a área.
+ */
+.tela-administrador__conteudo .nico-formulario-categoria .nico-midia-categoria .nico-upload {
+  position: relative;
+}
+
+/*
+ * A imagem do upload continua absoluta, mas é
+ * contida dentro dos 230px do cartão.
+ */
+.tela-administrador__conteudo .nico-formulario-categoria .nico-midia-categoria .nico-upload>img {
+  position: absolute;
+  inset: 14px;
+
+  display: block;
+
+  width: calc(100% - 28px);
+  height: calc(100% - 28px);
+
+  min-width: 0;
+  min-height: 0;
+  max-width: calc(100% - 28px);
+  max-height: calc(100% - 28px);
+
+  padding: 0;
+  margin: 0;
+
+  object-fit: contain;
+
+  background: white;
+}
+
+/* Preview próprio da categoria, sem tira de legenda */
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-preview-categoria {
+  display: grid;
+  place-items: center;
+
+  padding: 20px;
+  overflow: hidden;
+
+  border: 2px solid var(--nf-borda);
+  border-radius: 20px;
+
+  background: white;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-preview-categoria>img {
+  position: static;
+
+  display: block;
+
+  width: 100%;
+  height: 100%;
+  max-width: 200px;
+  max-height: 190px;
+
+  padding: 0;
+  margin: auto;
+
+  object-fit: contain;
+
+  border: 0;
+  background: transparent;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-preview-categoria__vazio {
+  color: var(--nicoturne);
+  font-size: 16px;
+  font-weight: 700;
+  opacity: 0.6;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-preview-categoria__nome {
+  display: block;
+
+  width: 100%;
+  margin-top: 10px;
+
+  overflow-wrap: anywhere;
+
+  color: var(--nicoturne);
+  text-align: center;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* ---------- Busca e listas ---------- */
+
+.nico-busca-rotulo {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--nicoturne);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-seletor-botoes {
+  display: grid;
+  grid-template-columns:
+    repeat(2, minmax(0, 1fr));
+  gap: 28px;
+
+  width: 100%;
+  min-width: 0;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-lista-botoes {
+  box-sizing: border-box;
+
+  width: 100%;
+  min-width: 0;
+  height: 540px;
+  min-height: 540px;
+  max-height: 540px;
+
+  padding: 18px;
+  overflow: hidden;
+
+  border: 2px solid var(--nf-borda);
+  border-radius: 18px;
+
+  background: var(--nf-fundo-suave);
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-lista-botoes--erro {
+  border-color: var(--nf-alerta);
+  background: var(--nf-alerta-fundo);
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-lista-botoes h2 {
+  margin: 0 0 14px;
+  color: var(--nicoturne);
+  font-size: 19px;
+  font-weight: 800;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-lista-botoes>ul,
+.tela-administrador__conteudo .nico-formulario-categoria .nico-lista-botoes>ol {
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  width: 100%;
+  height: calc(100% - 44px);
+
+  margin: 0;
+  padding: 0 4px 0 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  list-style: none;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-lista-botoes li {
+  box-sizing: border-box;
+
+  flex: 0 0 82px;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 82px;
+
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+}
+
+/* ---------- Botões disponíveis ---------- */
+
+.tela-administrador__conteudo .nico-formulario-categoria button.nico-botao-disponivel {
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns:
+    62px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 12px;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 82px;
+  min-height: 82px;
+  max-height: 82px;
+
+  padding: 8px 12px;
+  margin: 0;
+
+  overflow: hidden;
+
+  color: var(--nicoturne);
+  text-align: left;
+
+  border: 1px solid var(--nf-borda);
+  border-radius: 14px;
+
+  background: white;
+
+  cursor: pointer;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria button.nico-botao-disponivel:hover {
+  border-color: var(--nicocean);
+  background: var(--nf-fundo-forte);
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria button.nico-botao-disponivel>img {
+  position: static;
+
+  display: block;
+
+  box-sizing: border-box;
+
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+  min-height: 62px;
+  max-width: 62px;
+  max-height: 62px;
+
+  padding: 3px;
+  margin: 0;
+
+  object-fit: contain;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: white;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria button.nico-botao-disponivel>span:not(.nico-botao-sem-imagem) {
+  min-width: 0;
+
+  overflow: hidden;
+  overflow-wrap: anywhere;
+
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria button.nico-botao-disponivel>strong {
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  color: white;
+
+  font-size: 21px;
+  line-height: 1;
+
+  border-radius: 50%;
+
+  background: var(--nicocean);
+}
+
+/* ---------- Botões selecionados ---------- */
+
+.tela-administrador__conteudo .nico-formulario-categoria li.nico-botao-selecionado {
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-columns:
+  28px 34px 62px minmax(0, 1fr) 112px;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 82px;
+  min-height: 82px;
+  max-height: 82px;
+
+  padding: 8px 10px;
+  margin: 0;
+
+  overflow: hidden;
+
+  border: 1px solid var(--nf-borda);
+  border-radius: 14px;
+
+  background: white;
+}
+
+.tela-administrador__conteudo .nico-formulario-categoria li.nico-botao-selecionado>img {
+  position: static;
+
+  display: block;
+
+  box-sizing: border-box;
+
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+  min-height: 62px;
+  max-width: 62px;
+  max-height: 62px;
+
+  padding: 3px;
+  margin: 0;
+
+  object-fit: contain;
+
+  border: 0;
+  border-radius: 10px;
+
+  background: white;
+}
+
+.nico-botao-ordem {
+  display: grid;
+  place-items: center;
+
+  width: 30px;
+  height: 30px;
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 800;
+
+  border-radius: 50%;
+
+  background: var(--nicocean);
+}
+
+.nico-botao-selecionado__nome {
+  min-width: 0;
+
+  overflow: hidden;
+  overflow-wrap: anywhere;
+
+  color: var(--nicoturne);
+
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.nico-botao-selecionado__acoes {
+  display: grid;
+  grid-template-columns:
+    repeat(3, 34px);
+  gap: 5px;
+
+  width: 112px;
+  min-width: 112px;
+}
+
+.nico-botao-selecionado__acoes>button {
+  display: grid;
+  place-items: center;
+
+  box-sizing: border-box;
+
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  min-height: 34px;
+  max-width: 34px;
+  max-height: 34px;
+
+  padding: 0;
+  margin: 0;
+
+  color: var(--nicocean);
+
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+
+  border: 1px solid var(--nicocean);
+  border-radius: 9px;
+
+  background: white;
+
+  cursor: pointer;
+}
+
+.nico-botao-selecionado__acoes>button:hover:not(:disabled) {
+  color: white;
+  background: var(--nicocean);
+}
+
+.nico-botao-selecionado__acoes>button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+/* ---------- Ausência de imagem ---------- */
+
+.tela-administrador__conteudo .nico-formulario-categoria .nico-botao-sem-imagem {
+  display: grid;
+  place-items: center;
+
+  box-sizing: border-box;
+
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+  min-height: 62px;
+  max-width: 62px;
+  max-height: 62px;
+
+  padding: 4px;
+  margin: 0;
+
+  color: var(--nicoturne);
+  text-align: center;
+
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.1;
+
+  border-radius: 10px;
+
+  background: var(--nf-fundo-forte);
+}
+
+.nico-lista-vazia {
+  margin: 40px 0;
+
+  color: var(--nicoturne);
+
+  text-align: center;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  opacity: 0.7;
+}
+
+.nico-erro-lista {
+  margin: 0;
+}
+
+/* ---------- Responsivo da categoria ---------- */
+
+/* ---------- Filtro por categoria ---------- */
+
+.nico-filtro-categoria {
+  margin-top: 16px;
+}
+
+.nico-filtro-categoria
+  .nico-entrada {
+  width: 100%;
+}
+
+/* ---------- Arrastar botões selecionados ---------- */
+
+.nico-botao-arraste {
+  display: grid;
+  place-items: center;
+
+  box-sizing: border-box;
+
+  width: 26px;
+  height: 46px;
+  padding: 0;
+  margin: 0;
+
+  color: var(--nicocean);
+
+  font-size: 21px;
+  font-weight: 900;
+  line-height: 1;
+
+  border-radius: 8px;
+
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.nico-botao-arraste:hover,
+.nico-botao-arraste:focus-visible {
+  color: white;
+  background: var(--nicocean);
+  outline: none;
+}
+
+.nico-botao-arraste:active {
+  cursor: grabbing;
+}
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  li.nico-botao-selecionado--arrastando {
+  opacity: 0.5;
+  border-color: var(--nicocean);
+  background: var(--nf-fundo-forte);
+}
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  li.nico-botao-selecionado:has(
+    .nico-botao-arraste:active
+  ) {
+  box-shadow:
+    0 0 0 3px var(--nf-foco);
+}
+
+/* ---------- Responsivo da categoria ---------- */
+
+@media (max-width: 1180px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-seletor-botoes {
+    grid-template-columns: 1fr;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-botoes {
+    height: 440px;
+    min-height: 440px;
+    max-height: 440px;
+  }
+}
+
+@media (max-width: 800px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-secao {
+    padding: 20px 16px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-midia-categoria {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado {
+    grid-template-columns:
+      28px 30px 52px minmax(0, 1fr);
+
+    height: auto;
+    min-height: 80px;
+    max-height: none;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    > img,
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    > .nico-botao-sem-imagem {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    min-height: 52px;
+    max-width: 52px;
+    max-height: 52px;
+  }
+
+  .nico-botao-selecionado__acoes {
+    grid-column: 1 / -1;
+    justify-self: end;
+
+    margin-top: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado {
+    grid-template-columns:
+      26px 30px minmax(0, 1fr);
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    > img,
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    > .nico-botao-sem-imagem {
+    display: none;
+  }
+}
+/* =========================================================
+   EDIÇÃO DE BOTÃO
+   ========================================================= */
+
+/* Lista de seleção do botão */
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  .nico-lista-edicao {
+  width: 100%;
+  height: 560px;
+  min-height: 560px;
+  max-height: 560px;
+  margin-top: 24px;
+}
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  .nico-lista-edicao
+  > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  height: calc(100% - 44px);
+  margin: 0;
+  padding: 0 4px 0 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  list-style: none;
+}
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  .nico-lista-edicao
+  > ul
+  > li {
+  flex: 0 0 82px;
+
+  box-sizing: border-box;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  height: 82px;
+  margin: 0;
+  padding: 0;
+
+  overflow: hidden;
+}
+
+/*
+ * Na tela de edição, o botão disponível possui:
+ * imagem | nome | tipo | ícone de edição
+ */
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  .nico-lista-edicao
+  button.nico-botao-disponivel {
+  grid-template-columns:
+    62px minmax(0, 1fr) auto 36px;
+}
+
+/* Identificação Padrão ou Personalizado */
+
+.nico-registro-tipo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 110px;
+  min-height: 30px;
+  padding: 5px 12px;
+
+  color: var(--nicoturne);
+
+  white-space: nowrap;
+
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+
+  border: 1px solid var(--nf-borda);
+  border-radius: 999px;
+
+  background: var(--nf-fundo-suave);
+}
+
+/* Ícone de editar */
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  .nico-lista-edicao
+  button.nico-botao-disponivel
+  > strong {
+  display: grid;
+  place-items: center;
+
+  width: 34px;
+  height: 34px;
+
+  color: white;
+
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1;
+
+  border-radius: 50%;
+
+  background: var(--nicocean);
+}
+
+/* Informação exibida depois que um botão é escolhido */
+
+.nico-edicao-identificacao {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  padding: 16px 18px;
+
+  border-left: 5px solid var(--nicocean);
+  border-radius: 12px;
+
+  background: var(--nf-fundo-suave);
+}
+
+.nico-edicao-identificacao strong {
+  color: var(--nicoturne);
+
+  overflow-wrap: anywhere;
+
+  font-size: 18px;
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.nico-edicao-identificacao span {
+  color: var(--nicoturne);
+
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+
+  opacity: 0.85;
+}
+
+/* Mantém a imagem do botão contida durante a edição */
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  .nico-midia
+  .nico-upload
+  > img {
+  object-fit: contain;
+}
+
+/* Destaque para opções de ocultação */
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  .nico-check {
+  width: 30px;
+  height: 30px;
+}
+
+/* =========================================================
+   RESPONSIVO DA EDIÇÃO DE BOTÃO
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-edicao {
+    height: 470px;
+    min-height: 470px;
+    max-height: 470px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-edicao
+    button.nico-botao-disponivel {
+    grid-template-columns:
+      56px minmax(0, 1fr) 36px;
+  }
+
+  .nico-registro-tipo {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-edicao {
+    height: 400px;
+    min-height: 400px;
+    max-height: 400px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-edicao
+    button.nico-botao-disponivel {
+    grid-template-columns:
+      50px minmax(0, 1fr) 34px;
+
+    height: 72px;
+    min-height: 72px;
+    max-height: 72px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-edicao
+    > ul
+    > li {
+    flex-basis: 72px;
+    height: 72px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-edicao
+    button.nico-botao-disponivel
+    > img,
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-edicao
+    .nico-botao-sem-imagem {
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+  }
+
+  .nico-edicao-identificacao {
+    padding: 14px;
+  }
+
+  .nico-edicao-identificacao strong {
+    font-size: 16px;
+  }
 }

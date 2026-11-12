@@ -21,8 +21,16 @@ const ITENS = [
     rotulo: "Adicionar Botão",
   },
   {
-    id: "categorias",
-    rotulo: "Gerenciar Categorias",
+    id: "editarBotao",
+    rotulo: "Editar Botões",
+  },
+  {
+    id: "adicionarCategoria",
+    rotulo: "Adicionar Categoria",
+  },
+  {
+    id: "editarCategoria",
+    rotulo: "Editar Categorias",
   },
   {
     id: "relatorios",
@@ -32,7 +40,7 @@ const ITENS = [
 
 function MenuLateral({
   secaoAtiva,
-  onSelecionar = () => {},
+  onSelecionar = () => { },
 }) {
   const menuRef =
     useRef(null);

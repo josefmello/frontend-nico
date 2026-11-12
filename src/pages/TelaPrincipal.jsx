@@ -131,21 +131,24 @@ function TelaPrincipal() {
             botoesRecebidos
           )
             ? botoesRecebidos.filter(
-                (botao) =>
-                  !botao.oculto
-              )
+              (botao) =>
+                !botao.oculto
+            )
             : [];
 
-        const categoriasValidas =
+        const categoriasVisiveis =
           Array.isArray(
             categoriasRecebidas
           )
-            ? categoriasRecebidas
+            ? categoriasRecebidas.filter(
+              (categoria) =>
+                !categoria.oculto
+            )
             : [];
 
         setBotoes(botoesVisiveis);
         setCategorias(
-          categoriasValidas
+          categoriasVisiveis
         );
         setCategoriaAtiva(0);
       } catch (erroRequisicao) {
@@ -745,7 +748,7 @@ function TelaPrincipal() {
       setCategoriaAtiva(
         (indiceAtual) =>
           indiceAtual ===
-          categorias.length - 1
+            categorias.length - 1
             ? 0
             : indiceAtual + 1
       );
@@ -766,8 +769,8 @@ function TelaPrincipal() {
       "usuario"
     );
     localStorage.removeItem(
-  "administrador"
-);
+      "administrador"
+    );
 
     navigate("/", {
       replace: true,
@@ -906,12 +909,12 @@ function TelaPrincipal() {
                         "tira-sentenca__item",
 
                         itemTiraArrastado ===
-                        botao.idItemTira
+                          botao.idItemTira
                           ? "tira-sentenca__item--arrastando"
                           : "",
 
                         itemReproduzindo ===
-                        botao.idItemTira
+                          botao.idItemTira
                           ? "tira-sentenca__item--reproduzindo"
                           : "",
                       ]
@@ -1064,7 +1067,7 @@ function TelaPrincipal() {
                   botoesFiltrados.length
                 }{" "}
                 {botoesFiltrados.length ===
-                1
+                  1
                   ? "botão"
                   : "botões"}
               </span>
@@ -1078,7 +1081,7 @@ function TelaPrincipal() {
 
             <div className="prancha-botoes__grade">
               {botoesFiltrados.length ===
-              0 ? (
+                0 ? (
                 <p className="prancha-botoes__vazia">
                   Nenhum botão
                   cadastrado nesta
@@ -1093,7 +1096,7 @@ function TelaPrincipal() {
                       }
                       className={
                         arrastandoId ===
-                        botao.idBotao
+                          botao.idBotao
                           ? "botao-comunicador botao-comunicador--arrastando"
                           : "botao-comunicador"
                       }
@@ -1189,7 +1192,7 @@ function TelaPrincipal() {
 
             <div className="carrossel-categorias__lista">
               {categorias.length ===
-              0 ? (
+                0 ? (
                 <p className="carrossel-categorias__vazia">
                   Nenhuma categoria
                   cadastrada.
@@ -1207,7 +1210,7 @@ function TelaPrincipal() {
                       }
                       className={
                         indice ===
-                        categoriaAtiva
+                          categoriaAtiva
                           ? "categoria-lateral categoria-lateral--ativa"
                           : "categoria-lateral"
                       }
