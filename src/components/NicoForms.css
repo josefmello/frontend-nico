@@ -135,11 +135,16 @@
 
 /* Com arquivo escolhido: a imagem preenche o card e uma faixa convida a trocar */
 .nico-upload img {
-  position: absolute;
+position: absolute;
   inset: 0;
+
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  padding: 12px;
+
+  object-fit: contain;
+
+  background-color: white;
 }
 
 .nico-upload-trocar {
@@ -173,10 +178,13 @@
 }
 
 .nico-preview > img {
-  flex: 1;
+    flex: 1;
   min-height: 0;
+
   width: 100%;
-  object-fit: cover;
+  padding: 12px;
+
+  object-fit: contain;
 }
 
 .nico-preview > span:first-child {
@@ -411,4 +419,42 @@ select.nico-entrada {
   .nico-formulario-pagina * {
     transition: none !important;
   }
+
+  .nico-mensagem {
+  margin: 0 0 20px;
+  padding: 14px 18px;
+
+  color: var(--nicoturne);
+
+  border-radius: 12px;
+
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.nico-mensagem--sucesso {
+  background-color:
+    color-mix(
+      in srgb,
+      var(--nicoleste) 45%,
+      white
+    );
+
+  border-left:
+    5px solid var(--nicocean);
+}
+
+.nico-mensagem--erro {
+  background-color:
+    var(--nf-alerta-fundo);
+
+  border-left:
+    5px solid var(--nf-alerta);
+}
+
+.nico-botao:disabled,
+.nico-entrada:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}
 }

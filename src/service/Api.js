@@ -1,10 +1,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://api-nico.onrender.com',
-  headers: {
-    'Content-Type': 'application/json',
-  }
+  baseURL:
+    "https://api-nico.onrender.com",
 });
 
 api.interceptors.request.use((config) => {

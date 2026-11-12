@@ -3,7 +3,9 @@ import {
   useState,
 } from "react";
 
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+} from "react-router-dom";
 
 import MenuComunicador from "../components/MenuComunicador.jsx";
 import MenuLateral from "../components/MenuLateral.jsx";
@@ -19,7 +21,7 @@ import "./TelaAdministrador.css";
 const SECOES = {
   perfil: EditarPerfil,
   usuario: EdicaoUsuario,
-  botoes: AdicionarBotao,
+  adicionarBotao: AdicionarBotao,
   categorias: EditarCategoria,
   relatorios: Relatorio,
 };
@@ -47,8 +49,8 @@ function TelaAdministrador({
 
         return administradorSalvo
           ? JSON.parse(
-            administradorSalvo
-          )
+              administradorSalvo
+            )
           : null;
       } catch (erroLeitura) {
         console.error(
@@ -61,7 +63,8 @@ function TelaAdministrador({
     }, []);
 
   const Conteudo =
-    SECOES[secao] || Relatorio;
+    SECOES[secao] ||
+    Relatorio;
 
   const selecionarSecao = (
     novaSecao
@@ -79,20 +82,28 @@ function TelaAdministrador({
     if (
       novoModo === "comunicacao"
     ) {
-      navigate("/comunicador", {
-        replace: true,
-      });
+      navigate(
+        "/comunicador",
+        {
+          replace: true,
+        }
+      );
     }
   };
 
   const sair = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem(
+      "token"
+    );
+
     localStorage.removeItem(
       "idUsuario"
     );
+
     localStorage.removeItem(
       "usuario"
     );
+
     localStorage.removeItem(
       "administrador"
     );
@@ -106,13 +117,16 @@ function TelaAdministrador({
     <div className="tela-administrador">
       <MenuComunicador
         modo="edicao"
-        onChangeModo={alterarModo}
+        onChangeModo={
+          alterarModo
+        }
         nomeUsuario={
           administrador?.nome?.trim() ||
           "Administrador"
         }
         onSair={sair}
       />
+
       <div
         className="tela-administrador__separador"
         aria-hidden="true"
