@@ -4,6 +4,8 @@ import "../pages/CadastroAdministrador.css"
 import nicoLogo from "../assets/logo-nico.svg"
 import { registarAdministrador } from "../service/Administrador.js"
 import CampoSenha from "../components/CampoSenha.jsx"
+import AuthLayout from "../components/AuthLayout.jsx"
+import AcessibilidadeAuth from "../components/AcessibilidadeAuth.jsx"
 
 function CadastroAdministrador() {
     const [nome, setNome] = useState('')
@@ -53,11 +55,17 @@ function CadastroAdministrador() {
     const hoje = new Date().toISOString().split('T')[0]
 
     return (
-        <div className="cadastro-container">
-            <div className="cadastro-wrapper">
-                <form onSubmit={cadastrar} className="cartao">
-                    <img src={nicoLogo} alt="Logo da Nico" className="nicoLogo" />
-                    <h1>Cadastro de Administrador</h1>
+        <AcessibilidadeAuth>
+            <AuthLayout
+                titulo="Criar conta"
+                subtitulo="Preencha os dados abaixo. Os campos sem “(opcional)” são obrigatórios."
+                largo
+            >
+                <div className="cadastro-container">
+                    <div className="cadastro-wrapper">
+                        <form onSubmit={cadastrar} className="cartao">
+                            <img src={nicoLogo} alt="Logo da Nico" className="nicoLogo" />
+                            <h1>Cadastro de Administrador</h1>
 
                     <div>
                         <label>Nome: *</label>
@@ -156,16 +164,18 @@ function CadastroAdministrador() {
                         minLength={4}
                         inputMode="numeric"
                     />
-                    <button type="submit" disabled={carregando}>
-                        {carregando ? "Cadastrando..." : "Cadastrar"}
-                    </button>
+                            <button type="submit" disabled={carregando}>
+                                {carregando ? "Cadastrando..." : "Cadastrar"}
+                            </button>
 
-                    <button type="button" className="sair" onClick={() => navigate("/")}>
-                        Sair
-                    </button>
-                </form>
-            </div>
-        </div>
+                            <button type="button" className="sair" onClick={() => navigate("/")}>
+                                Sair
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </AuthLayout>
+        </AcessibilidadeAuth>
     )
 }
 
