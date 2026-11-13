@@ -4,7 +4,9 @@ import {
   useRef,
   useState,
 } from "react";
-
+import {
+  filtrarCategoriasResolvidas,
+} from "../utils/categorias.js";
 import {
   CampoCor,
   IconeImagemMais,
@@ -279,11 +281,9 @@ function EditarBotao() {
             : [];
 
         const listaCategorias =
-          Array.isArray(
+          filtrarCategoriasResolvidas(
             dadosCategorias
-          )
-            ? dadosCategorias
-            : [];
+          );
 
         setBotoesDisponiveis(
           listaBotoes
@@ -298,38 +298,18 @@ function EditarBotao() {
               ) =>
                 String(
                   primeiro.legenda ||
-                    ""
+                  ""
                 ).localeCompare(
                   String(
                     segundo.legenda ||
-                      ""
+                    ""
                   ),
                   "pt-BR"
                 )
             )
         );
-
         setCategorias(
           listaCategorias
-            .filter(
-              (categoria) =>
-                categoria
-                  ?.idCategoria != null
-            )
-            .sort(
-              (
-                primeira,
-                segunda
-              ) =>
-                String(
-                  primeira.nome || ""
-                ).localeCompare(
-                  String(
-                    segunda.nome || ""
-                  ),
-                  "pt-BR"
-                )
-            )
         );
       } catch (erroDados) {
         console.error(
@@ -382,11 +362,11 @@ function EditarBotao() {
 
       const categoriaSelecionada =
         idCategoriaFiltro ===
-        "todas"
+          "todas"
           ? null
           : Number(
-              idCategoriaFiltro
-            );
+            idCategoriaFiltro
+          );
 
       return botoesDisponiveis.filter(
         (botao) => {
@@ -399,8 +379,8 @@ function EditarBotao() {
                 botao.idsCategorias
               )
                 ? botao.idsCategorias.map(
-                    Number
-                  )
+                  Number
+                )
                 : [];
 
             if (
@@ -517,22 +497,22 @@ function EditarBotao() {
 
     setCorFundo(
       botao.corFundo ||
-        COR_FUNDO_PADRAO
+      COR_FUNDO_PADRAO
     );
 
     setCorFundoLegenda(
       botao.corFundoLegenda ||
-        COR_FUNDO_LEGENDA_PADRAO
+      COR_FUNDO_LEGENDA_PADRAO
     );
 
     setCorLegenda(
       botao.corLegenda ||
-        COR_LEGENDA_PADRAO
+      COR_LEGENDA_PADRAO
     );
 
     setExibirLegenda(
       botao.exibirLegenda !==
-        false
+      false
     );
 
     setOculto(
@@ -551,16 +531,16 @@ function EditarBotao() {
       Array.isArray(
         botao.idsCategorias
       ) &&
-      botao.idsCategorias.length > 0
+        botao.idsCategorias.length > 0
         ? botao.idsCategorias[0]
         : categorias[0]
-            ?.idCategoria;
+          ?.idCategoria;
 
     setIdCategoria(
       primeiraCategoria != null
         ? String(
-            primeiraCategoria
-          )
+          primeiraCategoria
+        )
         : ""
     );
 
@@ -847,11 +827,11 @@ function EditarBotao() {
             ) =>
               String(
                 primeiro.legenda ||
-                  ""
+                ""
               ).localeCompare(
                 String(
                   segundo.legenda ||
-                    ""
+                  ""
                 ),
                 "pt-BR"
               )
@@ -929,14 +909,14 @@ function EditarBotao() {
         typeof dadosErro === "string"
           ? dadosErro
           : dadosErro?.message ||
-            dadosErro?.detail ||
-            dadosErro?.error;
+          dadosErro?.detail ||
+          dadosErro?.error;
 
       setTipoMensagem("erro");
 
       setMensagem(
         mensagemApi ||
-          "Não foi possível atualizar o botão."
+        "Não foi possível atualizar o botão."
       );
     } finally {
       setSalvando(false);
@@ -1478,7 +1458,7 @@ function EditarBotao() {
               }
               role={
                 tipoMensagem ===
-                "erro"
+                  "erro"
                   ? "alert"
                   : "status"
               }

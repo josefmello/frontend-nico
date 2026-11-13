@@ -6,7 +6,9 @@ import {
   useState,
 } from "react";
 
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+} from "react-router-dom";
 
 import MenuComunicador from "../components/MenuComunicador.jsx";
 import PinAuthModal from "../components/PinAuthModal.jsx";
@@ -23,7 +25,6 @@ const LIMITE_ITENS_FRASE = 20;
 
 function TelaPrincipal() {
   const navigate = useNavigate();
-
   const [modo, setModo] =
     useState("comunicacao");
 
@@ -136,6 +137,33 @@ function TelaPrincipal() {
             )
             : [];
 
+        console.table(
+          botoesRecebidos.map(
+            (botao) => ({
+              id:
+                botao.idBotao,
+
+              legenda:
+                botao.legenda,
+
+              oculto:
+                botao.oculto,
+
+              exclusivo:
+                botao.exclusivoUsuario,
+
+              categorias:
+                Array.isArray(
+                  botao.idsCategorias
+                )
+                  ? botao.idsCategorias.join(
+                    ", "
+                  )
+                  : "",
+            })
+          )
+        );
+
         const categoriasVisiveis =
           Array.isArray(
             categoriasRecebidas
@@ -181,7 +209,9 @@ function TelaPrincipal() {
 
   useEffect(() => {
     carregarComunicador();
-  }, [carregarComunicador]);
+  }, [
+    carregarComunicador
+  ]);
 
   useEffect(() => {
     return () => {
@@ -234,6 +264,11 @@ function TelaPrincipal() {
         return botoes;
       }
 
+      const idCategoriaAtual =
+        Number(
+          categoriaAtual.idCategoria
+        );
+
       return botoes.filter(
         (botao) => {
           if (
@@ -244,15 +279,40 @@ function TelaPrincipal() {
             return false;
           }
 
-          return botao.idsCategorias.includes(
-            categoriaAtual.idCategoria
-          );
+          return botao.idsCategorias
+            .map(Number)
+            .includes(
+              idCategoriaAtual
+            );
         }
       );
     }, [
       botoes,
       categoriaAtual,
     ]);
+
+  useEffect(() => {
+     console.table(
+      botoesFiltrados.map(
+        (botao) => ({
+          id: botao.idBotao,
+          legenda: botao.legenda,
+          oculto: botao.oculto,
+          categorias:
+            Array.isArray(
+              botao.idsCategorias
+            )
+              ? botao.idsCategorias.join(
+                ", "
+              )
+              : "",
+        })
+      )
+    );
+  }, [
+    botoesFiltrados,
+    categoriaAtual,
+  ]);
 
   const criarItemDaTira = (
     botao
@@ -1101,9 +1161,26 @@ function TelaPrincipal() {
                           : "botao-comunicador"
                       }
                       style={{
+                        "--cor-fundo-botao":
+                          botao.exclusivoUsuario ||
+                            botao.personalizado
+                            ? botao.corFundo ||
+                            "#FFFFFF"
+                            : "#FFFFFF",
+
                         "--cor-faixa":
-                          botao.corFundo ||
-                          "#b3b4b7",
+                          botao.exclusivoUsuario ||
+                            botao.personalizado
+                            ? botao.corFundoLegenda ||
+                            "#B3B4B7"
+                            : "#B3B4B7",
+
+                        "--cor-texto-legenda":
+                          botao.exclusivoUsuario ||
+                            botao.personalizado
+                            ? botao.corLegenda ||
+                            "#000000"
+                            : "#000000",
                       }}
                       draggable
                       role="button"
@@ -1156,20 +1233,25 @@ function TelaPrincipal() {
                         )}
                       </div>
 
-                      <div className="botao-comunicador__faixa">
-                        <span className="botao-comunicador__legenda">
-                          {
-                            botao.legenda
-                          }
-                        </span>
-                      </div>
+                      {botao.exibirLegenda !== false && (
+                        <div className="botao-comunicador__faixa">
+                          <span className="botao-comunicador__legenda">
+                            {botao.legenda}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )
                 )
               )}
             </div>
-          </main>
 
+            {botoesFiltrados.length > 10 && (
+              <p className="prancha-botoes__aviso-rolagem">
+                Role para baixo para ver mais botões
+              </p>
+            )}
+          </main>
           <aside
             className="carrossel-categorias"
             aria-label="Categorias"
@@ -1268,5 +1350,6 @@ function TelaPrincipal() {
     </div>
   );
 }
+
 
 export default TelaPrincipal;
