@@ -1,87 +1,126 @@
 .menu-lateral {
+  width:
+    var(--largura-menu, 250px);
+
+  min-width:
+    var(--largura-menu, 250px);
+
+  min-height: calc(100vh - 92px);
+  padding: 16px;
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
-  background-color: var(--nicocean);
-  width: var(--largura-menu);
-  height: 100dvh;
-  padding: 20px;
   gap: 12px;
-  overflow-y: auto; /* telas baixas: o menu rola em vez de cortar itens */
-  position: fixed;
-  inset: 0 auto 0 0;
+
+  overflow-y: auto;
+
+  color: #ffffff;
+  background-color:
+    var(--nicocean, #2079ad);
+
+  position: relative;
   z-index: 1;
 }
 
 .menu-logo {
   width: 100%;
-  background-color: white;
-  padding: 20px;
+  max-height: 90px;
+  padding: 16px;
+  box-sizing: border-box;
+
+  display: block;
+
+  object-fit: contain;
+
+  background-color: #ffffff;
   border-radius: 12px;
 }
 
 .menu-item {
-  display: block;
   width: 100%;
+  min-height: 48px;
   padding: 12px;
+
+  display: block;
+
+  color: #000000;
+  background-color:
+    var(--nicoleste, #9bd5ef);
+
+  border: 0;
   border-radius: 12px;
-  background-color: var(--nicoleste);
-  color: black;
-  font-size: 18px;
+
+  font-family: inherit;
+  font-size: 17px;
   font-weight: 700;
   text-align: center;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .menu-item:hover {
-  text-decoration: underline;
-}
-
-/* Seção aberta no momento */
-.menu-item.ativo {
-  background-color: white;
-  color: var(--nicocean);
-  box-shadow: 0 0 0 3px var(--nicoshine);
-}
-
-/* Botão reservado para uma tela futura: visível, mas sem ação */
-.menu-item[aria-disabled="true"] {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.menu-item[aria-disabled="true"]:hover {
   text-decoration: none;
+  transform: translateY(-1px);
+}
+
+.menu-item.ativo {
+  color:
+    var(--nicocean, #2079ad);
+
+  background-color: #ffffff;
+
+  box-shadow:
+    inset 5px 0 0 var(--nicoshine, #f4c542);
 }
 
 .menu-item:focus-visible {
-  outline: 3px solid white;
+  outline: 3px solid #ffffff;
   outline-offset: 2px;
 }
 
-/* Celular/tablet estreito: o menu vira uma faixa horizontal rolável logo abaixo da barra de modos */
 @media (max-width: 768px) {
+
+  .tela-administrador__separador {
+    height: 6px;
+  }
+
   .menu-lateral {
-    position: static;
     width: 100%;
-    height: auto;
+    min-width: 0;
+    min-height: 0;
+    padding: 10px 12px;
+
     flex-direction: row;
     align-items: center;
-    padding: 10px 12px;
     gap: 8px;
+
     overflow-x: auto;
     overflow-y: hidden;
   }
 
   .menu-logo {
-    width: 72px;
-    flex: none;
-    padding: 8px;
+    width: 76px;
+    min-width: 76px;
+    height: 52px;
+    padding: 7px;
   }
 
   .menu-item {
     width: auto;
-    flex: none;
+    min-width: max-content;
+    min-height: 44px;
     padding: 10px 16px;
-    font-size: 16px;
+
+    flex: 0 0 auto;
+
+    font-size: 15px;
     white-space: nowrap;
   }
 }

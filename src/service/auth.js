@@ -1,14 +1,28 @@
-import api from './Api.js';
+import api from "./Api.js";
 
-export const realizarLogin = async (email, senha) => {
-  try {
-    const resposta = await api.post('/api/login', {
-      email: email,
-      senha: senha
-    });
-    
-    return resposta.data;
-  } catch (erro) {
-    throw erro;
-  }
+
+export const realizarLogin = async (
+  email,
+  senha
+) => {
+  const resposta = await api.post(
+    "/api/login",
+    {
+      email,
+      senha,
+    }
+  );
+
+  return resposta.data;
+};
+
+export const validarPin = async (pin) => {
+  const resposta = await api.post(
+    "/api/login/pin",
+    {
+      pin: Number(pin),
+    }
+  );
+
+  return resposta.data;
 };
