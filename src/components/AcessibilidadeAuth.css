@@ -1,0 +1,89 @@
+/* Acessibilidade das telas de acesso (login e cadastros): fonte maior e leitura em voz alta.
+   Usa só as variáveis do index.css. */
+
+.acess-barra {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  height: 60px; /* mesmo valor usado no min-height de .acess-conteudo abaixo */
+  padding: 6px 12px;
+  background-color: var(--nicomist);
+  border-bottom: 1px solid color-mix(in srgb, var(--nicoleste) 70%, white);
+}
+
+.acess-btn {
+  min-width: 48px;
+  min-height: 48px;
+  padding: 6px 14px;
+  color: var(--nicoturne);
+  font-size: 16px;
+  font-weight: 800;
+  background-color: #fff;
+  border: 2px solid var(--nicocean);
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.acess-btn:hover:not(:disabled) {
+  background-color: var(--nicoleste);
+  text-decoration: none;
+}
+
+.acess-btn[aria-pressed="true"] {
+  color: #fff;
+  background-color: var(--nicocean);
+}
+
+.acess-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.acess-btn:focus-visible {
+  outline: 3px solid var(--nicocean);
+  outline-offset: 2px;
+}
+
+.acess-nivel {
+  min-width: 48px;
+  color: var(--nicoturne);
+  font-size: 15px;
+  font-weight: 800;
+  text-align: center;
+}
+
+/* Texto só para leitores de tela */
+.acess-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* A barra ocupa 60px: desconta da altura mínima das páginas (que usam 100vh/100dvh)
+   para não criar rolagem desnecessária. Divide pelo zoom porque o min-height também é ampliado. */
+.acess-conteudo .auth-pagina,
+.acess-conteudo .cadastro-container {
+  min-height: calc((100dvh - 60px) / var(--acess-zoom, 1));
+}
+
+@media (max-width: 400px) {
+  .acess-barra {
+    gap: 6px;
+    padding: 6px 8px;
+  }
+
+  .acess-btn {
+    padding: 6px 10px;
+    font-size: 15px;
+  }
+}

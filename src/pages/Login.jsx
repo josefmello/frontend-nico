@@ -9,7 +9,7 @@ import "./Login.css";
 import AuthLayout from "../components/AuthLayout.jsx";
 import Campo from "../components/Campo.jsx";
 import CampoSenha from "../components/CampoSenha.jsx";
-
+import AcessibilidadeAuth from "../components/AcessibilidadeAuth.jsx";
 import { validarEmail } from "../utils/validacao.js";
 import { realizarLogin } from "../service/auth.js";
 import { buscarMeusUsuarios } from "../service/Usuario.js";
@@ -190,103 +190,76 @@ function Login() {
   };
 
   return (
-    <AuthLayout
-      titulo="Entrar"
-      subtitulo="Que bom ver você de novo! Entre para continuar."
-    >
-      <form
-        onSubmit={entrar}
-        noValidate
+    <AcessibilidadeAuth>
+      <AuthLayout
+        titulo="Entrar"
+        subtitulo="Que bom ver você de novo! Entre para continuar."
       >
-        {erroApi && (
-          <div
-            className="mensagem-erro-api"
-            role="alert"
-            style={{
-              color: "red",
-              marginBottom: "15px",
-            }}
-          >
-            {erroApi}
-          </div>
-        )}
-
-        <Campo
-          id="email"
-          label="E-mail"
-          erro={visivel("email")}
-        >
-          {(a11y) => (
-            <input
-              {...a11y}
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              placeholder="nome@email.com"
-              value={email}
-              onChange={(evento) =>
-                setEmail(
-                  evento.target.value
-                )
-              }
-              onBlur={() =>
-                tocar("email")
-              }
-            />
+        <form onSubmit={entrar} noValidate>
+          {erroApi && (
+            <div
+              className="mensagem-erro-api"
+              role="alert"
+              style={{
+                color: "red",
+                marginBottom: "15px",
+              }}
+            >
+              {erroApi}
+            </div>
           )}
-        </Campo>
 
-        <CampoSenha
-          id="senha"
-          label="Senha"
-          autoComplete="current-password"
-          value={senha}
-          onChange={(evento) =>
-            setSenha(
-              evento.target.value
-            )
-          }
-          onBlur={() =>
-            tocar("senha")
-          }
-          erro={visivel("senha")}
-        />
+          <Campo id="email" label="E-mail" erro={visivel("email")}>
+            {(a11y) => (
+              <input
+                {...a11y}
+                type="email"
+                inputMode="email"
+                autoComplete="email"
+                placeholder="nome@email.com"
+                value={email}
+                onChange={(evento) => setEmail(evento.target.value)}
+                onBlur={() => tocar("email")}
+              />
+            )}
+          </Campo>
 
-        <div className="login-extras">
-          <Link
-            className="auth-link"
-            to="/esqueci-senha"
-          >
-            Esqueci minha senha
-          </Link>
-        </div>
+          <CampoSenha
+            id="senha"
+            label="Senha"
+            autoComplete="current-password"
+            value={senha}
+            onChange={(evento) => setSenha(evento.target.value)}
+            onBlur={() => tocar("senha")}
+            erro={visivel("senha")}
+          />
 
-        <div className="auth-acoes">
-          <button
-            type="submit"
-            className="auth-btn auth-btn--primario"
-            disabled={carregando}
-          >
-            {carregando
-              ? "Entrando..."
-              : "Entrar"}
-          </button>
+          <div className="login-extras">
+            <Link className="auth-link" to="/esqueci-senha">
+              Esqueci minha senha
+            </Link>
+          </div>
 
-          <p className="login-divisor">
-            <span>
-              ainda não tem conta?
-            </span>
-          </p>
+          <div className="auth-acoes">
+            <button
+              type="submit"
+              className="auth-btn auth-btn--primario"
+              disabled={carregando}
+            >
+              {carregando ? "Entrando..." : "Entrar"}
+            </button>
 
-          <Link
-            className="auth-btn auth-btn--secundario"
-            to="/cadastroadm"
-          >
-            Criar conta
-          </Link>
-        </div>
-      </form>
-    </AuthLayout>
+            <p className="login-divisor">
+              <span>ainda não tem conta?</span>
+            </p>
+
+            <Link className="auth-btn auth-btn--secundario" to="/cadastroadm">
+              Criar conta
+            </Link>
+          </div>
+        </form>
+      </AuthLayout>
+    </AcessibilidadeAuth>
   );
 }
 
