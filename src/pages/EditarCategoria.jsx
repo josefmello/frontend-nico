@@ -713,6 +713,7 @@ function EditarCategoria() {
     evento
   ) => {
     evento.preventDefault();
+    evento.stopPropagation();
 
     evento.dataTransfer.dropEffect =
       "move";
@@ -723,16 +724,23 @@ function EditarCategoria() {
     idBotaoDestino
   ) => {
     evento.preventDefault();
+    evento.stopPropagation();
+
+    const idTransferido =
+      evento.dataTransfer.getData(
+        "text/plain"
+      );
 
     const idOrigem =
       Number(
-        evento.dataTransfer.getData(
-          "text/plain"
-        ) || idBotaoArrastado
+        idTransferido ||
+        idBotaoArrastado
       );
 
     const idDestino =
-      Number(idBotaoDestino);
+      Number(
+        idBotaoDestino
+      );
 
     if (
       !idOrigem ||
@@ -1572,9 +1580,7 @@ Deseja continuar?`;
                         indice
                       ) => (
                         <li
-                          key={
-                            botao.idBotao
-                          }
+                          key={botao.idBotao}
                           className={
                             Number(
                               idBotaoArrastado
@@ -1585,40 +1591,36 @@ Deseja continuar?`;
                               ? "nico-botao-selecionado nico-botao-selecionado--arrastando"
                               : "nico-botao-selecionado"
                           }
+                          draggable={!salvando && !excluindo}
+                          title="Clique e arraste para alterar a ordem"
+                          onDragStart={(evento) =>
+                            iniciarArrasteBotao(
+                              evento,
+                              botao.idBotao
+                            )
+                          }
                           onDragOver={
                             permitirSoltarBotao
                           }
-                          onDrop={(
-                            evento
-                          ) =>
+                          onDrop={(evento) =>
                             soltarBotao(
                               evento,
                               botao.idBotao
                             )
                           }
+                          onDragEnd={() =>
+                            setIdBotaoArrastado(
+                              null
+                            )
+                          }
                         >
                           <span
                             className="nico-botao-arraste"
-                            draggable
-                            role="button"
-                            tabIndex={0}
-                            title="Arraste para alterar a ordem"
-                            onDragStart={(
-                              evento
-                            ) =>
-                              iniciarArrasteBotao(
-                                evento,
-                                botao.idBotao
-                              )
-                            }
-                            onDragEnd={() =>
-                              setIdBotaoArrastado(
-                                null
-                              )
-                            }
+                            aria-hidden="true"
                           >
                             ⋮⋮
                           </span>
+
 
                           <span className="nico-botao-ordem">
                             {indice + 1}
@@ -1626,10 +1628,9 @@ Deseja continuar?`;
 
                           {botao.foto ? (
                             <img
-                              src={
-                                botao.foto
-                              }
+                              src={botao.foto}
                               alt=""
+                              draggable={false}
                             />
                           ) : (
                             <span
@@ -1648,16 +1649,27 @@ Deseja continuar?`;
                             <button
                               type="button"
                               title="Mover para cima"
+                              draggable={false}
                               disabled={
                                 salvando ||
+                                excluindo ||
                                 indice === 0
                               }
-                              onClick={() =>
+                              onMouseDown={(evento) => {
+                                evento.stopPropagation();
+                              }}
+                              onDragStart={(evento) => {
+                                evento.preventDefault();
+                                evento.stopPropagation();
+                              }}
+                              onClick={(evento) => {
+                                evento.stopPropagation();
+
                                 moverBotao(
                                   indice,
                                   indice - 1
-                                )
-                              }
+                                );
+                              }}
                             >
                               ↑
                             </button>
@@ -1665,34 +1677,55 @@ Deseja continuar?`;
                             <button
                               type="button"
                               title="Mover para baixo"
+                              draggable={false}
                               disabled={
                                 salvando ||
+                                excluindo ||
                                 indice ===
-                                botoesSelecionados
-                                  .length -
+                                botoesSelecionados.length -
                                 1
                               }
-                              onClick={() =>
+                              onMouseDown={(evento) => {
+                                evento.stopPropagation();
+                              }}
+                              onDragStart={(evento) => {
+                                evento.preventDefault();
+                                evento.stopPropagation();
+                              }}
+                              onClick={(evento) => {
+                                evento.stopPropagation();
+
                                 moverBotao(
                                   indice,
                                   indice + 1
-                                )
-                              }
+                                );
+                              }}
                             >
                               ↓
                             </button>
 
                             <button
                               type="button"
-                              title="Remover"
+                              title="Remover da categoria"
+                              draggable={false}
                               disabled={
-                                salvando
+                                salvando ||
+                                excluindo
                               }
-                              onClick={() =>
+                              onMouseDown={(evento) => {
+                                evento.stopPropagation();
+                              }}
+                              onDragStart={(evento) => {
+                                evento.preventDefault();
+                                evento.stopPropagation();
+                              }}
+                              onClick={(evento) => {
+                                evento.stopPropagation();
+
                                 removerBotao(
                                   botao.idBotao
-                                )
-                              }
+                                );
+                              }}
                             >
                               ×
                             </button>

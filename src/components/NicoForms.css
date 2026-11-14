@@ -1409,3 +1409,56 @@ select.nico-entrada {
     margin-right: 0;
   }
 }
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  li.nico-botao-selecionado {
+  cursor: grab;
+
+  transition:
+    opacity 0.15s,
+    border-color 0.15s,
+    background-color 0.15s,
+    box-shadow 0.15s,
+    transform 0.15s;
+}
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  li.nico-botao-selecionado:hover {
+  border-color:
+    var(--nicocean);
+
+  box-shadow:
+    0 3px 10px
+    var(--nf-sombra);
+}
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  li.nico-botao-selecionado:active {
+  cursor: grabbing;
+}
+
+.tela-administrador__conteudo
+  .nico-formulario-categoria
+  li.nico-botao-selecionado--arrastando {
+  opacity: 0.45;
+
+  border-color:
+    var(--nicocean);
+
+  background:
+    var(--nf-fundo-forte);
+
+  transform:
+    scale(0.985);
+}
+
+.nico-botao-arraste {
+  pointer-events: none;
+}
+
+.nico-botao-selecionado__acoes
+  > button {
+  cursor: pointer;
+}

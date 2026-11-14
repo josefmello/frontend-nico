@@ -269,21 +269,109 @@ function TelaPrincipal() {
           categoriaAtual.idCategoria
         );
 
-      return botoes.filter(
-        (botao) => {
+      const botoesDaCategoria =
+        botoes.filter(
+          (botao) => {
+            if (
+              !Array.isArray(
+                botao.idsCategorias
+              )
+            ) {
+              return false;
+            }
+
+            return botao.idsCategorias
+              .map(Number)
+              .includes(
+                idCategoriaAtual
+              );
+          }
+        );
+
+      const relacoesOrdenadas =
+        Array.isArray(
+          categoriaAtual.botoes
+        )
+          ? [...categoriaAtual.botoes]
+          : [];
+
+      if (
+        relacoesOrdenadas.length === 0
+      ) {
+        return botoesDaCategoria;
+      }
+
+      const posicaoPorBotao =
+        new Map(
+          relacoesOrdenadas.map(
+            (relacao) => [
+              Number(
+                relacao.idBotao
+              ),
+              Number(
+                relacao.posicao
+              ),
+            ]
+          )
+        );
+
+      return [
+        ...botoesDaCategoria,
+      ].sort(
+        (
+          primeiro,
+          segundo
+        ) => {
+          const posicaoPrimeiro =
+            posicaoPorBotao.get(
+              Number(
+                primeiro.idBotao
+              )
+            );
+
+          const posicaoSegundo =
+            posicaoPorBotao.get(
+              Number(
+                segundo.idBotao
+              )
+            );
+
+          const primeiroTemPosicao =
+            Number.isFinite(
+              posicaoPrimeiro
+            );
+
+          const segundoTemPosicao =
+            Number.isFinite(
+              posicaoSegundo
+            );
+
           if (
-            !Array.isArray(
-              botao.idsCategorias
-            )
+            primeiroTemPosicao &&
+            segundoTemPosicao
           ) {
-            return false;
+            return (
+              posicaoPrimeiro -
+              posicaoSegundo
+            );
           }
 
-          return botao.idsCategorias
-            .map(Number)
-            .includes(
-              idCategoriaAtual
-            );
+          if (primeiroTemPosicao) {
+            return -1;
+          }
+
+          if (segundoTemPosicao) {
+            return 1;
+          }
+
+          return String(
+            primeiro.legenda || ""
+          ).localeCompare(
+            String(
+              segundo.legenda || ""
+            ),
+            "pt-BR"
+          );
         }
       );
     }, [
@@ -292,7 +380,7 @@ function TelaPrincipal() {
     ]);
 
   useEffect(() => {
-     console.table(
+    console.table(
       botoesFiltrados.map(
         (botao) => ({
           id: botao.idBotao,
@@ -1162,25 +1250,16 @@ function TelaPrincipal() {
                       }
                       style={{
                         "--cor-fundo-botao":
-                          botao.exclusivoUsuario ||
-                            botao.personalizado
-                            ? botao.corFundo ||
-                            "#FFFFFF"
-                            : "#FFFFFF",
+                          botao.corFundo ||
+                          "#FFFFFF",
 
                         "--cor-faixa":
-                          botao.exclusivoUsuario ||
-                            botao.personalizado
-                            ? botao.corFundoLegenda ||
-                            "#B3B4B7"
-                            : "#B3B4B7",
+                          botao.corFundoLegenda ||
+                          "#B3B4B7",
 
                         "--cor-texto-legenda":
-                          botao.exclusivoUsuario ||
-                            botao.personalizado
-                            ? botao.corLegenda ||
-                            "#000000"
-                            : "#000000",
+                          botao.corLegenda ||
+                          "#000000",
                       }}
                       draggable
                       role="button"

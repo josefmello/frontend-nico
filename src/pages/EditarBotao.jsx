@@ -293,7 +293,8 @@ function EditarBotao() {
           listaBotoes
             .filter(
               (botao) =>
-                botao?.idBotao != null
+                botao?.idBotao != null &&
+                !botao.oculto
             )
             .sort(
               (
@@ -530,24 +531,38 @@ function EditarBotao() {
     setAudioAtual(
       botao.audioResolvido || ""
     );
-
-    const primeiraCategoria =
+    const idsCategoriasBotao =
       Array.isArray(
         botao.idsCategorias
-      ) &&
-        botao.idsCategorias.length > 0
-        ? botao.idsCategorias[0]
-        : categorias[0]
-          ?.idCategoria;
-
-    setIdCategoria(
-      primeiraCategoria != null
-        ? String(
-          primeiraCategoria
+      )
+        ? botao.idsCategorias.map(
+          Number
         )
-        : ""
-    );
+        : [];
 
+    const categoriaDireta =
+      categorias.find(
+        (categoria) =>
+          idsCategoriasBotao.includes(
+            Number(
+              categoria.idCategoria
+            )
+          )
+      );
+
+    let categoriaResolvida =
+      categoriaDireta || null;
+
+    if (categoriaResolvida) {
+      setIdCategoria(
+        String(
+          categoriaResolvida
+            .idCategoria
+        )
+      );
+    } else {
+      setIdCategoria("");
+    }
     setErros({});
     limparMensagem();
   };
@@ -848,6 +863,28 @@ Deseja continuar?`;
           audioPersonalizado:
             novoAudio,
         });
+
+      // remover aqui dps
+      console.log(
+        "Botão editado:",
+        {
+          idBotaoOriginal:
+            botaoSelecionado.idBotao,
+
+          idBotaoNovo:
+            resposta.idBotao,
+
+          idCategoriaEnviada:
+            idCategoria,
+
+          idCategoriaRetornada:
+            resposta.idCategoria,
+
+          corFundoRetornada:
+            resposta.corFundo,
+        }
+      );
+      // ate aqui
 
       limparArquivosNovos();
 
