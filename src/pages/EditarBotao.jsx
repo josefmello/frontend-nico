@@ -26,6 +26,7 @@ import {
 
 import {
   editarBotaoUsuario,
+  excluirBotaoUsuario,
 } from "../service/Botao.js";
 
 const COR_FUNDO_PADRAO =
@@ -172,6 +173,9 @@ function EditarBotao() {
   ] = useState(false);
 
   const [salvando, setSalvando] =
+    useState(false);
+
+  const [excluindo, setExcluindo] =
     useState(false);
 
   /*
@@ -699,6 +703,104 @@ function EditarBotao() {
       Object.keys(novosErros)
         .length === 0
     );
+  };
+
+  const removerBotao = async () => {
+    if (!botaoSelecionado || !idUsuario) {
+      return;
+    }
+
+    const botaoPersonalizado =
+      Boolean(
+        botaoSelecionado
+          .exclusivoUsuario
+      );
+
+    const mensagemConfirmacao =
+      botaoPersonalizado
+        ? `O botão "${botaoSelecionado.legenda}" será excluído permanentemente.
+
+Os registros de acionamento desse botão também serão excluídos dos relatórios.
+
+Essa ação não pode ser desfeita.
+
+Deseja continuar?`
+        : `O botão padrão "${botaoSelecionado.legenda}" será retirado do comunicador deste usuário.
+
+Deseja continuar?`;
+
+    const confirmou =
+      window.confirm(
+        mensagemConfirmacao
+      );
+
+    if (!confirmou) {
+      return;
+    }
+
+    try {
+      setExcluindo(true);
+      limparMensagem();
+
+      const resposta = await excluirBotaoUsuario({
+        idBotao: botaoSelecionado.idBotao,
+        idUsuario,
+      });
+
+      const idRemovido = Number(
+        botaoSelecionado.idBotao
+      );
+
+      setBotoesDisponiveis((atuais) =>
+        atuais.filter(
+          (botao) =>
+            Number(botao.idBotao) !== idRemovido
+        )
+      );
+
+      limparArquivosNovos();
+      setBotaoSelecionado(null);
+      setIdCategoria("");
+      setLegenda("");
+      setCorFundo(COR_FUNDO_PADRAO);
+      setCorFundoLegenda(
+        COR_FUNDO_LEGENDA_PADRAO
+      );
+      setCorLegenda(COR_LEGENDA_PADRAO);
+      setExibirLegenda(true);
+      setOculto(false);
+      setFotoAtual("");
+      setAudioAtual("");
+      setErros({});
+      setTipoMensagem("sucesso");
+      setMensagem(
+        resposta?.mensagem ||
+        (botaoPersonalizado
+          ? "Botão personalizado excluído permanentemente."
+          : "Botão padrão removido do comunicador do usuário.")
+      );
+    } catch (erroExclusao) {
+      console.error(
+        "Erro ao remover botão:",
+        erroExclusao
+      );
+
+      const dadosErro = erroExclusao.response?.data;
+      const mensagemApi =
+        typeof dadosErro === "string"
+          ? dadosErro
+          : dadosErro?.message ||
+          dadosErro?.detail ||
+          dadosErro?.error;
+
+      setTipoMensagem("erro");
+      setMensagem(
+        mensagemApi ||
+        "Não foi possível remover o botão."
+      );
+    } finally {
+      setExcluindo(false);
+    }
   };
 
   const salvarEdicao = async (
@@ -1467,26 +1569,37 @@ function EditarBotao() {
             </p>
           )}
 
-          <div className="nico-acoes">
+          <div className="nico-acoes nico-acoes-edicao">
             <button
-              className="nico-botao nico-botao-principal"
-              type="submit"
-              disabled={salvando}
+              className="nico-botao nico-botao-excluir"
+              type="button"
+              disabled={salvando || excluindo}
+              onClick={removerBotao}
             >
-              {salvando
-                ? "Salvando..."
-                : "Salvar alterações"}
+              {excluindo
+                ? "Removendo..."
+                : botaoSelecionado.exclusivoUsuario
+                  ? "Excluir permanentemente"
+                  : "Remover do comunicador"}
             </button>
 
             <button
               className="nico-botao nico-botao-secundario"
               type="button"
-              disabled={salvando}
-              onClick={
-                cancelarEdicao
-              }
+              disabled={salvando || excluindo}
+              onClick={cancelarEdicao}
             >
               Cancelar edição
+            </button>
+
+            <button
+              className="nico-botao nico-botao-principal"
+              type="submit"
+              disabled={salvando || excluindo}
+            >
+              {salvando
+                ? "Salvando..."
+                : "Salvar alterações"}
             </button>
           </div>
         </form>

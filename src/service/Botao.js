@@ -125,7 +125,7 @@ export async function editarBotaoUsuario({
    */
   if (
     audioPersonalizado
-      instanceof File
+    instanceof File
   ) {
     formulario.append(
       "audioPersonalizado",
@@ -145,6 +145,38 @@ export async function editarBotaoUsuario({
       )}`,
       formulario
     );
+
+  return resposta.data;
+
+}
+
+export async function excluirBotaoUsuario({
+  idBotao,
+  idUsuario,
+}) {
+  if (!idBotao) {
+    throw new Error(
+      "O ID do botão é obrigatório."
+    );
+  }
+
+  if (!idUsuario) {
+    throw new Error(
+      "O ID do usuário é obrigatório."
+    );
+  }
+
+  const resposta = await api.delete(
+    `/api/botoes/usuario/${Number(
+      idBotao
+    )}`,
+    {
+      params: {
+        idUsuario:
+          Number(idUsuario),
+      },
+    }
+  );
 
   return resposta.data;
 }
