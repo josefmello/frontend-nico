@@ -1,24 +1,44 @@
 import api from "./Api.js";
 
-export const buscarBotoesResolvidos = async (
-  idUsuario
-) => {
-  const resposta = await api.get(
-    `/api/usuarios/${idUsuario}/botoes-resolvidos`
-  );
+export const buscarBotoesResolvidos =
+  async (idUsuario) => {
+    const resposta = await api.get(
+      `/api/usuarios/${idUsuario}/botoes-resolvidos`,
+      {
+        params: {
+          _: Date.now(),
+        },
 
-  return resposta.data;
-};
+        headers: {
+          "Cache-Control":
+            "no-cache",
+          Pragma: "no-cache",
+        },
+      }
+    );
 
-export const buscarCategoriasResolvidas = async (
-  idUsuario
-) => {
-  const resposta = await api.get(
-    `/api/usuarios/${idUsuario}/categorias-resolvidas`
-  );
+    return resposta.data;
+  };
 
-  return resposta.data;
-};
+export const buscarCategoriasResolvidas =
+  async (idUsuario) => {
+    const resposta = await api.get(
+      `/api/usuarios/${idUsuario}/categorias-resolvidas`,
+      {
+        params: {
+          _: Date.now(),
+        },
+
+        headers: {
+          "Cache-Control":
+            "no-cache",
+          Pragma: "no-cache",
+        },
+      }
+    );
+
+    return resposta.data;
+  };
 
 export const registrarAcionamento = async (
   idUsuario,

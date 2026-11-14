@@ -4,7 +4,9 @@ import {
   useRef,
   useState,
 } from "react";
-
+import {
+  filtrarCategoriasResolvidas,
+} from "../utils/categorias.js";
 import {
   CampoCor,
   IconeImagemMais,
@@ -24,6 +26,7 @@ import {
 
 import {
   editarBotaoUsuario,
+  excluirBotaoUsuario,
 } from "../service/Botao.js";
 
 const COR_FUNDO_PADRAO =
@@ -172,6 +175,9 @@ function EditarBotao() {
   const [salvando, setSalvando] =
     useState(false);
 
+  const [excluindo, setExcluindo] =
+    useState(false);
+
   /*
    * Carrega os usuários do administrador.
    */
@@ -279,17 +285,16 @@ function EditarBotao() {
             : [];
 
         const listaCategorias =
-          Array.isArray(
+          filtrarCategoriasResolvidas(
             dadosCategorias
-          )
-            ? dadosCategorias
-            : [];
+          );
 
         setBotoesDisponiveis(
           listaBotoes
             .filter(
               (botao) =>
-                botao?.idBotao != null
+                botao?.idBotao != null &&
+                !botao.oculto
             )
             .sort(
               (
@@ -298,38 +303,18 @@ function EditarBotao() {
               ) =>
                 String(
                   primeiro.legenda ||
-                    ""
+                  ""
                 ).localeCompare(
                   String(
                     segundo.legenda ||
-                      ""
+                    ""
                   ),
                   "pt-BR"
                 )
             )
         );
-
         setCategorias(
           listaCategorias
-            .filter(
-              (categoria) =>
-                categoria
-                  ?.idCategoria != null
-            )
-            .sort(
-              (
-                primeira,
-                segunda
-              ) =>
-                String(
-                  primeira.nome || ""
-                ).localeCompare(
-                  String(
-                    segunda.nome || ""
-                  ),
-                  "pt-BR"
-                )
-            )
         );
       } catch (erroDados) {
         console.error(
@@ -382,11 +367,11 @@ function EditarBotao() {
 
       const categoriaSelecionada =
         idCategoriaFiltro ===
-        "todas"
+          "todas"
           ? null
           : Number(
-              idCategoriaFiltro
-            );
+            idCategoriaFiltro
+          );
 
       return botoesDisponiveis.filter(
         (botao) => {
@@ -399,8 +384,8 @@ function EditarBotao() {
                 botao.idsCategorias
               )
                 ? botao.idsCategorias.map(
-                    Number
-                  )
+                  Number
+                )
                 : [];
 
             if (
@@ -517,22 +502,22 @@ function EditarBotao() {
 
     setCorFundo(
       botao.corFundo ||
-        COR_FUNDO_PADRAO
+      COR_FUNDO_PADRAO
     );
 
     setCorFundoLegenda(
       botao.corFundoLegenda ||
-        COR_FUNDO_LEGENDA_PADRAO
+      COR_FUNDO_LEGENDA_PADRAO
     );
 
     setCorLegenda(
       botao.corLegenda ||
-        COR_LEGENDA_PADRAO
+      COR_LEGENDA_PADRAO
     );
 
     setExibirLegenda(
       botao.exibirLegenda !==
-        false
+      false
     );
 
     setOculto(
@@ -546,24 +531,38 @@ function EditarBotao() {
     setAudioAtual(
       botao.audioResolvido || ""
     );
-
-    const primeiraCategoria =
+    const idsCategoriasBotao =
       Array.isArray(
         botao.idsCategorias
-      ) &&
-      botao.idsCategorias.length > 0
-        ? botao.idsCategorias[0]
-        : categorias[0]
-            ?.idCategoria;
+      )
+        ? botao.idsCategorias.map(
+          Number
+        )
+        : [];
 
-    setIdCategoria(
-      primeiraCategoria != null
-        ? String(
-            primeiraCategoria
+    const categoriaDireta =
+      categorias.find(
+        (categoria) =>
+          idsCategoriasBotao.includes(
+            Number(
+              categoria.idCategoria
+            )
           )
-        : ""
-    );
+      );
 
+    let categoriaResolvida =
+      categoriaDireta || null;
+
+    if (categoriaResolvida) {
+      setIdCategoria(
+        String(
+          categoriaResolvida
+            .idCategoria
+        )
+      );
+    } else {
+      setIdCategoria("");
+    }
     setErros({});
     limparMensagem();
   };
@@ -721,6 +720,104 @@ function EditarBotao() {
     );
   };
 
+  const removerBotao = async () => {
+    if (!botaoSelecionado || !idUsuario) {
+      return;
+    }
+
+    const botaoPersonalizado =
+      Boolean(
+        botaoSelecionado
+          .exclusivoUsuario
+      );
+
+    const mensagemConfirmacao =
+      botaoPersonalizado
+        ? `O botão "${botaoSelecionado.legenda}" será excluído permanentemente.
+
+Os registros de acionamento desse botão também serão excluídos dos relatórios.
+
+Essa ação não pode ser desfeita.
+
+Deseja continuar?`
+        : `O botão padrão "${botaoSelecionado.legenda}" será retirado do comunicador deste usuário.
+
+Deseja continuar?`;
+
+    const confirmou =
+      window.confirm(
+        mensagemConfirmacao
+      );
+
+    if (!confirmou) {
+      return;
+    }
+
+    try {
+      setExcluindo(true);
+      limparMensagem();
+
+      const resposta = await excluirBotaoUsuario({
+        idBotao: botaoSelecionado.idBotao,
+        idUsuario,
+      });
+
+      const idRemovido = Number(
+        botaoSelecionado.idBotao
+      );
+
+      setBotoesDisponiveis((atuais) =>
+        atuais.filter(
+          (botao) =>
+            Number(botao.idBotao) !== idRemovido
+        )
+      );
+
+      limparArquivosNovos();
+      setBotaoSelecionado(null);
+      setIdCategoria("");
+      setLegenda("");
+      setCorFundo(COR_FUNDO_PADRAO);
+      setCorFundoLegenda(
+        COR_FUNDO_LEGENDA_PADRAO
+      );
+      setCorLegenda(COR_LEGENDA_PADRAO);
+      setExibirLegenda(true);
+      setOculto(false);
+      setFotoAtual("");
+      setAudioAtual("");
+      setErros({});
+      setTipoMensagem("sucesso");
+      setMensagem(
+        resposta?.mensagem ||
+        (botaoPersonalizado
+          ? "Botão personalizado excluído permanentemente."
+          : "Botão padrão removido do comunicador do usuário.")
+      );
+    } catch (erroExclusao) {
+      console.error(
+        "Erro ao remover botão:",
+        erroExclusao
+      );
+
+      const dadosErro = erroExclusao.response?.data;
+      const mensagemApi =
+        typeof dadosErro === "string"
+          ? dadosErro
+          : dadosErro?.message ||
+          dadosErro?.detail ||
+          dadosErro?.error;
+
+      setTipoMensagem("erro");
+      setMensagem(
+        mensagemApi ||
+        "Não foi possível remover o botão."
+      );
+    } finally {
+      setExcluindo(false);
+    }
+  };
+
   const salvarEdicao = async (
     evento
   ) => {
@@ -766,6 +863,28 @@ function EditarBotao() {
           audioPersonalizado:
             novoAudio,
         });
+
+      // remover aqui dps
+      console.log(
+        "Botão editado:",
+        {
+          idBotaoOriginal:
+            botaoSelecionado.idBotao,
+
+          idBotaoNovo:
+            resposta.idBotao,
+
+          idCategoriaEnviada:
+            idCategoria,
+
+          idCategoriaRetornada:
+            resposta.idCategoria,
+
+          corFundoRetornada:
+            resposta.corFundo,
+        }
+      );
+      // ate aqui
 
       limparArquivosNovos();
 
@@ -847,11 +966,11 @@ function EditarBotao() {
             ) =>
               String(
                 primeiro.legenda ||
-                  ""
+                ""
               ).localeCompare(
                 String(
                   segundo.legenda ||
-                    ""
+                  ""
                 ),
                 "pt-BR"
               )
@@ -929,14 +1048,14 @@ function EditarBotao() {
         typeof dadosErro === "string"
           ? dadosErro
           : dadosErro?.message ||
-            dadosErro?.detail ||
-            dadosErro?.error;
+          dadosErro?.detail ||
+          dadosErro?.error;
 
       setTipoMensagem("erro");
 
       setMensagem(
         mensagemApi ||
-          "Não foi possível atualizar o botão."
+        "Não foi possível atualizar o botão."
       );
     } finally {
       setSalvando(false);
@@ -1478,7 +1597,7 @@ function EditarBotao() {
               }
               role={
                 tipoMensagem ===
-                "erro"
+                  "erro"
                   ? "alert"
                   : "status"
               }
@@ -1487,26 +1606,37 @@ function EditarBotao() {
             </p>
           )}
 
-          <div className="nico-acoes">
+          <div className="nico-acoes nico-acoes-edicao">
             <button
-              className="nico-botao nico-botao-principal"
-              type="submit"
-              disabled={salvando}
+              className="nico-botao nico-botao-excluir"
+              type="button"
+              disabled={salvando || excluindo}
+              onClick={removerBotao}
             >
-              {salvando
-                ? "Salvando..."
-                : "Salvar alterações"}
+              {excluindo
+                ? "Removendo..."
+                : botaoSelecionado.exclusivoUsuario
+                  ? "Excluir permanentemente"
+                  : "Remover do comunicador"}
             </button>
 
             <button
               className="nico-botao nico-botao-secundario"
               type="button"
-              disabled={salvando}
-              onClick={
-                cancelarEdicao
-              }
+              disabled={salvando || excluindo}
+              onClick={cancelarEdicao}
             >
               Cancelar edição
+            </button>
+
+            <button
+              className="nico-botao nico-botao-principal"
+              type="submit"
+              disabled={salvando || excluindo}
+            >
+              {salvando
+                ? "Salvando..."
+                : "Salvar alterações"}
             </button>
           </div>
         </form>

@@ -2,6 +2,7 @@ import { useRef, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import "./CadastroUsuario.css"
 import AuthLayout from "../components/AuthLayout.jsx"
+import AcessibilidadeAuth from "../components/AcessibilidadeAuth.jsx"
 import Campo from "../components/Campo.jsx";
 import { registarUsuario, buscarMeusUsuarios } from "../service/Usuario.js";
 
@@ -113,17 +114,18 @@ function CadastroUsuario() {
   }
 
   return (
-    <AuthLayout
-      titulo="Criar conta"
-      subtitulo="Preencha os dados abaixo. Os campos sem “(opcional)” são obrigatórios."
-      largo
-    >
-      <form ref={formRef} onSubmit={cadastrar} noValidate>
-        {sucesso && (
-          <p className="cu-sucesso" role="status">
-            ✓ Tudo certo! Usuário cadastrado com sucesso.
-          </p>
-        )}
+    <AcessibilidadeAuth>
+      <AuthLayout
+        titulo="Criar conta"
+        subtitulo="Preencha os dados abaixo. Os campos sem “(opcional)” são obrigatórios."
+        largo
+      >
+        <form ref={formRef} onSubmit={cadastrar} noValidate>
+          {sucesso && (
+            <p className="cu-sucesso" role="status">
+              ✓ Tudo certo! Usuário cadastrado com sucesso.
+            </p>
+          )}
 
         <fieldset className="auth-grupo" disabled={carregando}>
           <legend>Sobre o usuário</legend>
@@ -228,8 +230,9 @@ function CadastroUsuario() {
             {carregando ? "Registrando..." : "Registrar"}
           </button>
         </div>
-      </form>
-    </AuthLayout>
+        </form>
+      </AuthLayout>
+    </AcessibilidadeAuth>
   )
 }
 

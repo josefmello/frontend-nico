@@ -21,7 +21,12 @@ import {
 
 import {
   editarCategoriaUsuario,
+  excluirCategoriaUsuario,
 } from "../service/Categoria.js";
+
+import {
+  filtrarCategoriasResolvidas,
+} from "../utils/categorias.js";
 
 function normalizarTexto(
   texto = ""
@@ -131,6 +136,9 @@ function EditarCategoria() {
   const [salvando, setSalvando] =
     useState(false);
 
+  const [excluindo, setExcluindo] =
+    useState(false);
+
   useEffect(() => {
     let ativo = true;
 
@@ -228,11 +236,9 @@ function EditarCategoria() {
         }
 
         const listaCategorias =
-          Array.isArray(
+          filtrarCategoriasResolvidas(
             dadosCategorias
-          )
-            ? dadosCategorias
-            : [];
+          );
 
         const listaBotoes =
           Array.isArray(dadosBotoes)
@@ -241,25 +247,6 @@ function EditarCategoria() {
 
         setCategoriasDisponiveis(
           listaCategorias
-            .filter(
-              (categoria) =>
-                categoria
-                  ?.idCategoria != null
-            )
-            .sort(
-              (
-                primeira,
-                segunda
-              ) =>
-                String(
-                  primeira.nome || ""
-                ).localeCompare(
-                  String(
-                    segunda.nome || ""
-                  ),
-                  "pt-BR"
-                )
-            )
         );
 
         setBotoesDisponiveis(
@@ -275,11 +262,11 @@ function EditarCategoria() {
               ) =>
                 String(
                   primeiro.legenda ||
-                    ""
+                  ""
                 ).localeCompare(
                   String(
                     segundo.legenda ||
-                      ""
+                    ""
                   ),
                   "pt-BR"
                 )
@@ -369,11 +356,11 @@ function EditarCategoria() {
 
       const categoriaFiltro =
         idCategoriaFiltro ===
-        "todas"
+          "todas"
           ? null
           : Number(
-              idCategoriaFiltro
-            );
+            idCategoriaFiltro
+          );
 
       return botoesDisponiveis.filter(
         (botao) => {
@@ -393,8 +380,8 @@ function EditarCategoria() {
                 botao.idsCategorias
               )
                 ? botao.idsCategorias.map(
-                    Number
-                  )
+                  Number
+                )
                 : [];
 
             if (
@@ -726,6 +713,7 @@ function EditarCategoria() {
     evento
   ) => {
     evento.preventDefault();
+    evento.stopPropagation();
 
     evento.dataTransfer.dropEffect =
       "move";
@@ -736,16 +724,23 @@ function EditarCategoria() {
     idBotaoDestino
   ) => {
     evento.preventDefault();
+    evento.stopPropagation();
+
+    const idTransferido =
+      evento.dataTransfer.getData(
+        "text/plain"
+      );
 
     const idOrigem =
       Number(
-        evento.dataTransfer.getData(
-          "text/plain"
-        ) || idBotaoArrastado
+        idTransferido ||
+        idBotaoArrastado
       );
 
     const idDestino =
-      Number(idBotaoDestino);
+      Number(
+        idBotaoDestino
+      );
 
     if (
       !idOrigem ||
@@ -803,7 +798,6 @@ function EditarCategoria() {
     setIdBotaoArrastado(null);
     limparMensagem();
   };
-
   const validarFormulario = () => {
     const novosErros = {};
 
@@ -832,6 +826,122 @@ function EditarCategoria() {
     );
   };
 
+  const removerCategoria = async () => {
+    if (
+      !categoriaSelecionada ||
+      !idUsuario
+    ) {
+      return;
+    }
+
+    const categoriaPersonalizada =
+      Boolean(
+        categoriaSelecionada
+          .exclusivaUsuario
+      );
+
+    const mensagemConfirmacao =
+      categoriaPersonalizada
+        ? `A categoria "${categoriaSelecionada.nome}" será excluída permanentemente.
+
+Os botões contidos nela não serão excluídos.
+
+Essa ação não pode ser desfeita.
+
+Deseja continuar?`
+        : `A categoria padrão "${categoriaSelecionada.nome}" será retirada do comunicador deste usuário.
+
+A categoria continuará disponível para os outros usuários.
+
+Deseja continuar?`;
+
+    const confirmou =
+      window.confirm(
+        mensagemConfirmacao
+      );
+
+    if (!confirmou) {
+      return;
+    }
+
+    try {
+      setExcluindo(true);
+      limparMensagem();
+
+      const idCategoriaRemovida =
+        Number(
+          categoriaSelecionada
+            .idCategoria
+        );
+
+      const resposta =
+        await excluirCategoriaUsuario({
+          idCategoria:
+            idCategoriaRemovida,
+
+          idUsuario,
+        });
+
+      setCategoriasDisponiveis(
+        (atuais) =>
+          atuais.filter(
+            (categoria) =>
+              Number(
+                categoria.idCategoria
+              ) !==
+              idCategoriaRemovida
+          )
+      );
+
+      limparNovaFoto();
+
+      setCategoriaSelecionada(null);
+      setBotoesSelecionados([]);
+      setNome("");
+      setOculto(false);
+      setFotoAtual("");
+      setBuscaBotao("");
+      setIdCategoriaFiltro(
+        "todas"
+      );
+      setIdBotaoArrastado(null);
+      setErros({});
+
+      setTipoMensagem("sucesso");
+
+      setMensagem(
+        resposta?.mensagem ||
+        (categoriaPersonalizada
+          ? "Categoria personalizada excluída permanentemente."
+          : "Categoria padrão removida do comunicador do usuário.")
+      );
+    } catch (erroExclusao) {
+      console.error(
+        "Erro ao remover categoria:",
+        erroExclusao
+      );
+
+      const dadosErro =
+        erroExclusao.response?.data;
+
+      const mensagemApi =
+        typeof dadosErro === "string"
+          ? dadosErro
+          : dadosErro?.message ||
+          dadosErro?.detail ||
+          dadosErro?.error;
+
+      setTipoMensagem("erro");
+
+      setMensagem(
+        mensagemApi ||
+        "Não foi possível remover a categoria."
+      );
+    } finally {
+      setExcluindo(false);
+    }
+  };
+
   const salvarEdicao = async (
     evento
   ) => {
@@ -851,24 +961,22 @@ function EditarCategoria() {
           .idCategoria;
 
       const resposta =
-        await editarCategoriaUsuario(
-          {
-            idCategoria:
-              idCategoriaOriginal,
+        await editarCategoriaUsuario({
+          idCategoria:
+            idCategoriaOriginal,
 
-            idUsuario,
+          idUsuario,
 
-            nome,
+          nome,
 
-            oculto,
+          oculto,
 
-            botoes:
-              botoesSelecionados,
+          botoes:
+            botoesSelecionados,
 
-            foto:
-              novaFoto,
-          }
-        );
+          foto:
+            novaFoto,
+        });
 
       limparNovaFoto();
 
@@ -971,20 +1079,19 @@ function EditarCategoria() {
         typeof dadosErro === "string"
           ? dadosErro
           : dadosErro?.message ||
-            dadosErro?.detail ||
-            dadosErro?.error;
+          dadosErro?.detail ||
+          dadosErro?.error;
 
       setTipoMensagem("erro");
 
       setMensagem(
         mensagemApi ||
-          "Não foi possível atualizar a categoria."
+        "Não foi possível atualizar a categoria."
       );
     } finally {
       setSalvando(false);
     }
   };
-
   return (
     <LayoutNico
       titulo="Editar Categoria"
@@ -1082,7 +1189,7 @@ function EditarCategoria() {
                 Carregando categorias...
               </p>
             ) : categoriasFiltradas
-                .length > 0 ? (
+              .length > 0 ? (
               <ul>
                 {categoriasFiltradas.map(
                   (categoria) => (
@@ -1393,7 +1500,7 @@ function EditarCategoria() {
                 </h2>
 
                 {botoesFiltrados.length >
-                0 ? (
+                  0 ? (
                   <ul>
                     {botoesFiltrados.map(
                       (botao) => (
@@ -1473,53 +1580,47 @@ function EditarCategoria() {
                         indice
                       ) => (
                         <li
-                          key={
-                            botao.idBotao
-                          }
+                          key={botao.idBotao}
                           className={
                             Number(
                               idBotaoArrastado
                             ) ===
-                            Number(
-                              botao.idBotao
-                            )
+                              Number(
+                                botao.idBotao
+                              )
                               ? "nico-botao-selecionado nico-botao-selecionado--arrastando"
                               : "nico-botao-selecionado"
+                          }
+                          draggable={!salvando && !excluindo}
+                          title="Clique e arraste para alterar a ordem"
+                          onDragStart={(evento) =>
+                            iniciarArrasteBotao(
+                              evento,
+                              botao.idBotao
+                            )
                           }
                           onDragOver={
                             permitirSoltarBotao
                           }
-                          onDrop={(
-                            evento
-                          ) =>
+                          onDrop={(evento) =>
                             soltarBotao(
                               evento,
                               botao.idBotao
                             )
                           }
+                          onDragEnd={() =>
+                            setIdBotaoArrastado(
+                              null
+                            )
+                          }
                         >
                           <span
                             className="nico-botao-arraste"
-                            draggable
-                            role="button"
-                            tabIndex={0}
-                            title="Arraste para alterar a ordem"
-                            onDragStart={(
-                              evento
-                            ) =>
-                              iniciarArrasteBotao(
-                                evento,
-                                botao.idBotao
-                              )
-                            }
-                            onDragEnd={() =>
-                              setIdBotaoArrastado(
-                                null
-                              )
-                            }
+                            aria-hidden="true"
                           >
                             ⋮⋮
                           </span>
+
 
                           <span className="nico-botao-ordem">
                             {indice + 1}
@@ -1527,10 +1628,9 @@ function EditarCategoria() {
 
                           {botao.foto ? (
                             <img
-                              src={
-                                botao.foto
-                              }
+                              src={botao.foto}
                               alt=""
+                              draggable={false}
                             />
                           ) : (
                             <span
@@ -1549,16 +1649,27 @@ function EditarCategoria() {
                             <button
                               type="button"
                               title="Mover para cima"
+                              draggable={false}
                               disabled={
                                 salvando ||
+                                excluindo ||
                                 indice === 0
                               }
-                              onClick={() =>
+                              onMouseDown={(evento) => {
+                                evento.stopPropagation();
+                              }}
+                              onDragStart={(evento) => {
+                                evento.preventDefault();
+                                evento.stopPropagation();
+                              }}
+                              onClick={(evento) => {
+                                evento.stopPropagation();
+
                                 moverBotao(
                                   indice,
                                   indice - 1
-                                )
-                              }
+                                );
+                              }}
                             >
                               ↑
                             </button>
@@ -1566,34 +1677,55 @@ function EditarCategoria() {
                             <button
                               type="button"
                               title="Mover para baixo"
+                              draggable={false}
                               disabled={
                                 salvando ||
+                                excluindo ||
                                 indice ===
-                                  botoesSelecionados
-                                    .length -
-                                    1
+                                botoesSelecionados.length -
+                                1
                               }
-                              onClick={() =>
+                              onMouseDown={(evento) => {
+                                evento.stopPropagation();
+                              }}
+                              onDragStart={(evento) => {
+                                evento.preventDefault();
+                                evento.stopPropagation();
+                              }}
+                              onClick={(evento) => {
+                                evento.stopPropagation();
+
                                 moverBotao(
                                   indice,
                                   indice + 1
-                                )
-                              }
+                                );
+                              }}
                             >
                               ↓
                             </button>
 
                             <button
                               type="button"
-                              title="Remover"
+                              title="Remover da categoria"
+                              draggable={false}
                               disabled={
-                                salvando
+                                salvando ||
+                                excluindo
                               }
-                              onClick={() =>
+                              onMouseDown={(evento) => {
+                                evento.stopPropagation();
+                              }}
+                              onDragStart={(evento) => {
+                                evento.preventDefault();
+                                evento.stopPropagation();
+                              }}
+                              onClick={(evento) => {
+                                evento.stopPropagation();
+
                                 removerBotao(
                                   botao.idBotao
-                                )
-                              }
+                                );
+                              }}
                             >
                               ×
                             </button>
@@ -1633,46 +1765,53 @@ function EditarCategoria() {
             </p>
           )}
 
-          <div className="nico-acoes">
+          <div className="nico-acoes nico-acoes-edicao">
             <button
-              className="nico-botao nico-botao-principal"
-              type="submit"
-              disabled={salvando}
+              className="nico-botao nico-botao-excluir"
+              type="button"
+              disabled={
+                salvando ||
+                excluindo
+              }
+              title={
+                categoriaSelecionada
+                  .exclusivaUsuario
+                  ? "Excluir categoria permanentemente"
+                  : "Remover categoria do comunicador deste usuário"
+              }
+              onClick={
+                removerCategoria
+              }
             >
-              {salvando
-                ? "Salvando..."
-                : "Salvar alterações"}
+              {excluindo
+                ? "Removendo..."
+                : categoriaSelecionada
+                  .exclusivaUsuario
+                  ? "Excluir categoria"
+                  : "Remover do comunicador"}
             </button>
 
             <button
               className="nico-botao nico-botao-secundario"
               type="button"
-              disabled={salvando}
-              onClick={
-                cancelarEdicao
-              }
+              disabled={salvando || excluindo}
+              onClick={cancelarEdicao}
             >
               Cancelar edição
+            </button>
+
+            <button
+              className="nico-botao nico-botao-principal"
+              type="submit"
+              disabled={salvando || excluindo}
+            >
+              {salvando
+                ? "Salvando..."
+                : "Salvar alterações"}
             </button>
           </div>
         </form>
       )}
-
-      {!categoriaSelecionada &&
-        mensagem && (
-          <p
-            className={
-              `nico-mensagem nico-mensagem--${tipoMensagem}`
-            }
-            role={
-              tipoMensagem === "erro"
-                ? "alert"
-                : "status"
-            }
-          >
-            {mensagem}
-          </p>
-        )}
     </LayoutNico>
   );
 }

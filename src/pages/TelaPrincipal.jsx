@@ -6,7 +6,9 @@ import {
   useState,
 } from "react";
 
-import { useNavigate } from "react-router-dom";
+import {
+  useNavigate,
+} from "react-router-dom";
 
 import MenuComunicador from "../components/MenuComunicador.jsx";
 import PinAuthModal from "../components/PinAuthModal.jsx";
@@ -23,7 +25,6 @@ const LIMITE_ITENS_FRASE = 20;
 
 function TelaPrincipal() {
   const navigate = useNavigate();
-
   const [modo, setModo] =
     useState("comunicacao");
 
@@ -136,6 +137,33 @@ function TelaPrincipal() {
             )
             : [];
 
+        console.table(
+          botoesRecebidos.map(
+            (botao) => ({
+              id:
+                botao.idBotao,
+
+              legenda:
+                botao.legenda,
+
+              oculto:
+                botao.oculto,
+
+              exclusivo:
+                botao.exclusivoUsuario,
+
+              categorias:
+                Array.isArray(
+                  botao.idsCategorias
+                )
+                  ? botao.idsCategorias.join(
+                    ", "
+                  )
+                  : "",
+            })
+          )
+        );
+
         const categoriasVisiveis =
           Array.isArray(
             categoriasRecebidas
@@ -181,7 +209,9 @@ function TelaPrincipal() {
 
   useEffect(() => {
     carregarComunicador();
-  }, [carregarComunicador]);
+  }, [
+    carregarComunicador
+  ]);
 
   useEffect(() => {
     return () => {
@@ -234,18 +264,113 @@ function TelaPrincipal() {
         return botoes;
       }
 
-      return botoes.filter(
-        (botao) => {
+      const idCategoriaAtual =
+        Number(
+          categoriaAtual.idCategoria
+        );
+
+      const botoesDaCategoria =
+        botoes.filter(
+          (botao) => {
+            if (
+              !Array.isArray(
+                botao.idsCategorias
+              )
+            ) {
+              return false;
+            }
+
+            return botao.idsCategorias
+              .map(Number)
+              .includes(
+                idCategoriaAtual
+              );
+          }
+        );
+
+      const relacoesOrdenadas =
+        Array.isArray(
+          categoriaAtual.botoes
+        )
+          ? [...categoriaAtual.botoes]
+          : [];
+
+      if (
+        relacoesOrdenadas.length === 0
+      ) {
+        return botoesDaCategoria;
+      }
+
+      const posicaoPorBotao =
+        new Map(
+          relacoesOrdenadas.map(
+            (relacao) => [
+              Number(
+                relacao.idBotao
+              ),
+              Number(
+                relacao.posicao
+              ),
+            ]
+          )
+        );
+
+      return [
+        ...botoesDaCategoria,
+      ].sort(
+        (
+          primeiro,
+          segundo
+        ) => {
+          const posicaoPrimeiro =
+            posicaoPorBotao.get(
+              Number(
+                primeiro.idBotao
+              )
+            );
+
+          const posicaoSegundo =
+            posicaoPorBotao.get(
+              Number(
+                segundo.idBotao
+              )
+            );
+
+          const primeiroTemPosicao =
+            Number.isFinite(
+              posicaoPrimeiro
+            );
+
+          const segundoTemPosicao =
+            Number.isFinite(
+              posicaoSegundo
+            );
+
           if (
-            !Array.isArray(
-              botao.idsCategorias
-            )
+            primeiroTemPosicao &&
+            segundoTemPosicao
           ) {
-            return false;
+            return (
+              posicaoPrimeiro -
+              posicaoSegundo
+            );
           }
 
-          return botao.idsCategorias.includes(
-            categoriaAtual.idCategoria
+          if (primeiroTemPosicao) {
+            return -1;
+          }
+
+          if (segundoTemPosicao) {
+            return 1;
+          }
+
+          return String(
+            primeiro.legenda || ""
+          ).localeCompare(
+            String(
+              segundo.legenda || ""
+            ),
+            "pt-BR"
           );
         }
       );
@@ -253,6 +378,29 @@ function TelaPrincipal() {
       botoes,
       categoriaAtual,
     ]);
+
+  useEffect(() => {
+    console.table(
+      botoesFiltrados.map(
+        (botao) => ({
+          id: botao.idBotao,
+          legenda: botao.legenda,
+          oculto: botao.oculto,
+          categorias:
+            Array.isArray(
+              botao.idsCategorias
+            )
+              ? botao.idsCategorias.join(
+                ", "
+              )
+              : "",
+        })
+      )
+    );
+  }, [
+    botoesFiltrados,
+    categoriaAtual,
+  ]);
 
   const criarItemDaTira = (
     botao
@@ -1101,9 +1249,17 @@ function TelaPrincipal() {
                           : "botao-comunicador"
                       }
                       style={{
-                        "--cor-faixa":
+                        "--cor-fundo-botao":
                           botao.corFundo ||
-                          "#b3b4b7",
+                          "#FFFFFF",
+
+                        "--cor-faixa":
+                          botao.corFundoLegenda ||
+                          "#B3B4B7",
+
+                        "--cor-texto-legenda":
+                          botao.corLegenda ||
+                          "#000000",
                       }}
                       draggable
                       role="button"
@@ -1156,20 +1312,25 @@ function TelaPrincipal() {
                         )}
                       </div>
 
-                      <div className="botao-comunicador__faixa">
-                        <span className="botao-comunicador__legenda">
-                          {
-                            botao.legenda
-                          }
-                        </span>
-                      </div>
+                      {botao.exibirLegenda !== false && (
+                        <div className="botao-comunicador__faixa">
+                          <span className="botao-comunicador__legenda">
+                            {botao.legenda}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   )
                 )
               )}
             </div>
-          </main>
 
+            {botoesFiltrados.length > 10 && (
+              <p className="prancha-botoes__aviso-rolagem">
+                Role para baixo para ver mais botões
+              </p>
+            )}
+          </main>
           <aside
             className="carrossel-categorias"
             aria-label="Categorias"
@@ -1268,5 +1429,6 @@ function TelaPrincipal() {
     </div>
   );
 }
+
 
 export default TelaPrincipal;

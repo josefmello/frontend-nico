@@ -2,7 +2,9 @@ import {
   useEffect,
   useState,
 } from "react";
-
+import {
+  filtrarCategoriasResolvidas,
+} from "../utils/categorias.js";
 import {
   LayoutNico,
   CampoCor,
@@ -202,13 +204,10 @@ function AdicionarBotao() {
         if (!ativo) {
           return;
         }
-
         const lista =
-          Array.isArray(
+          filtrarCategoriasResolvidas(
             dadosCategorias
-          )
-            ? dadosCategorias
-            : [];
+          );
 
         setCategorias(lista);
 
@@ -396,7 +395,7 @@ function AdicionarBotao() {
           audio:
             "O áudio deve ter no máximo 10 MB.",
         })
-      );vento.target.value = "";
+      ); vento.target.value = "";
       return;
     }
 
@@ -443,7 +442,6 @@ function AdicionarBotao() {
         .length === 0
     );
   };
-
   const limparFormulario = () => {
     if (fotoUrl) {
       URL.revokeObjectURL(
@@ -477,15 +475,16 @@ function AdicionarBotao() {
   ) => {
     evento.preventDefault();
 
-    limparMensagem();
+    setMensagem("");
+    setTipoMensagem("");
 
     if (!validarFormulario()) {
       return;
     }
 
-    try {
-      setEnviando(true);
+    setEnviando(true);
 
+    try {
       const resposta =
         await criarBotaoUsuario({
           legenda: nome,
@@ -500,40 +499,99 @@ function AdicionarBotao() {
           audioPersonalizado,
         });
 
-      limparFormulario();
+      console.log(
+        "Botão criado com sucesso:",
+        resposta
+      );
 
-      setTipoMensagem("sucesso");
+      const legendaCriada =
+        resposta?.legenda ||
+        nome.trim();
+
+      const nomeUsuario =
+        resposta?.nomeUsuario ||
+        "o usuário selecionado";
+
+      setTipoMensagem(
+        "sucesso"
+      );
 
       setMensagem(
-        `Botão "${resposta.legenda}" adicionado com sucesso para ${resposta.nomeUsuario}.`
+        `Botão "${legendaCriada}" adicionado com sucesso para ${nomeUsuario}.`
       );
+
+      try {
+        limparFormulario();
+      } catch (erroLimpeza) {
+        console.error(
+          "O botão foi criado, mas ocorreu um erro ao limpar o formulário:",
+          erroLimpeza
+        );
+      }
     } catch (erroCadastro) {
       console.error(
         "Erro ao adicionar botão:",
         erroCadastro
       );
 
+      console.error(
+        "Status:",
+        erroCadastro.response?.status
+      );
+
+      console.error(
+        "Resposta da API:",
+        erroCadastro.response?.data
+      );
+
       const dadosErro =
         erroCadastro.response?.data;
 
-      const mensagemApi =
+      let mensagemApi = "";
+
+      if (
         typeof dadosErro === "string"
-          ? dadosErro
-          : dadosErro?.message ||
-            dadosErro?.detail ||
-            dadosErro?.error;
+      ) {
+        mensagemApi = dadosErro;
+      } else if (
+        dadosErro?.detail
+      ) {
+        mensagemApi =
+          dadosErro.detail;
+      } else if (
+        dadosErro?.message
+      ) {
+        mensagemApi =
+          dadosErro.message;
+      } else if (
+        dadosErro?.error
+      ) {
+        mensagemApi =
+          dadosErro.error;
+      } else if (
+        dadosErro?.errors &&
+        typeof dadosErro.errors ===
+        "object"
+      ) {
+        mensagemApi =
+          Object.values(
+            dadosErro.errors
+          ).join(" ");
+      }
 
       setTipoMensagem("erro");
 
       setMensagem(
         mensagemApi ||
-          "Não foi possível adicionar o botão."
+        `Não foi possível adicionar o botão${erroCadastro.response?.status
+          ? ` (erro ${erroCadastro.response.status})`
+          : ""
+        }.`
       );
     } finally {
       setEnviando(false);
     }
   };
-
   const cancelar = () => {
     limparFormulario();
     limparMensagem();

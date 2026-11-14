@@ -6,6 +6,10 @@ import {
 } from "react";
 
 import {
+    filtrarCategoriasResolvidas,
+} from "../utils/categorias.js";
+
+import {
     LayoutNico,
     IconeImagemMais,
 } from "../components";
@@ -214,9 +218,9 @@ function AdicionarCategoria() {
                         : [];
 
                 const listaCategorias =
-                    Array.isArray(dadosCategorias)
-                        ? dadosCategorias
-                        : [];
+                    filtrarCategoriasResolvidas(
+                        dadosCategorias
+                    );
 
                 setBotoesDisponiveis(
                     listaBotoes
@@ -235,24 +239,8 @@ function AdicionarCategoria() {
                             )
                         )
                 );
-
                 setCategoriasFiltro(
                     listaCategorias
-                        .filter(
-                            (categoria) =>
-                                categoria?.idCategoria !=
-                                null
-                        )
-                        .sort((primeira, segunda) =>
-                            String(
-                                primeira.nome || ""
-                            ).localeCompare(
-                                String(
-                                    segunda.nome || ""
-                                ),
-                                "pt-BR"
-                            )
-                        )
                 );
             } catch (erroDados) {
                 console.error(

@@ -14,11 +14,11 @@ export async function criarCategoriaUsuario({
 
     botoes: botoes.map(
       (botao, indice) => ({
-        idBotao: Number(
-          botao.idBotao
-        ),
+        idBotao:
+          Number(botao.idBotao),
 
-        posicao: indice + 1,
+        posicao:
+          indice + 1,
       })
     ),
   };
@@ -78,17 +78,13 @@ export async function editarCategoriaUsuario({
     oculto:
       Boolean(oculto),
 
-    /*
-     * A posição é determinada pela
-     * ordem atual da lista na tela.
-     */
     botoes: botoes.map(
       (botao, indice) => ({
-        idBotao: Number(
-          botao.idBotao
-        ),
+        idBotao:
+          Number(botao.idBotao),
 
-        posicao: indice + 1,
+        posicao:
+          indice + 1,
       })
     ),
   };
@@ -101,11 +97,6 @@ export async function editarCategoriaUsuario({
     JSON.stringify(dados)
   );
 
-  /*
-   * A imagem é opcional na edição.
-   * Quando não houver uma imagem nova,
-   * o back-end preservará a atual.
-   */
   if (foto instanceof File) {
     formulario.append(
       "foto",
@@ -113,17 +104,44 @@ export async function editarCategoriaUsuario({
     );
   }
 
-  /*
-   * Não defina Content-Type manualmente.
-   * O navegador montará o multipart/form-data
-   * com o boundary correto.
-   */
   const resposta =
     await api.put(
       `/api/categorias/usuario/${Number(
         idCategoria
       )}`,
       formulario
+    );
+
+  return resposta.data;
+}
+
+export async function excluirCategoriaUsuario({
+  idCategoria,
+  idUsuario,
+}) {
+  if (!idCategoria) {
+    throw new Error(
+      "O ID da categoria é obrigatório."
+    );
+  }
+
+  if (!idUsuario) {
+    throw new Error(
+      "O ID do usuário é obrigatório."
+    );
+  }
+
+  const resposta =
+    await api.delete(
+      `/api/categorias/usuario/${Number(
+        idCategoria
+      )}`,
+      {
+        params: {
+          idUsuario:
+            Number(idUsuario),
+        },
+      }
     );
 
   return resposta.data;
