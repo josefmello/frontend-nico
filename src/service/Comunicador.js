@@ -1,51 +1,48 @@
 import api from "./Api.js";
 
-export const buscarBotoesResolvidos =
-  async (idUsuario) => {
-    const resposta = await api.get(
-      `/api/usuarios/${idUsuario}/botoes-resolvidos`,
-      {
-        params: {
-          _: Date.now(),
-        },
-
-        headers: {
-          "Cache-Control":
-            "no-cache",
-          Pragma: "no-cache",
-        },
-      }
-    );
+const executarGet = async (url) => {
+  try {
+    const resposta = await api.get(url, {
+      params: {
+        _: Date.now(),
+      },
+      headers: {
+        "Cache-Control": "no-cache",
+        Pragma: "no-cache",
+      },
+    });
 
     return resposta.data;
-  };
+  } catch (erro) {
+    console.error("Falha na API do comunicador:", {
+      url,
+      status: erro.response?.status,
+      resposta: erro.response?.data,
+      mensagem: erro.message,
+    });
 
-export const buscarCategoriasResolvidas =
-  async (idUsuario) => {
-    const resposta = await api.get(
-      `/api/usuarios/${idUsuario}/categorias-resolvidas`,
-      {
-        params: {
-          _: Date.now(),
-        },
+    throw erro;
+  }
+};
 
-        headers: {
-          "Cache-Control":
-            "no-cache",
-          Pragma: "no-cache",
-        },
-      }
-    );
+export const buscarBotoesResolvidos = async (idUsuario) => {
+  return executarGet(
+    `/api/usuarios/${Number(idUsuario)}/botoes-resolvidos`
+  );
+};
 
-    return resposta.data;
-  };
+export const buscarCategoriasResolvidas = async (idUsuario) => {
+  return executarGet(
+    `/api/usuarios/${Number(idUsuario)}/categorias-resolvidas`
+  );
+};
 
 export const registrarAcionamento = async (
   idUsuario,
   idBotao
 ) => {
   const resposta = await api.post(
-    `/api/usuarios/${idUsuario}/botoes/${idBotao}/acionar`
+    `/api/usuarios/${Number(idUsuario)}/botoes/${Number(idBotao)}/acionar`
   );
 
   return resposta.data;

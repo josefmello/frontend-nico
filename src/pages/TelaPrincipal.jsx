@@ -138,30 +138,17 @@ function TelaPrincipal() {
             : [];
 
         console.table(
-          botoesRecebidos.map(
-            (botao) => ({
-              id:
-                botao.idBotao,
-
-              legenda:
-                botao.legenda,
-
-              oculto:
-                botao.oculto,
-
-              exclusivo:
-                botao.exclusivoUsuario,
-
-              categorias:
-                Array.isArray(
-                  botao.idsCategorias
-                )
-                  ? botao.idsCategorias.join(
-                    ", "
-                  )
-                  : "",
-            })
-          )
+          Array.isArray(botoesRecebidos)
+            ? botoesRecebidos.map((botao) => ({
+              id: botao.idBotao,
+              legenda: botao.legenda,
+              oculto: botao.oculto,
+              exclusivo: botao.exclusivoUsuario,
+              categorias: Array.isArray(botao.idsCategorias)
+                ? botao.idsCategorias.join(", ")
+                : "",
+            }))
+            : []
         );
 
         const categoriasVisiveis =
