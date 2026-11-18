@@ -383,3 +383,54 @@ button.btn-mostrar-senha {
   box-shadow: none !important;
 }
 
+
+/* Medidor de força de senha (cadastro) */
+.forca-senha {
+  --forca-fraca: var(--auth-erro, #d62219);
+  --forca-media: var(--nicoshine);
+  --forca-forte: var(--nicocean);
+  margin: 8px 0 4px;
+}
+
+.forca-barra {
+  display: flex;
+  gap: 6px;
+}
+
+.forca-seg {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background-color: var(--nicoleste);
+  opacity: 0.45;
+}
+
+.forca-seg--1 { background-color: var(--forca-fraca); opacity: 1; }
+.forca-seg--2 { background-color: var(--forca-media); opacity: 1; }
+.forca-seg--3 { background-color: var(--forca-forte); opacity: 1; }
+
+.forca-rotulo {
+  margin: 6px 0 4px;
+  font-size: 15px;
+  color: var(--nicoturne);
+}
+
+.forca-lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  color: var(--nicoturne);
+}
+
+.forca-item { opacity: 0.8; }
+.forca-item--ok { color: var(--nicocean); opacity: 1; font-weight: 700; }
+
+.forca-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

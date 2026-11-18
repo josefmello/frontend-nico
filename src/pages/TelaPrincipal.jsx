@@ -247,11 +247,11 @@ function TelaPrincipal() {
     });
   };
 
-  const abrirRecuperacaoSenha = () => {
+  const abrirRecuperacaoPin = () => {
     setModalPinAberto(false);
     setModo("comunicacao");
 
-    navigate("/esqueci-senha");
+    navigate("/esqueci-pin");
   };
 
   const categoriaAtual =
@@ -982,8 +982,8 @@ function TelaPrincipal() {
           onSucesso={
             liberarModoEdicao
           }
-          onEsqueciSenha={
-            abrirRecuperacaoSenha
+          onEsqueciPin={
+            abrirRecuperacaoPin
           }
         />
       )}

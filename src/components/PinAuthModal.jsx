@@ -4,7 +4,7 @@ import nicoLogo from "../assets/logo-nico.svg"
 import { validarPin } from "../service/auth.js"
 
 const TAMANHO_PIN = 4 
-function PinAuthModal({ onFechar, onSucesso, onEsqueciSenha }) {
+function PinAuthModal({ onFechar, onSucesso, onEsqueciPin }) {
   const dialogRef = useRef(null)
   const inputRef = useRef(null)
   const requisicaoRef = useRef(0) // invalida respostas de tentativas abandonadas (cancelou durante o carregamento)
@@ -127,8 +127,8 @@ function PinAuthModal({ onFechar, onSucesso, onEsqueciSenha }) {
             </button>
           </div>
 
-          <button type="button" className="pin-esqueci" onClick={onEsqueciSenha}>
-            Esqueci minha senha
+          <button type="button" className="pin-esqueci" onClick={onEsqueciPin}>
+            Esqueci meu PIN
           </button>
         </div>
       </form>

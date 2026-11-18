@@ -1,10 +1,11 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "../pages/CadastroAdministrador.css"
-import nicoLogo from "../assets/logo-nico.svg"
 import { registarAdministrador } from "../service/Administrador.js"
 import CampoSenha from "../components/CampoSenha.jsx"
 import AuthLayout from "../components/AuthLayout.jsx"
+import ForcaSenha from "../components/ForcaSenha.jsx"
+import { validarSenhaNova } from "../utils/validacao.js"
 import AcessibilidadeAuth from "../components/AcessibilidadeAuth.jsx"
 
 function CadastroAdministrador() {
@@ -18,11 +19,20 @@ function CadastroAdministrador() {
     const [pin, setPin] = useState('')
     const [cpin, setCPin] = useState('')
 
+    const [erroSenha, setErroSenha] = useState('')
     const [carregando, setCarregando] = useState(false)
     const navigate = useNavigate()
 
     const cadastrar = async (e) => {
         e.preventDefault()
+
+        const faltaNaSenha = validarSenhaNova(senha)
+        if (faltaNaSenha) {
+            setErroSenha(faltaNaSenha)
+            document.getElementById("senha")?.focus()
+            return
+        }
+        setErroSenha('')
 
         if (senha !== csenha) {
             alert("As senhas não coincidem!")
@@ -61,11 +71,7 @@ function CadastroAdministrador() {
                 subtitulo="Preencha os dados abaixo. Os campos sem “(opcional)” são obrigatórios."
                 largo
             >
-                <div className="cadastro-container">
-                    <div className="cadastro-wrapper">
-                        <form onSubmit={cadastrar} className="cartao">
-                            <img src={nicoLogo} alt="Logo da Nico" className="nicoLogo" />
-                            <h1>Cadastro de Administrador</h1>
+                <form onSubmit={cadastrar} className="cartao cartao--embutido">
 
                     <div>
                         <label>Nome: *</label>
@@ -128,9 +134,12 @@ function CadastroAdministrador() {
                             id="senha"
                             label="Digite uma senha: *"
                             value={senha}
-                            onChange={(e) => setSenha(e.target.value)}
+                            onChange={(e) => { setSenha(e.target.value); setErroSenha('') }}
                             required
+                            descricaoId="senha-forca"
                         />
+                        <ForcaSenha id="senha-forca" senha={senha} />
+                        {erroSenha && <p className="auth-msg auth-msg--erro" role="alert"><span aria-hidden="true">⚠ </span>{erroSenha}</p>}
    
 
 
@@ -141,6 +150,7 @@ function CadastroAdministrador() {
                             onChange={(e) => setCSenha(e.target.value)}
                             required
                         />
+                        {csenha && senha !== csenha && <p className="auth-msg auth-msg--aviso" role="status"><span aria-hidden="true">ℹ </span>As senhas ainda não coincidem.</p>}
 
 
                    <CampoSenha
@@ -172,8 +182,6 @@ function CadastroAdministrador() {
                                 Sair
                             </button>
                         </form>
-                    </div>
-                </div>
             </AuthLayout>
         </AcessibilidadeAuth>
     )
