@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
-import { atualizarUsuario, buscarUsuario } from '../service/Usuario.js';
+import {
+    atualizarUsuario,
+    buscarMeusUsuarios,
+    buscarUsuarioParaEdicao
+} from "../service/Usuario.js";
 import './EdicaoUsuario.css';
 
 const SEXOS = ['Masculino', 'Feminino', 'Outro'];
 
-// O usuário em edição é o salvo pelo Login/Cadastro (idUsuario)
-function lerIdUsuario() {
-    return localStorage.getItem('idUsuario');
-}
 
 // Normaliza o que a API devolve para o valor das opções dos selects
 function normalizarSexo(valor) {
@@ -20,43 +20,141 @@ function normalizarNivel(valor) {
 }
 
 function EdicaoUsuario() {
-    const [idUsuario] = useState(lerIdUsuario);
-    const [nome, setNome] = useState('');
-    const [nascimento, setNascimento] = useState('');
-    const [sexo, setSexo] = useState('');
-    const [nivelAutismo, setNivelAutismo] = useState('');
-    const [biografia, setBiografia] = useState('');
-    const [voz, setVoz] = useState('');
-    const [original, setOriginal] = useState(null); // resposta do GET (inclui idUsuario)
-    const [carregando, setCarregando] = useState(Boolean(idUsuario));
+    const [idUsuario, setIdUsuario] = useState(null);
+    const [nome, setNome] = useState("");
+    const [nascimento, setNascimento] = useState("");
+    const [sexo, setSexo] = useState("");
+    const [nivelAutismo, setNivelAutismo] = useState("");
+    const [biografia, setBiografia] = useState("");
+    const [voz, setVoz] = useState("");
+
+    const [original, setOriginal] = useState(null);
+    const [carregando, setCarregando] = useState(true);
     const [salvando, setSalvando] = useState(false);
-    const [aviso, setAviso] = useState(
-        idUsuario ? null : { tipo: 'erro', texto: 'Nenhum usuário encontrado para editar.' },
-    );
+    const [aviso, setAviso] = useState(null);
 
     useEffect(() => {
-        if (!idUsuario) return;
         let ativo = true;
 
-        buscarUsuario(idUsuario)
-            .then((dados) => {
-                if (!ativo) return;
-                setOriginal(dados);
-                setNome(dados.nome ?? '');
-                setNascimento(String(dados.dataNascAut ?? dados.dataNascimento ?? '').slice(0, 10));
-                setSexo(normalizarSexo(dados.sexo));
-                setNivelAutismo(normalizarNivel(dados.nivelAutismo));
-                setVoz(dados.voz === true || dados.voz === 'true' ? 'true' : dados.voz === false || dados.voz === 'false' ? 'false' : '');
-                setBiografia(dados.biografia ?? '');
-            })
-            .catch((erro) => {
-                console.error('Erro ao buscar o usuário:', erro);
-                if (ativo) setAviso({ tipo: 'erro', texto: 'Não foi possível carregar os dados do usuário.' });
-            })
-            .finally(() => ativo && setCarregando(false));
+        async function carregarUsuario() {
+            try {
+                setCarregando(true);
+                setAviso(null);
 
-        return () => { ativo = false; };
-    }, [idUsuario]);
+                let id = localStorage.getItem("idUsuario");
+
+                if (!id) {
+                    const usuarioSalvo = JSON.parse(
+                        localStorage.getItem("usuario") || "{}"
+                    );
+
+                    id = usuarioSalvo.idUsuario ?? null;
+                }
+
+                if (!id) {
+                    const usuarios = await buscarMeusUsuarios();
+
+                    if (!ativo) {
+                        return;
+                    }
+
+                    if (!Array.isArray(usuarios) || usuarios.length === 0) {
+                        setAviso({
+                            tipo: "erro",
+                            texto: "Nenhum usuário vinculado a esta conta foi encontrado."
+                        });
+
+                        return;
+                    }
+
+                    const usuarioEncontrado = usuarios[0];
+
+                    id = usuarioEncontrado.idUsuario;
+
+                    localStorage.setItem(
+                        "idUsuario",
+                        String(id)
+                    );
+
+                    localStorage.setItem(
+                        "usuario",
+                        JSON.stringify(usuarioEncontrado)
+                    );
+                }
+
+                const usuario = await buscarUsuarioParaEdicao(id);
+
+                if (!ativo) {
+                    return;
+                }
+
+                setIdUsuario(String(id));
+                setOriginal(usuario);
+
+                setNome(usuario.nome ?? "");
+
+                setNascimento(
+                    (
+                        usuario.dataNascAut ??
+                        usuario.dataNascimento ??
+                        ""
+                    ).slice(0, 10)
+                );
+
+                setNivelAutismo(
+                    usuario.nivelAutismo ?? ""
+                );
+
+                setVoz(
+                    usuario.voz === true ||
+                    usuario.voz === "true"
+                );
+
+                setSexo(
+                    usuario.sexo ?? ""
+                );
+
+                setBiografia(
+                    usuario.biografia ?? ""
+                );
+            } catch (erro) {
+                if (!ativo) {
+                    return;
+                }
+
+                console.error(
+                    "Erro ao carregar usuário:",
+                    erro.response?.status,
+                    erro.response?.data || erro
+                );
+
+                const status = erro.response?.status;
+
+                setAviso({
+                    tipo: "erro",
+                    texto:
+                        status === 401
+                            ? "Sua sessão expirou. Entre novamente."
+                            : status === 403
+                                ? "Este usuário não pertence ao administrador autenticado."
+                                : status === 404
+                                    ? "Usuário não encontrado."
+                                    : erro.response?.data?.message ||
+                                    "Não foi possível carregar os dados do usuário."
+                });
+            } finally {
+                if (ativo) {
+                    setCarregando(false);
+                }
+            }
+        }
+
+        carregarUsuario();
+
+        return () => {
+            ativo = false;
+        };
+    }, []);
 
     async function salvar() {
         if (salvando || carregando || !idUsuario || !original) return;
@@ -75,18 +173,65 @@ function EdicaoUsuario() {
         setAviso(null);
         setSalvando(true);
         try {
-            const atualizado = await atualizarUsuario(idUsuario, dados);
+            const atualizado =
+                await atualizarUsuario(idUsuario, dados);
 
-            // Mantém o usuário salvo localmente (usado pelo comunicador) em sincronia
-            const salvo = JSON.parse(localStorage.getItem('usuario') || '{}');
-            localStorage.setItem('usuario', JSON.stringify({ ...salvo, ...dados, ...(atualizado ?? {}) }));
+            const usuarioFinal = {
+                ...original,
+                ...dados,
+                ...(atualizado ?? {})
+            };
 
-            setAviso({ tipo: 'sucesso', texto: 'Usuário atualizado com sucesso!' });
-        } catch (erro) {
-            console.error('Erro ao atualizar o usuário:', erro);
+            setOriginal(usuarioFinal);
+
+            setNome(usuarioFinal.nome ?? "");
+
+            setNascimento(
+                (usuarioFinal.dataNascAut ?? "").slice(0, 10)
+            );
+
+            setNivelAutismo(
+                normalizarNivel(usuarioFinal.nivelAutismo)
+            );
+
+            setVoz(
+                String(usuarioFinal.voz)
+            );
+
+            setSexo(
+                normalizarSexo(usuarioFinal.sexo)
+            );
+
+            setBiografia(
+                usuarioFinal.biografia ?? ""
+            );
+
+            localStorage.setItem(
+                "idUsuario",
+                String(usuarioFinal.idUsuario)
+            );
+
+            localStorage.setItem(
+                "usuario",
+                JSON.stringify(usuarioFinal)
+            );
+
             setAviso({
-                tipo: 'erro',
-                texto: erro.response?.data?.message || 'Não foi possível atualizar o usuário. Tente novamente.',
+                tipo: "sucesso",
+                texto: "Usuário atualizado com sucesso!"
+            });
+        } catch (erro) {
+            console.error(
+                "Erro ao atualizar o usuário:",
+                erro.response?.status,
+                erro.response?.data || erro
+            );
+
+            setAviso({
+                tipo: "erro",
+                texto:
+                    erro.response?.data?.message ||
+                    "Não foi possível atualizar o usuário."
             });
         } finally {
             setSalvando(false);

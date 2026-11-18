@@ -26,3 +26,11 @@ export const atualizarUsuario = async (idUsuario, dadosUsuario) => {
   const resposta = await api.put(`/api/usuarios/${idUsuario}`, dadosUsuario)
   return resposta.data
 }
+
+export const buscarUsuarioParaEdicao = async (idUsuario) => {
+    const resposta = await api.get(
+        `/api/usuarios/${idUsuario}/edicao`
+    );
+
+    return resposta.data;
+};

@@ -1,35 +1,174 @@
-/* Cadastro de Usuário — complementos específicos. Base visual (card, campos, botões) em components/Auth.css */
+/* Tela de cadastro do administrador */
 
-/* Mobile: 1 coluna. Tablet/desktop: 2 colunas, com campos "inteiros" ocupando a linha toda. */
-.cu-grade {
-  display: grid;
-  grid-template-columns: 1fr;
-  column-gap: 16px;
+.cadastro-container {
+    width: 100%;
+    min-height: calc(100vh - 52px);
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+
+    padding: 70px 20px 48px;
+    margin: 0 auto;
+
+    background-color: #f2faff;
 }
 
-.cu-grade > .cu-inteira {
-  grid-column: 1 / -1;
+.cadastro-wrapper {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+.cadastro-administrador-cartao {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 40px;
+    background-color: #ffffff;
+    border: 1px solid #d6e0e6;
+    border-radius: 18px;
+    box-shadow: 0 8px 24px rgba(0, 67, 105, 0.12);
 }
 
-@media (min-width: 600px) {
-  .cu-grade {
+.cadastro-administrador-cabecalho {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.cadastro-administrador-cabecalho .nicoLogo {
+    display: block;
+    width: min(320px, 90%);
+    height: auto;
+    margin: 0 auto 24px;
+}
+
+.cadastro-administrador-cabecalho h1 {
+    margin: 0;
+    color: var(--nicoturne, #003c61);
+    font-size: clamp(30px, 5vw, 44px);
+    line-height: 1.15;
+}
+
+.cadastro-administrador-cabecalho p {
+    max-width: 560px;
+    margin: 12px 0 0;
+    color: #49677a;
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.cadastro-administrador-grade {
+    display: grid;
     grid-template-columns: 1fr 1fr;
-  }
+    gap: 20px 18px;
 }
 
-/* Mensagem de sucesso (validação concluída) */
-.cu-sucesso {
-  margin: 0 0 16px;
-  padding: 10px 14px;
-  font-weight: 700;
-  color: var(--nicoturne);
-  background-color: var(--nicoleste);
-  border-radius: 10px;
+.cadastro-administrador-campo {
+    min-width: 0;
 }
 
-.cu-rodape {
-  margin: 20px 0 0;
-  font-size: 15px;
-  text-align: center;
-  color: var(--nicoturne);
+.cadastro-administrador-inteiro {
+    grid-column: 1 / -1;
+}
+
+.cadastro-administrador-campo label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--nicoturne, #003c61);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.cadastro-administrador-campo input,
+.cadastro-administrador-campo select {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    color: #102f42;
+    background-color: #ffffff;
+    border: 1px solid #b8d3e3;
+    border-radius: 8px;
+    font: inherit;
+    outline: none;
+}
+
+.cadastro-administrador-campo input:focus,
+.cadastro-administrador-campo select:focus {
+    border-color: #168fd1;
+    box-shadow: 0 0 0 3px rgba(22, 143, 209, 0.2);
+}
+
+.cadastro-administrador-acoes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-top: 30px;
+}
+
+.cadastro-administrador-acoes button {
+    min-height: 46px;
+    padding: 11px 18px;
+    border-radius: 9px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.cadastro-administrador-cadastrar {
+    color: #ffffff;
+    background-color: #168fd1;
+    border: 2px solid #168fd1;
+}
+
+.cadastro-administrador-cadastrar:hover:not(:disabled) {
+    background-color: #087bb9;
+    border-color: #087bb9;
+}
+
+.cadastro-administrador-acoes .sair {
+    color: #075982;
+    background-color: #ffffff;
+    border: 2px solid #168fd1;
+}
+
+.cadastro-administrador-acoes .sair:hover:not(:disabled) {
+    background-color: #eaf7ff;
+}
+
+.cadastro-administrador-acoes button:focus-visible {
+    outline: 3px solid rgba(22, 143, 209, 0.35);
+    outline-offset: 2px;
+}
+
+.cadastro-administrador-acoes button:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+}
+
+@media (max-width: 650px) {
+    .cadastro-container {
+        padding: 24px 12px;
+    }
+
+    .cadastro-administrador-cartao {
+        padding: 28px 18px;
+        border-radius: 14px;
+    }
+
+    .cadastro-administrador-grade {
+        grid-template-columns: 1fr;
+    }
+
+    .cadastro-administrador-inteiro {
+        grid-column: auto;
+    }
+
+    .cadastro-administrador-acoes {
+        grid-template-columns: 1fr;
+    }
 }

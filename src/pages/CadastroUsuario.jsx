@@ -116,7 +116,7 @@ function CadastroUsuario() {
   return (
     <AcessibilidadeAuth>
       <AuthLayout
-        titulo="Criar conta"
+        titulo="Cadastrar Usuário"
         subtitulo="Preencha os dados abaixo. Os campos sem “(opcional)” são obrigatórios."
         largo
       >
