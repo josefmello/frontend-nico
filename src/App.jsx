@@ -9,6 +9,8 @@ import TelaAdministrador from "./pages/TelaAdministrador.jsx";
 import TelaPrincipal from "./pages/TelaPrincipal.jsx";
 import CadastroAdministrador from "./pages/CadastroAdministrador.jsx";
 import CadastroUsuario from "./pages/CadastroUsuario.jsx";
+import EsqueciSenha from "./pages/EsqueciSenha.jsx";
+import EsqueciPin from "./pages/EsqueciPin.jsx";
 
 function App() {
   return (
@@ -46,6 +48,8 @@ function App() {
             <CadastroUsuario />
           }
         />
+        <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+        <Route path="/esqueci-pin" element={<EsqueciPin />} />
       </Routes>
     </BrowserRouter>
   );

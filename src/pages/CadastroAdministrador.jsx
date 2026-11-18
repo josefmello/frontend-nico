@@ -1,28 +1,38 @@
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import "../pages/CadastroAdministrador.css"
-import nicoLogo from "../assets/logo-nico.svg"
 import { registarAdministrador } from "../service/Administrador.js"
 import CampoSenha from "../components/CampoSenha.jsx"
+import ForcaSenha from "../components/ForcaSenha.jsx"
+import { validarSenhaNova } from "../utils/validacao.js"
 import AcessibilidadeAuth from "../components/AcessibilidadeAuth.jsx"
 
 function CadastroAdministrador() {
-    const [nome, setNome] = useState("")
-    const [email, setEmail] = useState("")
-    const [tel, setTel] = useState("")
-    const [dataNasc, setDataNasc] = useState("")
-    const [sexo, setSexo] = useState("")
-    const [senha, setSenha] = useState("")
-    const [csenha, setCSenha] = useState("")
-    const [pin, setPin] = useState("")
-    const [cpin, setCPin] = useState("")
+    const [nome, setNome] = useState('')
+    const [email, setEmail] = useState('')
+    const [tel, setTel] = useState('')
+    const [dataNasc, setDataNasc] = useState('')
+    const [sexo, setSexo] = useState('')
+    const [senha, setSenha] = useState('')
+    const [csenha, setCSenha] = useState('')
+    const [pin, setPin] = useState('')
+    const [cpin, setCPin] = useState('')
 
+    const [erroSenha, setErroSenha] = useState('')
     const [carregando, setCarregando] = useState(false)
 
     const navigate = useNavigate()
 
     const cadastrar = async (e) => {
         e.preventDefault()
+
+        const faltaNaSenha = validarSenhaNova(senha)
+        if (faltaNaSenha) {
+            setErroSenha(faltaNaSenha)
+            document.getElementById("senha")?.focus()
+            return
+        }
+        setErroSenha('')
 
         if (senha !== csenha) {
             alert("As senhas não coincidem!")

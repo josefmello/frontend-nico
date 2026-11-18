@@ -1,6 +1,6 @@
 import { useState } from "react"
 
-function CampoSenha({ id, label, value, onChange, required, maxLength, minLength, inputMode }) {
+function CampoSenha({ id, label, value, onChange, required, maxLength, minLength, inputMode, descricaoId }) {
     const [mostrar, setMostrar] = useState(false)
 
     return (
@@ -17,6 +17,7 @@ function CampoSenha({ id, label, value, onChange, required, maxLength, minLength
                     maxLength={maxLength}
                     minLength={minLength}
                     inputMode={inputMode}
+                    aria-describedby={descricaoId}
                     style={{ 
                         width: "100%",
                         height: "100%",

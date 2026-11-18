@@ -34,14 +34,20 @@ html, body, #root {
 }
 
 .cartao {
-  background-color: white !important;
-  width: 100% !important;
-  max-width: 900px !important; 
-  margin: 40px auto !important;
-  padding: 48px 40px !important;
-  border-radius: 20px;
-  box-shadow: 0px 8px 24px rgba(14, 58, 87, 0.12);
+  width: 100%;
   box-sizing: border-box;
+}
+
+/* Embutido no card único do AuthLayout: sem fundo, sombra, margem ou padding próprios */
+.cartao--embutido {
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  max-width: none !important;
+  border-radius: 0;
 }
 
 /* Afeta apenas os blocos principais do formulário, ignorando o wrapper interno da senha */
@@ -107,9 +113,6 @@ html, body, #root {
 }
 
 @media (max-width: 640px) {
-  .cartao {
-    padding: 24px 20px;
-  }
   
   .cartao h1 {
     font-size: 22px;
