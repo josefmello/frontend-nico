@@ -551,13 +551,7 @@ function Relatorio() {
           <h1>Relatório</h1>
         </div>
 
-        <button
-          type="button"
-          className="relatorio__limpar"
-          onClick={limparFiltros}
-        >
-          Limpar filtros
-        </button>
+
       </div>
 
       <section
@@ -631,6 +625,14 @@ function Relatorio() {
         </label>
 
       </section>
+
+        <button
+          type="button"
+          className="relatorio__limpar"
+          onClick={limparFiltros}
+        >
+          Limpar filtros
+        </button>
 
       {erro && (
         <p
@@ -734,8 +736,14 @@ function Relatorio() {
             os filtros selecionados.
           </p>
         ) : (
-          <div className="grafico-area">
-            <ResponsiveContainer
+          <div
+            className="grafico-rolagem"
+            role="region"
+            aria-label="Gráfico de utilização. Deslize horizontalmente para consultar todos os horários."
+            tabIndex={0}
+          >
+            <div className="grafico-area">
+              <ResponsiveContainer
               width="100%"
               height="100%"
             >
@@ -776,7 +784,8 @@ function Relatorio() {
                   activeDot={false}
                 />
               </LineChart>
-            </ResponsiveContainer>
+              </ResponsiveContainer>
+            </div>
           </div>
         )}
       </section>

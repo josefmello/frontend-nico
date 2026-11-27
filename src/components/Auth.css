@@ -294,12 +294,7 @@ textarea.auth-input {
   }
 }
 
-.auth-card, .auth-container, div[class*="layout"] > div {
-  width: 100%;
-  max-width: 640px; 
-  padding: 100px 30px; 
-  box-sizing: border-box;
-}
+
 /* Garante que apenas o container do CampoSenha fica relativo */
 div:has(> input[type="password"]), 
 div:has(> input[id*="senha"]) {

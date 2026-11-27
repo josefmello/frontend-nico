@@ -194,6 +194,7 @@ function Login() {
       <AuthLayout
         titulo="Entrar"
         subtitulo="Que bom ver você de novo! Entre para continuar."
+        cardClassName="auth-card--login"
       >
         <form onSubmit={entrar} noValidate>
           {erroApi && (

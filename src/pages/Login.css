@@ -7,7 +7,8 @@
 }
 
 .login-extras .auth-link {
-  padding: 8px 0; /* aumenta a área de toque */
+  padding: 8px 0;
+  /* aumenta a área de toque */
   font-size: 15px;
 }
 
@@ -30,8 +31,11 @@
   background-color: var(--nicoleste);
   border-radius: 2px;
 }
+
 /* Garante que a página ocupará a tela inteira e centralizará o conteúdo */
-html, body, #root {
+html,
+body,
+#root {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -39,7 +43,8 @@ html, body, #root {
 }
 
 /* Centraliza o container principal do layout de autenticação (AuthLayout) */
-.auth-layout, .auth-pagina {
+.auth-layout,
+.auth-pagina {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -50,36 +55,45 @@ html, body, #root {
 }
 
 /* Estilização e responsividade do Cartão de Login */
-.cartao {
-  width: 100%;
-  max-width: 440px; /* Largura máxima ideal para desktop */
-  padding: 32px;
-  background-color: #ffffff;
-  border-radius: 16px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  box-sizing: border-box;
-  margin: auto; /* Garante centralização extra se necessário */
-}
 
-/* Responsividade para Dispositivos Móveis (Celulares) */
-@media (max-width: 480px) {
-  .auth-layout, .auth-pagina {
-    padding: 12px; /* Reduz as margens laterais em telas pequenas */
-    align-items: center; /* Mantém centralizado verticalmente ou flexível */
+/* Exclusivo para celulares: não altera o desktop */
+/* Ajuste exclusivo para celulares */
+@media screen and (max-width: 600px) {
+  .auth-pagina {
+    width: 100%;
+    padding: 16px;
+    box-sizing: border-box;
   }
 
-  .cartao {
-    padding: 20px 16px; /* Reduz o espaçamento interno do cartão no celular */
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  .auth-pagina > .auth-card.auth-card--login {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 390px !important;
+    padding: 32px 24px !important;
+    border-radius: 18px;
+    box-sizing: border-box;
+  }
+
+  .auth-card--login .auth-logo {
+    width: min(250px, 88%);
+    margin-bottom: 26px;
+  }
+
+  .auth-card--login .auth-titulo {
+    font-size: 30px;
+  }
+
+  .auth-card--login .auth-subtitulo {
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+
+  .auth-card--login .auth-campo {
+    margin-bottom: 15px;
+  }
+
+  .auth-card--login .auth-acoes {
+    gap: 11px;
+    margin-top: 20px;
   }
 }
-
-.auth-card, .auth-container {
-  padding-top: 34px !important;
-}
-
-.auth-card h1, .auth-layout h1 {
-  font-size: 56px !important; 
-}
-
