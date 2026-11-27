@@ -459,10 +459,8 @@
   overflow: hidden;
 
   background-color:
-    var(
-      --cor-fundo-botao,
-      #ffffff
-    );
+    var(--cor-fundo-botao,
+      #ffffff);
 }
 
 .botao-comunicador__imagem {
@@ -877,8 +875,7 @@
   scrollbar-gutter: stable;
   scrollbar-width: auto;
   scrollbar-color:
-    var(--nicocean, #2079ad)
-    #e8f4fa;
+    var(--nicocean, #2079ad) #e8f4fa;
 
   overscroll-behavior: contain;
 }
@@ -895,10 +892,8 @@
 
 .prancha-botoes__grade::-webkit-scrollbar-thumb {
   background:
-    var(
-      --nicocean,
-      #2079ad
-    );
+    var(--nicocean,
+      #2079ad);
 
   border: 3px solid #e8f4fa;
   border-radius: 999px;
@@ -906,10 +901,8 @@
 
 .prancha-botoes__grade::-webkit-scrollbar-thumb:hover {
   background:
-    var(
-      --nicoturne,
-      #08324d
-    );
+    var(--nicoturne,
+      #08324d);
 }
 
 /*
@@ -986,10 +979,8 @@
   padding: 4px 8px;
 
   color:
-    var(
-      --nicocean,
-      #2079ad
-    );
+    var(--nicocean,
+      #2079ad);
 
   text-align: center;
   font-size: 13px;
@@ -1041,8 +1032,7 @@
   scrollbar-gutter: stable;
   scrollbar-width: auto;
   scrollbar-color:
-    var(--nicocean, #2079ad)
-    #e8f4fa;
+    var(--nicocean, #2079ad) #e8f4fa;
 
   overscroll-behavior: contain;
 }
@@ -1058,10 +1048,8 @@
 
 .prancha-botoes__grade::-webkit-scrollbar-thumb {
   background:
-    var(
-      --nicocean,
-      #2079ad
-    );
+    var(--nicocean,
+      #2079ad);
 
   border: 3px solid #e8f4fa;
   border-radius: 999px;
@@ -1069,10 +1057,8 @@
 
 .prancha-botoes__grade::-webkit-scrollbar-thumb:hover {
   background:
-    var(
-      --nicoturne,
-      #08324d
-    );
+    var(--nicoturne,
+      #08324d);
 }
 
 .prancha-botoes__aviso-rolagem {
@@ -1080,10 +1066,8 @@
   padding: 4px 8px;
 
   color:
-    var(
-      --nicocean,
-      #2079ad
-    );
+    var(--nicocean,
+      #2079ad);
 
   text-align: center;
   font-size: 13px;
@@ -1093,32 +1077,560 @@
 
 .botao-comunicador {
   background-color:
-    var(
-      --cor-fundo-botao,
-      #ffffff
-    );
+    var(--cor-fundo-botao,
+      #ffffff);
 }
 
 .botao-comunicador__conteudo {
   background-color:
-    var(
-      --cor-fundo-botao,
-      #ffffff
-    );
+    var(--cor-fundo-botao,
+      #ffffff);
 }
 
 .botao-comunicador__faixa {
   background-color:
-    var(
-      --cor-faixa,
-      #b3b4b7
-    );
+    var(--cor-faixa,
+      #b3b4b7);
 }
 
 .botao-comunicador__legenda {
   color:
-    var(
-      --cor-texto-legenda,
-      #000000
-    );
+    var(--cor-texto-legenda,
+      #000000);
+}
+
+/* =========================================================
+   COMUNICADOR MOBILE
+   Não altera o desktop
+   ========================================================= */
+
+@media screen and (max-width: 680px) {
+
+  /* Permite que a página role normalmente no celular */
+  html,
+  body,
+  #root {
+    min-height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .tela-comunicador {
+    width: 100%;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  .comunicador-conteudo {
+    width: calc(100% - 24px);
+    margin: 14px auto 24px;
+    gap: 14px;
+
+    overflow: visible;
+  }
+
+  /* =======================================================
+     TIRA DE SENTENÇA
+     ======================================================= */
+
+  .cartao-tira {
+    padding: 16px;
+    border-radius: 18px;
+  }
+
+  .cartao-tira__cabecalho {
+    margin-bottom: 12px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .sobre-titulo {
+    margin-bottom: 2px;
+    font-size: 11px;
+  }
+
+  .cartao-tira h1 {
+    font-size: 25px;
+    line-height: 1.15;
+  }
+
+  .cartao-tira__contador {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .tira-sentenca {
+    min-height: 94px;
+    padding: 10px;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    border-width: 2px;
+    border-radius: 14px;
+
+    scrollbar-width: thin;
+  }
+
+  .tira-sentenca__vazia {
+    min-width: 0;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+  .tira-sentenca__vazia strong {
+    font-size: 14px;
+  }
+
+  .tira-sentenca__vazia p {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .tira-sentenca__icone {
+    width: 42px;
+    height: 42px;
+    flex-basis: 42px;
+    font-size: 25px;
+  }
+
+  .tira-sentenca__itens {
+    gap: 10px;
+  }
+
+  .tira-sentenca__item {
+    width: 78px;
+    min-width: 78px;
+    height: 78px;
+    min-height: 78px;
+    padding: 5px;
+  }
+
+  .tira-sentenca__imagem {
+    width: 66px;
+    height: 66px;
+  }
+
+  .tira-sentenca__item-placeholder {
+    width: 64px;
+    height: 64px;
+  }
+
+  /* Botões da frase em duas colunas.
+     O primeiro ocupa a linha inteira. */
+  .cartao-tira__acoes {
+    margin-top: 12px;
+
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .cartao-tira__acoes button {
+    width: 100%;
+    min-width: 0;
+    min-height: 46px;
+    padding: 9px 10px;
+    font-size: 14px;
+  }
+
+  .cartao-tira__acoes button:first-child {
+    grid-column: 1 / -1;
+  }
+
+  .cartao-tira__limite {
+    margin-top: 8px;
+    font-size: 12px;
+  }
+
+  /* =======================================================
+     CARTÃO DA PRANCHA
+     Grande área de botões + categorias embaixo
+     ======================================================= */
+
+  .cartao-prancha {
+    width: 100%;
+
+    height: auto;
+    min-height: 0;
+    max-height: none;
+
+    display: flex;
+    flex-direction: column;
+
+    overflow: visible;
+
+    border-radius: 18px;
+  }
+
+  /* A prancha aparece primeiro */
+  .prancha-botoes {
+    order: 1;
+
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 16px;
+
+    overflow: visible;
+    box-sizing: border-box;
+  }
+
+  .prancha-botoes__cabecalho {
+    margin-bottom: 10px;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .prancha-botoes h2 {
+    font-size: 24px;
+    line-height: 1.15;
+  }
+
+  .prancha-botoes__quantidade {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .prancha-botoes__instrucao {
+    margin: -3px 0 12px;
+    font-size: 13px;
+    line-height: 1.35;
+  }
+
+  /* A rolagem fica apenas dentro da grade de botões */
+  .prancha-botoes__grade {
+    width: 100%;
+    height: min(52dvh, 500px);
+    min-height: 390px;
+
+    display: grid;
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+    align-content: start;
+
+    gap: 10px;
+    padding: 2px 8px 14px 2px;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    box-sizing: border-box;
+
+    scrollbar-gutter: auto;
+    scrollbar-width: auto;
+    scrollbar-color:
+      var(--nicocean, #2079ad) #e8f4fa;
+
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .prancha-botoes__grade::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  .prancha-botoes__grade::-webkit-scrollbar-track {
+    background-color: #e8f4fa;
+    border-radius: 999px;
+  }
+
+  .prancha-botoes__grade::-webkit-scrollbar-thumb {
+    background-color:
+      var(--nicocean, #2079ad);
+
+    border: 2px solid #e8f4fa;
+    border-radius: 999px;
+  }
+
+  .prancha-botoes__aviso-rolagem {
+    margin: 7px 0 0;
+    padding: 4px;
+    font-size: 12px;
+  }
+
+  /* =======================================================
+     BOTÕES DE COMUNICAÇÃO
+     ======================================================= */
+
+  .botao-comunicador {
+    width: 100%;
+    min-width: 0;
+    min-height: 154px;
+
+    grid-template-rows:
+      minmax(104px, 1fr) auto;
+
+    overflow: hidden;
+
+    border-radius: 16px;
+    box-sizing: border-box;
+  }
+
+  .botao-comunicador__conteudo {
+    min-height: 104px;
+    padding: 8px;
+  }
+
+  .botao-comunicador__imagem {
+    width: 100%;
+    height: 94px;
+    object-fit: contain;
+  }
+
+  .botao-comunicador__placeholder {
+    width: 70px;
+    height: 70px;
+    font-size: 30px;
+  }
+
+  .botao-comunicador__faixa {
+    min-height: 44px;
+    padding: 8px 6px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .botao-comunicador__legenda {
+    font-size: 15px;
+    line-height: 1.15;
+    text-align: center;
+  }
+
+  /* =======================================================
+     CATEGORIAS NA PARTE INFERIOR
+     ======================================================= */
+
+  /* =======================================================
+   CATEGORIAS NA PARTE INFERIOR
+   ======================================================= */
+
+  .carrossel-categorias {
+    order: 2;
+
+    width: 100%;
+    height: auto !important;
+    min-height: 0;
+    padding: 14px 12px 20px;
+
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 48px;
+    grid-template-rows: auto 88px;
+    align-items: center;
+    column-gap: 8px;
+    row-gap: 6px;
+
+    overflow: hidden;
+    box-sizing: border-box;
+
+    background-color: #ffffff;
+
+    border-left: 0;
+    border-top: 1px solid #d3eaf5;
+    border-bottom: 0;
+  }
+
+  .carrossel-categorias h2 {
+    grid-column: 1 / -1;
+    grid-row: 1;
+
+    margin: 0;
+    align-self: center;
+
+    color: var(--nicoturne, #08324d);
+
+    text-align: center;
+    font-size: 20px;
+    line-height: 1.2;
+  }
+
+  /* A lista tem altura maior que os cartões.
+   Assim, as bordas não são cortadas. */
+  .carrossel-categorias__lista {
+    grid-column: 2;
+    grid-row: 2;
+
+    width: 100%;
+    min-width: 0;
+
+    height: 88px !important;
+    min-height: 88px !important;
+    max-height: 88px !important;
+    padding: 4px 2px 8px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 8px;
+
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+
+    box-sizing: border-box;
+
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 2px;
+    scrollbar-width: none;
+
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+
+    /* Sobe toda a fileira visualmente */
+    transform: translateY(-6px);
+  }
+
+  .carrossel-categorias__lista::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Uma única regra para os dois botões */
+  .carrossel-categorias__seta {
+    width: 48px !important;
+    height: 56px !important;
+    min-width: 48px !important;
+    min-height: 56px !important;
+    padding: 0;
+    margin: 0;
+
+    align-self: center;
+    justify-self: center;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: transparent !important;
+    background-color: var(--nicoleste, #9bd5ef);
+
+    border: 0;
+    border-radius: 12px;
+
+    font-size: 0 !important;
+    line-height: 1 !important;
+
+    text-decoration: none !important;
+    appearance: none;
+    -webkit-appearance: none;
+
+    /* Sobe junto com os cartões */
+    transform: translateY(-6px);
+  }
+
+  .carrossel-categorias__seta:first-of-type {
+    grid-column: 1;
+    grid-row: 2;
+  }
+
+  .carrossel-categorias__seta:last-of-type {
+    grid-column: 3;
+    grid-row: 2;
+  }
+
+  .carrossel-categorias__seta::after {
+    width: 24px;
+    height: 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: var(--nicoturne, #08324d);
+
+    font-family: Arial, sans-serif;
+    font-size: 21px;
+    font-weight: 900;
+    line-height: 24px;
+
+    text-align: center;
+    text-decoration: none;
+
+    transform: none;
+  }
+
+  .carrossel-categorias__seta:first-of-type::after {
+    content: "◀";
+  }
+
+  .carrossel-categorias__seta:last-of-type::after {
+    content: "▶";
+  }
+
+  /* Cartão menor que a área da lista para não ser cortado */
+  .categoria-lateral {
+    width: 138px !important;
+    min-width: 138px !important;
+
+    height: 76px !important;
+    min-height: 76px !important;
+    max-height: 76px !important;
+
+    padding: 8px;
+
+    flex: 0 0 138px;
+    align-self: flex-start;
+
+    scroll-snap-align: start;
+
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    overflow: hidden;
+    box-sizing: border-box;
+
+    border-radius: 13px;
+
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .categoria-lateral img,
+  .categoria-lateral__placeholder {
+    width: 46px;
+    height: 46px;
+    flex: 0 0 46px;
+
+    object-fit: contain;
+    object-position: center;
+  }
+
+}
+
+/* Celulares muito estreitos */
+@media screen and (max-width: 370px) {
+  .comunicador-conteudo {
+    width: calc(100% - 16px);
+  }
+
+  .cartao-tira,
+  .prancha-botoes {
+    padding: 12px;
+  }
+
+  .prancha-botoes__grade {
+    gap: 8px;
+    min-height: 360px;
+  }
+
+  .botao-comunicador {
+    min-height: 142px;
+    grid-template-rows:
+      minmax(94px, 1fr) auto;
+  }
+
+  .botao-comunicador__conteudo {
+    min-height: 94px;
+  }
+
+  .botao-comunicador__imagem {
+    height: 84px;
+  }
+
+  .categoria-lateral {
+    width: 126px;
+    min-width: 126px;
+    flex-basis: 126px;
+  }
 }

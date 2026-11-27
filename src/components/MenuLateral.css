@@ -85,8 +85,15 @@
   outline-offset: 2px;
 }
 
-@media (max-width: 768px) {
+.menu-lateral__alternador {
+  display: none;
+}
 
+.menu-lateral__opcoes {
+  display: contents;
+}
+
+@media (max-width: 768px) {
   .tela-administrador__separador {
     height: 6px;
   }
@@ -97,30 +104,126 @@
     min-height: 0;
     padding: 10px 12px;
 
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
+    display: block;
+    overflow: visible;
 
-    overflow-x: auto;
-    overflow-y: hidden;
+    background-color:
+      var(--nicocean, #2079ad);
   }
 
+  /* O logo continua no desktop e desaparece apenas no celular. */
   .menu-logo {
-    width: 76px;
-    min-width: 76px;
-    height: 52px;
-    padding: 7px;
+    display: none;
+  }
+
+  .menu-lateral__alternador {
+    width: 100%;
+    min-height: 52px;
+    padding: 10px 14px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    color: var(--nicoturne, #08324d);
+    background-color: #ffffff;
+
+    border: 2px solid rgba(255, 255, 255, 0.75);
+    border-radius: 12px;
+
+    box-shadow: 0 3px 10px rgba(8, 50, 77, 0.16);
+
+    font-family: inherit;
+    font-size: 16px;
+    font-weight: 800;
+    text-align: left;
+
+    cursor: pointer;
+  }
+
+  .menu-lateral__alternador:focus-visible {
+    outline: 3px solid var(--nicoshine, #f4c542);
+    outline-offset: 3px;
+  }
+
+  .menu-lateral__secao-atual {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .menu-lateral__chevron {
+    width: 32px;
+    min-width: 32px;
+    height: 32px;
+
+    display: grid;
+    place-items: center;
+
+    color: #ffffff;
+    background-color: var(--nicocean, #2079ad);
+    border-radius: 9px;
+
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .menu-lateral__opcoes {
+    width: 100%;
+    max-height: 0;
+    margin-top: 0;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+
+    overflow: hidden;
+    visibility: hidden;
+    opacity: 0;
+
+    transition:
+      max-height 0.25s ease,
+      margin-top 0.25s ease,
+      opacity 0.18s ease,
+      visibility 0s linear 0.25s;
+  }
+
+  .menu-lateral__opcoes--abertas {
+    max-height: 520px;
+    margin-top: 10px;
+
+    visibility: visible;
+    opacity: 1;
+
+    transition:
+      max-height 0.25s ease,
+      margin-top 0.25s ease,
+      opacity 0.18s ease;
   }
 
   .menu-item {
-    width: auto;
-    min-width: max-content;
-    min-height: 44px;
-    padding: 10px 16px;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 11px 14px;
 
-    flex: 0 0 auto;
+    display: block;
 
     font-size: 15px;
-    white-space: nowrap;
+    text-align: left;
+    white-space: normal;
+  }
+
+  .menu-item.ativo {
+    box-shadow:
+      inset 5px 0 0 var(--nicoshine, #f4c542);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-lateral__opcoes {
+    transition: none;
   }
 }

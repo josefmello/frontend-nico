@@ -79,6 +79,11 @@ function TelaPrincipal() {
   const audioAtualRef = useRef(null);
   const reproducaoIdRef = useRef(0);
 
+  // No celular, um toque longo adiciona o botão à tira.
+  // O arrastar com mouse continua funcionando normalmente no desktop.
+  const toqueLongoRef = useRef(null);
+  const toqueLongoExecutadoRef = useRef(false);
+
   const usuario = useMemo(() => {
     try {
       const usuarioSalvo =
@@ -594,6 +599,49 @@ function TelaPrincipal() {
     }
   };
 
+  const adicionarBotaoNaTira = (botao) => {
+    setFrase((fraseAtual) => {
+      if (
+        fraseAtual.length >=
+        LIMITE_ITENS_FRASE
+      ) {
+        return fraseAtual;
+      }
+
+      return [
+        ...fraseAtual,
+        criarItemDaTira(botao),
+      ];
+    });
+  };
+
+  const iniciarToqueLongo = (botao) => {
+    toqueLongoExecutadoRef.current = false;
+
+    toqueLongoRef.current =
+      window.setTimeout(() => {
+        adicionarBotaoNaTira(botao);
+        toqueLongoExecutadoRef.current = true;
+        setArrastandoId(botao.idBotao);
+
+        if ("vibrate" in navigator) {
+          navigator.vibrate(40);
+        }
+      }, 650);
+  };
+
+  const cancelarToqueLongo = () => {
+    if (toqueLongoRef.current) {
+      window.clearTimeout(
+        toqueLongoRef.current
+      );
+
+      toqueLongoRef.current = null;
+    }
+
+    setArrastandoId(null);
+  };
+
   const adicionarPeloTeclado = (
     evento,
     botao
@@ -607,23 +655,7 @@ function TelaPrincipal() {
 
     evento.preventDefault();
 
-    setFrase(
-      (fraseAtual) => {
-        if (
-          fraseAtual.length >=
-          LIMITE_ITENS_FRASE
-        ) {
-          return fraseAtual;
-        }
-
-        return [
-          ...fraseAtual,
-          criarItemDaTira(
-            botao
-          ),
-        ];
-      }
-    );
+    adicionarBotaoNaTira(botao);
   };
 
   const removerItemDaTira = (
@@ -1251,7 +1283,7 @@ function TelaPrincipal() {
                       draggable
                       role="button"
                       tabIndex={0}
-                      aria-label={`${botao.legenda}. Clique para ouvir ou arraste para a tira.`}
+                      aria-label={`${botao.legenda}. Toque para ouvir. Mantenha pressionado para adicionar à frase.`}
                       onDragStart={(
                         evento
                       ) =>
@@ -1263,11 +1295,34 @@ function TelaPrincipal() {
                       onDragEnd={
                         finalizarArraste
                       }
-                      onClick={() =>
-                        acionarBotao(
+                      onTouchStart={() =>
+                        iniciarToqueLongo(
                           botao
                         )
                       }
+                      onTouchMove={
+                        cancelarToqueLongo
+                      }
+                      onTouchEnd={
+                        cancelarToqueLongo
+                      }
+                      onTouchCancel={
+                        cancelarToqueLongo
+                      }
+                      onClick={() => {
+                        if (
+                          toqueLongoExecutadoRef.current
+                        ) {
+                          toqueLongoExecutadoRef.current =
+                            false;
+
+                          return;
+                        }
+
+                        acionarBotao(
+                          botao
+                        );
+                      }}
                       onKeyDown={(
                         evento
                       ) =>

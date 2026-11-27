@@ -1462,3 +1462,884 @@ select.nico-entrada {
   > button {
   cursor: pointer;
 }
+/* =========================================================
+   CARTOES DE BOTOES SELECIONADOS - MOBILE
+   O desktop permanece com o layout original.
+   ========================================================= */
+@media screen and (max-width: 700px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-botoes {
+    padding: 12px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    .nico-lista-botoes > ol {
+    gap: 8px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    height: auto !important;
+    min-height: 104px !important;
+    max-height: none !important;
+    padding: 10px 12px;
+    margin: 0;
+
+    display: grid !important;
+    grid-template-columns: 24px 34px minmax(0, 1fr) !important;
+    grid-template-rows: 40px 42px !important;
+    column-gap: 8px !important;
+    row-gap: 8px !important;
+    align-items: center;
+
+    overflow: visible !important;
+    box-sizing: border-box;
+    border-radius: 13px;
+  }
+
+  /* A imagem e o placeholder ficam ocultos no cartao mobile.
+     O nome e o numero identificam o botao sem comprimir as acoes. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > img,
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > .nico-botao-sem-imagem {
+    display: none !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-arraste {
+    grid-column: 1;
+    grid-row: 1;
+    width: 24px;
+    height: 40px;
+    min-width: 24px;
+    padding: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-ordem {
+    grid-column: 2;
+    grid-row: 1;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    font-size: 13px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__nome {
+    grid-column: 3;
+    grid-row: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px;
+    line-height: 1.2;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 42px;
+
+    display: grid !important;
+    grid-template-columns: repeat(3, 44px) !important;
+    align-items: center;
+    justify-content: end;
+    gap: 8px !important;
+
+    overflow: visible;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button {
+    width: 44px !important;
+    height: 42px !important;
+    min-width: 44px !important;
+    min-height: 42px !important;
+    max-width: 44px !important;
+    max-height: 42px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: grid !important;
+    place-items: center;
+    font-size: 18px;
+    line-height: 1;
+    border-radius: 9px;
+  }
+}
+
+/* CORRECAO FINAL: foto visivel e acoes alinhadas no mobile */
+@media screen and (max-width: 700px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado {
+    min-height: 116px !important;
+    padding: 10px !important;
+
+    grid-template-columns:
+      22px 32px 48px minmax(0, 1fr) !important;
+    grid-template-rows: 52px 44px !important;
+    column-gap: 7px !important;
+    row-gap: 8px !important;
+  }
+
+  /* Restaura a foto, que havia sido escondida no ajuste anterior. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > img {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+
+    display: block !important;
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    max-width: 46px !important;
+    max-height: 46px !important;
+    padding: 2px !important;
+    margin: 0 !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+    border-radius: 9px;
+    box-sizing: border-box;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > .nico-botao-sem-imagem {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+
+    display: grid !important;
+    width: 46px !important;
+    height: 46px !important;
+    min-width: 46px !important;
+    min-height: 46px !important;
+    max-width: 46px !important;
+    max-height: 46px !important;
+    padding: 3px !important;
+    margin: 0 !important;
+
+    place-items: center;
+    font-size: 9px;
+    border-radius: 9px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-arraste {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    align-self: center;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-ordem {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    align-self: center;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__nome {
+    grid-column: 4 !important;
+    grid-row: 1 !important;
+    align-self: center;
+  }
+
+  /* Os tres botoes ocupam uma faixa propria e ficam alinhados. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+
+    width: 100% !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(3, 44px) !important;
+    grid-template-rows: 44px !important;
+    align-items: center !important;
+    justify-content: end !important;
+    gap: 8px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    max-width: 44px !important;
+    max-height: 44px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    box-sizing: border-box !important;
+    font-size: 18px !important;
+    line-height: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* ALINHAMENTO FINAL DOS CONTROLES DE ORDENACAO - MOBILE */
+@media screen and (max-width: 700px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes {
+    grid-column: 1 / -1 !important;
+    grid-row: 2 !important;
+
+    width: 100% !important;
+    height: 44px !important;
+    min-height: 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+
+    line-height: 0 !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button {
+    position: relative;
+
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    max-width: 44px !important;
+    max-height: 44px !important;
+    flex: 0 0 44px !important;
+
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: block !important;
+
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+
+    border-width: 1px !important;
+    border-radius: 9px !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button::after {
+    position: absolute;
+    inset: 0;
+
+    display: grid;
+    place-items: center;
+
+    color: var(--nicocean, #2079ad);
+
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+
+    text-align: center;
+    transform: none;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(1)::after {
+    content: "▲";
+    font-size: 16px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(2)::after {
+    content: "▼";
+    font-size: 16px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(3)::after {
+    content: "×";
+    font-size: 21px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:disabled::after {
+    opacity: 0.35;
+  }
+}
+
+/* CORRECAO DEFINITIVA: icones desenhados em CSS, sem depender da fonte */
+@media screen and (max-width: 700px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 8px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button {
+    position: relative !important;
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    max-width: 44px !important;
+    max-height: 44px !important;
+    flex: 0 0 44px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: block !important;
+    color: transparent !important;
+    font-size: 0 !important;
+    line-height: 0 !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+  }
+
+  /* Remove os simbolos tipograficos criados anteriormente. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button::after {
+    content: "" !important;
+    position: absolute !important;
+    display: block !important;
+    inset: auto !important;
+    transform: none !important;
+  }
+
+  /* Seta para cima: haste + ponta desenhadas no centro exato. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(1)::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 3px;
+    height: 13px;
+    background: var(--nicocean, #2079ad);
+    border-radius: 2px;
+    transform: translate(-50%, -40%);
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(1)::after {
+    content: "" !important;
+    left: 50% !important;
+    top: 50% !important;
+    width: 8px !important;
+    height: 8px !important;
+    border-top: 3px solid var(--nicocean, #2079ad);
+    border-left: 3px solid var(--nicocean, #2079ad);
+    transform: translate(-50%, -85%) rotate(45deg) !important;
+  }
+
+  /* Seta para baixo: mesma geometria espelhada. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(2)::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 3px;
+    height: 13px;
+    background: var(--nicocean, #2079ad);
+    border-radius: 2px;
+    transform: translate(-50%, -60%);
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(2)::after {
+    content: "" !important;
+    left: 50% !important;
+    top: 50% !important;
+    width: 8px !important;
+    height: 8px !important;
+    border-right: 3px solid var(--nicocean, #2079ad);
+    border-bottom: 3px solid var(--nicocean, #2079ad);
+    transform: translate(-50%, -15%) rotate(45deg) !important;
+  }
+
+  /* X: duas barras com o mesmo ponto central. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(3)::before,
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(3)::after {
+    content: "" !important;
+    position: absolute !important;
+    left: 50% !important;
+    top: 50% !important;
+    width: 16px !important;
+    height: 3px !important;
+    background: var(--nicocean, #2079ad);
+    border: 0 !important;
+    border-radius: 2px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(3)::before {
+    transform: translate(-50%, -50%) rotate(45deg) !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:nth-child(3)::after {
+    transform: translate(-50%, -50%) rotate(-45deg) !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:disabled::before,
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button:disabled::after {
+    opacity: 0.3;
+  }
+}
+
+/* LAYOUT FINAL MOBILE: foto removida e todos os controles em uma unica linha */
+@media screen and (max-width: 700px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+    padding: 8px 10px !important;
+
+    display: grid !important;
+    grid-template-columns:
+      34px minmax(0, 1fr) repeat(3, 42px) !important;
+    grid-template-rows: 48px !important;
+    column-gap: 6px !important;
+    row-gap: 0 !important;
+    align-items: center !important;
+
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Remove somente no mobile a alca de seis pontos e a foto. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-arraste,
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > img,
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > .nico-botao-sem-imagem {
+    display: none !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-ordem {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    margin: 0 !important;
+    align-self: center !important;
+    justify-self: start !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__nome {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    align-self: center !important;
+
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+    font-size: 15px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes {
+    grid-column: 3 / 6 !important;
+    grid-row: 1 !important;
+    width: auto !important;
+    height: 42px !important;
+    min-width: 0 !important;
+    min-height: 42px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(3, 42px) !important;
+    grid-template-rows: 42px !important;
+    align-items: center !important;
+    justify-content: end !important;
+    gap: 6px !important;
+
+    overflow: visible !important;
+    line-height: 0 !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button {
+    width: 42px !important;
+    height: 42px !important;
+    min-width: 42px !important;
+    min-height: 42px !important;
+    max-width: 42px !important;
+    max-height: 42px !important;
+    flex: 0 0 42px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    align-self: center !important;
+    justify-self: center !important;
+    box-sizing: border-box !important;
+    transform: none !important;
+  }
+}
+
+/* Em telas muito estreitas, preserva a linha unica reduzindo os controles. */
+@media screen and (max-width: 370px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado {
+    grid-template-columns:
+      30px minmax(0, 1fr) repeat(3, 38px) !important;
+    column-gap: 4px !important;
+    padding-inline: 8px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-ordem {
+    width: 30px !important;
+    height: 30px !important;
+    min-width: 30px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes {
+    grid-template-columns: repeat(3, 38px) !important;
+    gap: 4px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button {
+    width: 38px !important;
+    height: 40px !important;
+    min-width: 38px !important;
+    min-height: 40px !important;
+    max-width: 38px !important;
+    max-height: 40px !important;
+    flex-basis: 38px !important;
+  }
+}
+
+/* AJUSTE FINAL MOBILE: mantem a foto e todos os controles em uma linha */
+@media screen and (max-width: 700px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado {
+    height: 66px !important;
+    min-height: 66px !important;
+    max-height: 66px !important;
+    padding: 8px !important;
+
+    grid-template-columns:
+      28px 38px minmax(0, 1fr) repeat(3, 40px) !important;
+    grid-template-rows: 48px !important;
+    column-gap: 5px !important;
+    align-items: center !important;
+  }
+
+  /* A alca continua removida somente no mobile para liberar espaco. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-arraste {
+    display: none !important;
+  }
+
+  /* Restaura a foto na segunda coluna. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > img {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+
+    display: block !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    padding: 1px !important;
+    margin: 0 !important;
+
+    align-self: center !important;
+    justify-self: center !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    border-radius: 7px;
+    box-sizing: border-box !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > .nico-botao-sem-imagem {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+
+    display: grid !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+    padding: 2px !important;
+    margin: 0 !important;
+
+    align-self: center !important;
+    justify-self: center !important;
+    place-items: center;
+    overflow: hidden;
+    font-size: 0 !important;
+    border-radius: 7px;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-sem-imagem::after {
+    content: "?";
+    font-size: 14px;
+    font-weight: 800;
+  }
+
+  /* Circulo de ordem menor para a foto caber. */
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-ordem {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 28px !important;
+    height: 28px !important;
+    min-width: 28px !important;
+    min-height: 28px !important;
+    max-width: 28px !important;
+    max-height: 28px !important;
+    font-size: 12px !important;
+    align-self: center !important;
+    justify-self: center !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__nome {
+    grid-column: 3 !important;
+    grid-row: 1 !important;
+    min-width: 0 !important;
+    margin: 0 !important;
+    font-size: 14px !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    white-space: nowrap !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes {
+    grid-column: 4 / 7 !important;
+    grid-row: 1 !important;
+    width: auto !important;
+    height: 40px !important;
+    min-height: 40px !important;
+
+    display: grid !important;
+    grid-template-columns: repeat(3, 40px) !important;
+    grid-template-rows: 40px !important;
+    align-items: center !important;
+    justify-content: end !important;
+    gap: 5px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+    flex: 0 0 40px !important;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado {
+    grid-template-columns:
+      26px 34px minmax(0, 1fr) repeat(3, 36px) !important;
+    column-gap: 3px !important;
+    padding-inline: 6px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > img,
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado > .nico-botao-sem-imagem {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-ordem {
+    width: 26px !important;
+    height: 26px !important;
+    min-width: 26px !important;
+    min-height: 26px !important;
+    max-width: 26px !important;
+    max-height: 26px !important;
+    font-size: 11px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes {
+    grid-template-columns: repeat(3, 36px) !important;
+    gap: 3px !important;
+  }
+
+  .tela-administrador__conteudo
+    .nico-formulario-categoria
+    li.nico-botao-selecionado
+    .nico-botao-selecionado__acoes > button {
+    width: 36px !important;
+    height: 40px !important;
+    min-width: 36px !important;
+    min-height: 40px !important;
+    max-width: 36px !important;
+    max-height: 40px !important;
+    flex-basis: 36px !important;
+  }
+}

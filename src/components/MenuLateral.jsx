@@ -1,6 +1,7 @@
 import {
   useEffect,
   useRef,
+  useState,
 } from "react";
 
 import "./MenuLateral.css";
@@ -45,6 +46,14 @@ function MenuLateral({
   const menuRef =
     useRef(null);
 
+  const [menuAberto, setMenuAberto] =
+    useState(false);
+
+  const secaoAtual =
+    ITENS.find(
+      (item) => item.id === secaoAtiva
+    )?.rotulo || "Menu administrativo";
+
   useEffect(() => {
     menuRef.current
       ?.querySelector(
@@ -55,6 +64,31 @@ function MenuLateral({
         block: "nearest",
       });
   }, [secaoAtiva]);
+
+  useEffect(() => {
+    const fecharComEscape = (evento) => {
+      if (evento.key === "Escape") {
+        setMenuAberto(false);
+      }
+    };
+
+    document.addEventListener(
+      "keydown",
+      fecharComEscape
+    );
+
+    return () => {
+      document.removeEventListener(
+        "keydown",
+        fecharComEscape
+      );
+    };
+  }, []);
+
+  const selecionarItem = (idItem) => {
+    onSelecionar(idItem);
+    setMenuAberto(false);
+  };
 
   return (
     <nav
@@ -68,32 +102,64 @@ function MenuLateral({
         className="menu-logo"
       />
 
-      {ITENS.map((item) => {
-        const ativo =
-          secaoAtiva === item.id;
+      <button
+        type="button"
+        className="menu-lateral__alternador"
+        aria-expanded={menuAberto}
+        aria-controls="menu-administrativo-opcoes"
+        onClick={() =>
+          setMenuAberto(
+            (estadoAtual) => !estadoAtual
+          )
+        }
+      >
+        <span className="menu-lateral__secao-atual">
+          {secaoAtual}
+        </span>
 
-        return (
-          <button
-            key={item.id}
-            type="button"
-            className={
-              ativo
-                ? "menu-item ativo"
-                : "menu-item"
-            }
-            aria-current={
-              ativo
-                ? "page"
-                : undefined
-            }
-            onClick={() =>
-              onSelecionar(item.id)
-            }
-          >
-            {item.rotulo}
-          </button>
-        );
-      })}
+        <span
+          className="menu-lateral__chevron"
+          aria-hidden="true"
+        >
+          {menuAberto ? "▲" : "▼"}
+        </span>
+      </button>
+
+      <div
+        id="menu-administrativo-opcoes"
+        className={
+          menuAberto
+            ? "menu-lateral__opcoes menu-lateral__opcoes--abertas"
+            : "menu-lateral__opcoes"
+        }
+      >
+        {ITENS.map((item) => {
+          const ativo =
+            secaoAtiva === item.id;
+
+          return (
+            <button
+              key={item.id}
+              type="button"
+              className={
+                ativo
+                  ? "menu-item ativo"
+                  : "menu-item"
+              }
+              aria-current={
+                ativo
+                  ? "page"
+                  : undefined
+              }
+              onClick={() =>
+                selecionarItem(item.id)
+              }
+            >
+              {item.rotulo}
+            </button>
+          );
+        })}
+      </div>
     </nav>
   );
 }

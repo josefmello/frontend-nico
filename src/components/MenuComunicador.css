@@ -156,3 +156,67 @@
     width: 100%;
   }
 }
+
+/* =========================================================
+   CABEÇALHO DO COMUNICADOR SOMENTE NO MOBILE
+   ========================================================= */
+
+@media screen and (max-width: 680px) {
+  .menu-comunicador {
+    width: 100%;
+    min-height: 0;
+    padding: 8px 12px 10px;
+
+    display: grid;
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
+    grid-template-rows: auto auto;
+    gap: 8px 10px;
+
+    box-sizing: border-box;
+  }
+
+  .menu-comunicador__marca {
+    grid-column: 1;
+    grid-row: 1;
+
+    min-width: 0;
+  }
+
+  .menu-comunicador__logo {
+    width: 125px;
+    max-width: 100%;
+    height: 44px;
+  }
+
+  .menu-comunicador__acoes {
+    grid-column: 2;
+    grid-row: 1;
+
+    justify-content: flex-end;
+  }
+
+  .menu-comunicador__usuario {
+    display: none;
+  }
+
+  .menu-comunicador__sair {
+    min-width: 58px;
+    min-height: 44px;
+    padding: 8px 12px;
+
+    border-radius: 11px;
+
+    font-size: 14px;
+  }
+
+  .menu-comunicador__seletor {
+    grid-column: 1 / -1;
+    grid-row: 2;
+
+    width: 100%;
+    min-width: 0;
+    justify-self: stretch;
+  }
+}
